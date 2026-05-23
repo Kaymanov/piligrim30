@@ -1,0 +1,22 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "celery>=5.6.3",
+    "django>=6.0.5",
+    "django-ckeditor-5>=0.2.20",
+    "django-cors-headers>=4.9.0",
+    "django-environ>=0.13.0",
+    "django-filter>=25.2",
+    "django-redis>=6.0.0",
+    "djangorestframework>=3.17.1",
+    "google-genai>=1.0.0",
+    "gunicorn>=26.0.0",
+    "pillow>=12.2.0",
+    "psycopg2-binary>=2.9.12",
+    "redis>=7.4.0",
+    "whitenoise>=6.12.0",
+]

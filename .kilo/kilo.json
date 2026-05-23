@@ -1,0 +1,10 @@
+{
+  "permission": {
+    "read": {
+      "/home/iamroot/Документы/MyProjects/PP30/.kilo/get-shit-done/*": "allow"
+    },
+    "external_directory": {
+      "/home/iamroot/Документы/MyProjects/PP30/.kilo/get-shit-done/*": "allow"
+    }
+  }
+}

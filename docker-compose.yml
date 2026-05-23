@@ -1,0 +1,80 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: piligrim_postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-piligrim_db}
+      POSTGRES_USER: ${POSTGRES_USER:-piligrim_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-piligrim_pass}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-piligrim_user} -d ${POSTGRES_DB:-piligrim_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - piligrim_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: piligrim_redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - piligrim_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: piligrim_backend
+    restart: unless-stopped
+    command: /app/docker/backend/entrypoint.sh
+    volumes:
+      - ./backend:/app/backend
+      - /app/backend/.venv
+      - ./docker:/app/docker
+    env_file:
+      - .env
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - piligrim_network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: piligrim_frontend
+    restart: unless-stopped
+    volumes:
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - backend
+    networks:
+      - piligrim_network
+
+volumes:
+  postgres_data:
+
+networks:
+  piligrim_network:
+    driver: bridge
