@@ -160,8 +160,8 @@ LEAD_NOTIFICATION_EMAIL = env('LEAD_NOTIFICATION_EMAIL', default=env('EMAIL_HOST
 
 # Polza.ai Configuration (OpenAI-compatible API)
 POLZA_API_KEY = env('POLZA_API_KEY', default='')
-POLZA_BASE_URL = env('POLZA_BASE_URL', default='https://polza.ai/api')
-POLZA_MODEL = env('POLZA_MODEL', default='google/gemma-4-27b-it')
+POLZA_BASE_URL = env('POLZA_BASE_URL', default='https://polza.ai/api/v1')
+POLZA_MODEL = env('POLZA_MODEL', default='google/gemma-4-26b-a4b-it')
 
 # Session configuration (for chat history stored in Redis)
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
