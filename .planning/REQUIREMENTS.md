@@ -8,6 +8,9 @@
 - [ ] **LEAD-02**: Формы защищены honeypot-полем (скрытое поле, заполнение которого = спам)
 - [ ] **LEAD-03**: Серверная валидация всех полей формы (phone format, required fields, consent)
 - [ ] **LEAD-04**: Защита от повторной отправки (дедупликация по phone + 5 min window)
+- [ ] **LEAD-05**: Временная ловушка — отклонение заявок, отправленных быстрее 3 секунд после загрузки формы (timestamp validation)
+- [ ] **LEAD-06**: Поведенческая ловушка — проверка наличия JS-взаимодействия (mouse/touch/keyboard event flag)
+- [ ] **LEAD-07**: CSRF-токен на всех form endpoints (Django CSRF middleware + передача токена фронтенду)
 
 ### ИИ-Юрист (Chat Service)
 
@@ -45,6 +48,9 @@
 | LEAD-02 | 3     | —    | pending |
 | LEAD-03 | 3     | —    | pending |
 | LEAD-04 | 3     | —    | pending |
+| LEAD-05 | 3     | —    | pending |
+| LEAD-06 | 3     | —    | pending |
+| LEAD-07 | 3     | —    | pending |
 | AI-01   | 3     | —    | pending |
 | AI-02   | 3     | —    | pending |
 | AI-03   | 3     | —    | pending |
