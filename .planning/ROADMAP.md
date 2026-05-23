@@ -26,3 +26,26 @@
 **Dependencies:** Phase 1-2 (completed)
 
 **Status:** completed
+
+### Phase 4: Frontend MVP
+
+**Goal:** Реализовать полный frontend на Next.js 16 — дизайн-систему, главную страницу со всеми блоками, внутренние страницы (услуги, блог, кейсы, FAQ, контакты), чат-виджет ИИ-Юриста и техническое SEO.
+
+**Requirements:** FE-01..FE-10
+
+**Success Criteria:**
+
+1. Дизайн-система соответствует DESIGN_SPEC.md (цвета, типографика, компоненты)
+2. Header с glassmorphism, sticky, мобильное меню, dark mode toggle
+3. Главная страница: все 10 секций (Hero, Problems, DebtTypes, Timeline, Quiz, Cases, Reviews, Blog, FAQ, CTA)
+4. Квиз работает end-to-end (7 вопросов → отправка quiz-lead)
+5. Страницы услуг рендерятся из API с SEO-полями
+6. Блог: список, статья, категории
+7. Chat widget подключен к /api/v1/chat/
+8. sitemap.xml, robots.txt, RSS, JSON-LD генерируются
+9. Mobile-first адаптивность (320px-1920px)
+10. Lighthouse Performance > 85
+
+**Dependencies:** Phase 3 (backend API)
+
+**Status:** not_started
