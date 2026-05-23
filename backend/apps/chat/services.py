@@ -1,17 +1,18 @@
 """
-Сервис интеграции с Gemini API для ИИ-Юриста.
+Сервис интеграции с Polza.ai API для ИИ-Юриста.
+Использует OpenAI-совместимый API через openai SDK.
 """
 import logging
 
 from django.conf import settings
-from google import genai
+from openai import OpenAI
 
 from .prompts import SYSTEM_PROMPT, QUIZ_CONTEXT_TEMPLATE
 
 logger = logging.getLogger(__name__)
 
-# Timeout for Gemini API calls
-GEMINI_TIMEOUT_SECONDS = 15
+# Timeout for API calls (seconds)
+API_TIMEOUT_SECONDS = 15
 
 # Keywords for on-topic detection
 ON_TOPIC_KEYWORDS = [
@@ -34,27 +35,28 @@ CONTEXTUAL_SHORT_MESSAGES = [
 ]
 
 
-class GeminiUnavailableError(Exception):
-    """Raised when Gemini API is unavailable or returns an error."""
+class AIServiceUnavailableError(Exception):
+    """Raised when AI API is unavailable or returns an error."""
     pass
 
 
-class GeminiChatService:
-    """Сервис для генерации ответов через Gemini API."""
+class AIChatService:
+    """Сервис для генерации ответов через Polza.ai (OpenAI-compatible API)."""
 
     def __init__(self):
-        self.api_key = getattr(settings, 'GEMINI_API_KEY', '')
-        self.model_name = "gemini-2.5-flash"
+        self.api_key = getattr(settings, 'POLZA_API_KEY', '')
+        self.base_url = getattr(settings, 'POLZA_BASE_URL', 'https://polza.ai/api')
+        self.model = getattr(settings, 'POLZA_MODEL', 'google/gemma-4-27b-it')
 
     def is_available(self) -> bool:
         """Проверяет доступность API (наличие валидного ключа)."""
-        return bool(self.api_key) and self.api_key != 'your-gemini-api-key'
+        return bool(self.api_key) and self.api_key != 'your-polza-api-key'
 
     def generate_response(
         self, message: str, history: list, quiz_context: dict = None
     ) -> str:
         """
-        Генерирует ответ через Gemini API.
+        Генерирует ответ через Polza.ai API.
 
         Args:
             message: Сообщение пользователя
@@ -65,16 +67,20 @@ class GeminiChatService:
             Текст ответа
 
         Raises:
-            GeminiUnavailableError: При любой ошибке API
+            AIServiceUnavailableError: При любой ошибке API
         """
         if not self.is_available():
-            raise GeminiUnavailableError("API key not configured")
+            raise AIServiceUnavailableError("API key not configured")
 
         try:
-            client = genai.Client(api_key=self.api_key)
+            client = OpenAI(
+                base_url=self.base_url,
+                api_key=self.api_key,
+                timeout=API_TIMEOUT_SECONDS,
+            )
 
             # Build system instruction with optional quiz context
-            system_instruction = SYSTEM_PROMPT
+            system_content = SYSTEM_PROMPT
             if quiz_context:
                 context_str = QUIZ_CONTEXT_TEMPLATE.format(
                     debt_amount=quiz_context.get('debt_amount', 'не указана'),
@@ -84,48 +90,39 @@ class GeminiChatService:
                     has_mortgage=quiz_context.get('has_mortgage', 'не указано'),
                     income_type=quiz_context.get('income_type', 'не указан'),
                 )
-                system_instruction += context_str
+                system_content += context_str
 
-            # Build contents from history + new message
-            contents = []
+            # Build messages array
+            messages = [{"role": "system", "content": system_content}]
+
+            # Add history
             for msg in history:
-                role = 'user' if msg['role'] == 'user' else 'model'
-                contents.append(
-                    genai.types.Content(
-                        role=role,
-                        parts=[genai.types.Part(text=msg['content'])]
-                    )
-                )
+                messages.append({
+                    "role": msg['role'] if msg['role'] == 'user' else 'assistant',
+                    "content": msg['content'],
+                })
 
             # Add current message
-            contents.append(
-                genai.types.Content(
-                    role='user',
-                    parts=[genai.types.Part(text=message)]
-                )
+            messages.append({"role": "user", "content": message})
+
+            # Call API
+            response = client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                temperature=0.7,
+                max_tokens=1024,
             )
 
-            # Generate response
-            response = client.models.generate_content(
-                model=self.model_name,
-                contents=contents,
-                config=genai.types.GenerateContentConfig(
-                    system_instruction=system_instruction,
-                    temperature=0.7,
-                    max_output_tokens=1024,
-                ),
-            )
+            if not response.choices or not response.choices[0].message.content:
+                raise AIServiceUnavailableError("Empty response from API")
 
-            if not response or not response.text:
-                raise GeminiUnavailableError("Empty response from Gemini")
+            return response.choices[0].message.content.strip()
 
-            return response.text.strip()
-
-        except GeminiUnavailableError:
+        except AIServiceUnavailableError:
             raise
         except Exception as e:
-            logger.error(f"Gemini API error: {e}")
-            raise GeminiUnavailableError(f"API error: {e}")
+            logger.error(f"Polza.ai API error: {e}")
+            raise AIServiceUnavailableError(f"API error: {e}")
 
 
 def is_on_topic(message: str) -> bool:

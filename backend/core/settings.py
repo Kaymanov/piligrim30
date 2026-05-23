@@ -158,8 +158,10 @@ EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER', default='noreply@piligrim30.ru')
 LEAD_NOTIFICATION_EMAIL = env('LEAD_NOTIFICATION_EMAIL', default=env('EMAIL_HOST_USER', default=''))
 
-# Gemini AI Configuration
-GEMINI_API_KEY = env('GEMINI_API_KEY', default='')
+# Polza.ai Configuration (OpenAI-compatible API)
+POLZA_API_KEY = env('POLZA_API_KEY', default='')
+POLZA_BASE_URL = env('POLZA_BASE_URL', default='https://polza.ai/api')
+POLZA_MODEL = env('POLZA_MODEL', default='google/gemma-4-27b-it')
 
 # Session configuration (for chat history stored in Redis)
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'

@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from .fallback import OFF_TOPIC_RESPONSE, get_fallback_response
 from .prompts import LEGAL_DISCLAIMER
 from .serializers import ChatMessageSerializer
-from .services import GeminiChatService, GeminiUnavailableError, is_on_topic
+from .services import AIChatService, AIServiceUnavailableError, is_on_topic
 from .throttling import ChatRateThrottle
 
 logger = logging.getLogger(__name__)
@@ -44,16 +44,16 @@ class ChatView(APIView):
             reply = OFF_TOPIC_RESPONSE
             is_fallback = True
         else:
-            # Try Gemini API
-            service = GeminiChatService()
+            # Try Polza.ai API
+            service = AIChatService()
             try:
                 if service.is_available():
                     reply = service.generate_response(message, history, quiz_context)
                     is_fallback = False
                 else:
-                    raise GeminiUnavailableError("Service not configured")
-            except GeminiUnavailableError as e:
-                logger.warning(f"Gemini unavailable, using fallback: {e}")
+                    raise AIServiceUnavailableError("Service not configured")
+            except AIServiceUnavailableError as e:
+                logger.warning(f"AI service unavailable, using fallback: {e}")
                 reply = get_fallback_response(message)
                 is_fallback = True
 
