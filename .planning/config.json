@@ -1,0 +1,21 @@
+{
+  "mode": "yolo",
+  "granularity": "coarse",
+  "parallelization": true,
+  "commit_docs": true,
+  "model_profile": "balanced",
+  "workflow": {
+    "research": true,
+    "plan_check": true,
+    "verifier": true,
+    "nyquist_validation": false,
+    "text_mode": false
+  },
+  "planning": {
+    "commit_docs": true,
+    "search_gitignored": false
+  },
+  "ship": {
+    "pr_body_sections": []
+  }
+}
