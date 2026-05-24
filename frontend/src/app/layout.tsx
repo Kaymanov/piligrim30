@@ -18,13 +18,6 @@ export const metadata: Metadata = {
   },
   description: "Правовой Пилигрим | Банкротство в Астрахани",
   metadataBase: new URL("https://piligrim30.ru"),
-  icons: {
-    icon: [
-      { url: "/images/logo.png", sizes: "32x32", type: "image/png" },
-      { url: "/images/logo.png", sizes: "16x16", type: "image/png" },
-    ],
-    apple: "/images/logo.png",
-  },
   openGraph: {
     type: "website",
     locale: "ru_RU",

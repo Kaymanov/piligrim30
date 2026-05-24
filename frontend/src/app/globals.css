@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode (required in Tailwind 4) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   /* === Colors: Light Mode === */
   --color-white: #ffffff;
@@ -52,44 +55,50 @@
   }
 }
 
-/* === AI-Юрист button: gradient glow + pulse === */
+/* === AI-Юрист button: bright gradient glow + pulse === */
 .ai-glow-button {
   position: relative;
   isolation: isolate;
 }
 
+/* Outer animated gradient halo */
 .ai-glow-button::before {
   content: "";
   position: absolute;
-  inset: -3px;
+  inset: -4px;
   z-index: -1;
   border-radius: 9999px;
   background: linear-gradient(
     135deg,
     #38bdf8 0%,
-    #3b82f6 33%,
-    #8b5cf6 66%,
+    #3b82f6 25%,
+    #8b5cf6 50%,
+    #ec4899 75%,
     #38bdf8 100%
   );
   background-size: 300% 300%;
-  opacity: 0.6;
-  filter: blur(8px);
-  animation: ai-glow-rotate 4s ease-in-out infinite;
+  opacity: 0.85;
+  filter: blur(10px);
+  animation: ai-glow-rotate 3s ease-in-out infinite;
 }
 
+/* Pulsing ring */
 .ai-glow-button::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   border-radius: 9999px;
-  box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5);
-  animation: ai-glow-pulse 2s ease-out infinite;
+  box-shadow:
+    0 0 0 0 rgba(56, 189, 248, 0.7),
+    0 0 20px 0 rgba(139, 92, 246, 0.5);
+  animation: ai-glow-pulse 1.8s ease-out infinite;
 }
 
 .ai-glow-button:hover::before {
-  opacity: 0.9;
-  filter: blur(12px);
+  opacity: 1;
+  filter: blur(14px);
+  animation-duration: 1.5s;
 }
 
 @keyframes ai-glow-rotate {
@@ -104,12 +113,18 @@
 
 @keyframes ai-glow-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5);
+    box-shadow:
+      0 0 0 0 rgba(56, 189, 248, 0.7),
+      0 0 20px 0 rgba(139, 92, 246, 0.5);
   }
   70% {
-    box-shadow: 0 0 0 12px rgba(56, 189, 248, 0);
+    box-shadow:
+      0 0 0 16px rgba(56, 189, 248, 0),
+      0 0 30px 8px rgba(139, 92, 246, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+    box-shadow:
+      0 0 0 0 rgba(56, 189, 248, 0),
+      0 0 0 0 rgba(139, 92, 246, 0);
   }
 }

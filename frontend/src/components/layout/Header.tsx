@@ -51,7 +51,11 @@ export function Header() {
             "transition-all duration-500 ease-out",
             // Glassmorphism — stronger when scrolled
             scrolled
-              ? "rounded-full bg-white/60 shadow-lg shadow-slate-900/5 backdrop-blur-2xl backdrop-saturate-150 dark:bg-slate-900/60 dark:shadow-slate-900/30"
+              ? clsx(
+                  "bg-white/60 shadow-lg shadow-slate-900/5 backdrop-blur-2xl backdrop-saturate-150 dark:bg-slate-900/60 dark:shadow-slate-900/30",
+                  // Pill when collapsed, rectangle when burger menu is open
+                  mobileMenuOpen ? "rounded-2xl" : "rounded-full",
+                )
               : "bg-white/70 backdrop-blur-md dark:bg-slate-900/70",
           )}
         >
@@ -123,10 +127,10 @@ export function Header() {
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                 {/* Phone — nowrap, hidden on mobile */}
                 <a
-                  href="tel:+78512000000"
+                  href="tel:+79965057050"
                   className="hidden whitespace-nowrap text-sm font-medium text-slate-700 transition-colors hover:text-blue-900 dark:text-slate-300 lg:block"
                 >
-                  +7&nbsp;(8512)&nbsp;00-00-00
+                  +7&nbsp;(996)&nbsp;505-70-50
                 </a>
 
                 {/* Theme toggle with rotation animation */}
@@ -286,7 +290,7 @@ export function Header() {
                       </Link>
 
                       <a
-                        href="tel:+78512000000"
+                        href="tel:+79965057050"
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center justify-center gap-2 whitespace-nowrap rounded-full border-2 border-sky-600 px-6 py-3 text-base font-medium text-sky-600 transition-colors hover:bg-sky-50 dark:border-sky-400 dark:text-sky-400"
                       >
