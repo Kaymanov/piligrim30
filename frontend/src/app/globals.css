@@ -51,3 +51,65 @@
     }
   }
 }
+
+/* === AI-Юрист button: gradient glow + pulse === */
+.ai-glow-button {
+  position: relative;
+  isolation: isolate;
+}
+
+.ai-glow-button::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  border-radius: 9999px;
+  background: linear-gradient(
+    135deg,
+    #38bdf8 0%,
+    #3b82f6 33%,
+    #8b5cf6 66%,
+    #38bdf8 100%
+  );
+  background-size: 300% 300%;
+  opacity: 0.6;
+  filter: blur(8px);
+  animation: ai-glow-rotate 4s ease-in-out infinite;
+}
+
+.ai-glow-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5);
+  animation: ai-glow-pulse 2s ease-out infinite;
+}
+
+.ai-glow-button:hover::before {
+  opacity: 0.9;
+  filter: blur(12px);
+}
+
+@keyframes ai-glow-rotate {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes ai-glow-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(56, 189, 248, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+  }
+}
