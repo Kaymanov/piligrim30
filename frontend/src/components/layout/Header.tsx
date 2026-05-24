@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import clsx from "clsx";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/providers/ThemeProvider";
-import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
 const NAV_ITEMS = [
@@ -19,7 +20,17 @@ const NAV_ITEMS = [
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
+
+  // Track scroll for morphing header
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
@@ -28,157 +39,266 @@ export function Header() {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-50 border-b transition-all duration-200",
-        "border-slate-200/50 bg-white/80 backdrop-blur-md",
-        "dark:border-slate-700/50 dark:bg-slate-900/80",
+        "sticky top-0 z-50 transition-all duration-500 ease-out",
+        scrolled
+          ? "top-3 mx-auto max-w-6xl rounded-full border border-slate-200/60 bg-white/90 shadow-lg shadow-slate-900/5 backdrop-blur-xl dark:border-slate-700/60 dark:bg-slate-900/90 dark:shadow-slate-900/30"
+          : "border-b border-slate-200/50 bg-white/80 backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-900/80",
       )}
     >
-      <Container>
-        <div className="flex h-16 items-center justify-between lg:h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-lg font-bold text-blue-900 dark:text-white lg:text-xl">
-              Правовой Пилигрим
-            </span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-1 lg:flex">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Right side: phone, theme toggle, CTA */}
-          <div className="flex items-center gap-3">
-            {/* Phone (hidden on mobile) */}
-            <a
-              href="tel:+78512000000"
-              className="hidden text-sm font-medium text-slate-700 transition-colors hover:text-blue-900 dark:text-slate-300 md:block"
-            >
-              +7 (8512) 00-00-00
-            </a>
-
-            {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-              aria-label="Переключить тему"
-            >
-              {resolvedTheme === "dark" ? (
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+      <div
+        className={clsx("transition-all duration-500", scrolled ? "px-6" : "")}
+      >
+        <Container className={scrolled ? "max-w-full px-0" : ""}>
+          <div
+            className={clsx(
+              "flex items-center justify-between transition-all duration-500",
+              scrolled ? "h-14" : "h-16 lg:h-20",
+            )}
+          >
+            {/* Logo + Brand */}
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src="/images/logo.png"
+                alt="Правовой Пилигрим"
+                width={40}
+                height={40}
+                className={clsx(
+                  "transition-all duration-500",
+                  scrolled ? "h-8 w-8" : "h-10 w-10",
+                )}
+              />
+              <div className="flex flex-col">
+                <span
+                  className={clsx(
+                    "font-bold text-blue-900 transition-all duration-500 dark:text-white",
+                    scrolled ? "text-sm" : "text-base lg:text-lg",
+                  )}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  Правовой Пилигрим
+                </span>
+                <span
+                  className={clsx(
+                    "text-slate-500 transition-all duration-500 dark:text-slate-400",
+                    scrolled ? "text-[10px]" : "text-xs",
+                  )}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
-              )}
-            </button>
+                  юридический кабинет
+                </span>
+              </div>
+            </Link>
 
-            {/* CTA (hidden on mobile) */}
-            <Button
-              variant="primary"
-              size="sm"
-              href="#contact"
-              className="hidden md:inline-flex"
-            >
-              Получить консультацию
-            </Button>
-
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-lg p-2 text-slate-700 lg:hidden dark:text-slate-300"
-              aria-label="Меню"
-            >
-              {mobileMenuOpen ? (
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <nav className="border-t border-slate-200 py-4 lg:hidden dark:border-slate-700">
-            <div className="flex flex-col gap-1">
+            {/* Desktop Navigation */}
+            <nav className="hidden items-center gap-1 xl:flex">
               {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
                 >
                   {item.label}
                 </Link>
               ))}
-              <div className="mt-4 px-4">
-                <Button
-                  variant="primary"
-                  size="md"
-                  href="#contact"
-                  className="w-full"
+            </nav>
+
+            {/* Right side */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Phone (hidden on mobile) */}
+              <a
+                href="tel:+78512000000"
+                className="hidden text-sm font-medium text-slate-700 transition-colors hover:text-blue-900 dark:text-slate-300 lg:block"
+              >
+                +7 (8512) 00-00-00
+              </a>
+
+              {/* Theme toggle with animation */}
+              <motion.button
+                onClick={toggleTheme}
+                className="relative rounded-full p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                aria-label="Переключить тему"
+                whileTap={{ scale: 0.85 }}
+              >
+                <AnimatePresence mode="wait">
+                  {resolvedTheme === "dark" ? (
+                    <motion.svg
+                      key="sun"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                      />
+                    </motion.svg>
+                  ) : (
+                    <motion.svg
+                      key="moon"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                      />
+                    </motion.svg>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+
+              {/* AI Lawyer CTA — glowing button (hidden on mobile) */}
+              <Link
+                href="#chat"
+                className="group relative hidden overflow-hidden rounded-full bg-blue-900 px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg md:inline-flex dark:bg-blue-600"
+              >
+                {/* Glow effect */}
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-60" />
+                <span className="absolute inset-0 animate-pulse rounded-full bg-sky-400/20" />
+                <span className="relative flex items-center gap-2">
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                    />
+                  </svg>
+                  ИИ-Юрист
+                </span>
+              </Link>
+
+              {/* Mobile menu button */}
+              <motion.button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="rounded-lg p-2 text-slate-700 xl:hidden dark:text-slate-300"
+                aria-label="Меню"
+                whileTap={{ scale: 0.9 }}
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  Получить консультацию
-                </Button>
-              </div>
+                  <motion.path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={
+                      mobileMenuOpen
+                        ? "M6 18L18 6M6 6l12 12"
+                        : "M4 6h16M4 12h16M4 18h16"
+                    }
+                  />
+                </svg>
+              </motion.button>
             </div>
-          </nav>
-        )}
-      </Container>
+          </div>
+
+          {/* Mobile menu with animation */}
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.nav
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden border-t border-slate-200 xl:hidden dark:border-slate-700"
+              >
+                <motion.div
+                  initial={{ y: -10 }}
+                  animate={{ y: 0 }}
+                  exit={{ y: -10 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                  className="flex flex-col gap-1 py-4"
+                >
+                  {NAV_ITEMS.map((item, i) => (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block rounded-lg px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  ))}
+
+                  {/* Mobile buttons */}
+                  <div className="mt-4 flex flex-col gap-3 px-4">
+                    <Link
+                      href="#chat"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-full bg-blue-900 px-6 py-3 text-base font-medium text-white dark:bg-blue-600"
+                    >
+                      <span className="absolute inset-0 animate-pulse rounded-full bg-sky-400/20" />
+                      <svg
+                        className="relative h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                        />
+                      </svg>
+                      <span className="relative">ИИ-Юрист</span>
+                    </Link>
+
+                    <a
+                      href="tel:+78512000000"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-center gap-2 rounded-full border-2 border-sky-600 px-6 py-3 text-base font-medium text-sky-600 transition-colors hover:bg-sky-50 dark:border-sky-400 dark:text-sky-400"
+                    >
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
+                      </svg>
+                      Обратный звонок
+                    </a>
+                  </div>
+                </motion.div>
+              </motion.nav>
+            )}
+          </AnimatePresence>
+        </Container>
+      </div>
     </header>
   );
 }

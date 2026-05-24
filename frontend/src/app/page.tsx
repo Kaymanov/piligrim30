@@ -9,7 +9,7 @@ export default function Home() {
         <Container>
           <div className="max-w-3xl">
             <h1 className="text-3xl font-extrabold tracking-tight text-blue-900 sm:text-4xl lg:text-5xl dark:text-white">
-              Банкротство физических лиц в Астрахани
+              Банкротство физических лиц и иные юридические услуги в Астрахани
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-slate-500 dark:text-slate-400">
               Поможем законно разобраться с долгами, подготовить документы и

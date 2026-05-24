@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   description:
     "Юридическое сопровождение банкротства физических лиц в Астрахани. Разберём вашу ситуацию, объясним последствия и поможем подготовить документы.",
   metadataBase: new URL("https://piligrim30.ru"),
+  icons: {
+    icon: [
+      { url: "/images/logo.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/logo.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/images/logo.png",
+  },
   openGraph: {
     type: "website",
     locale: "ru_RU",
