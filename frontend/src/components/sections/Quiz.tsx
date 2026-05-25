@@ -131,9 +131,25 @@ export function Quiz() {
         _hid: interactedRef.current ? "1" : "",
       });
       setState("success");
-    } catch {
+    } catch (err: unknown) {
       setState("error");
-      setError("Произошла ошибка. Попробуйте ещё раз.");
+      console.error("Quiz submit error:", err);
+      // Show server validation error if available
+      if (err && typeof err === "object" && "data" in err) {
+        const apiErr = err as { data: Record<string, string[] | string> };
+        const messages: string[] = [];
+        if (apiErr.data) {
+          for (const [key, val] of Object.entries(apiErr.data)) {
+            const msg = Array.isArray(val) ? val[0] : val;
+            messages.push(`${key}: ${msg}`);
+          }
+        }
+        setError(
+          messages.join("; ") || "Произошла ошибка. Попробуйте ещё раз.",
+        );
+      } else {
+        setError("Произошла ошибка. Попробуйте ещё раз.");
+      }
     }
   };
 
