@@ -21,7 +21,7 @@
 - [x] Problems — "Когда стоит обратиться" (8 карточек, иконки из block2/)
 - [x] DebtTypes — "Какие долги можно списать" (8 плиток, inline SVG иконки)
 - [x] Timeline — "Как проходит работа" (8 этапов, scroll-linked line fill)
-- [ ] Quiz — интерактивный квиз (7 вопросов)
+- [x] Quiz — интерактивный квиз (6 вопросов → контактная форма → quiz-lead)
 - [ ] ИИ-Юрист баннер (после квиза) + floating widget
 - [ ] Cases — кейсы из API
 - [ ] Reviews — отзывы из API
@@ -57,7 +57,7 @@
 ## Session Continuity
 
 - **Mode:** YOLO
-- **Next step:** Секция "Интерактивный квиз" (Quiz)
+- **Next step:** ИИ-Юрист (floating widget + баннер после квиза)
 
 ---
 

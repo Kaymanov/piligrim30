@@ -2,6 +2,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Problems } from "@/components/sections/Problems";
 import { DebtTypes } from "@/components/sections/DebtTypes";
 import { Timeline } from "@/components/sections/Timeline";
+import { Quiz } from "@/components/sections/Quiz";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Problems />
       <DebtTypes />
       <Timeline />
+      <Quiz />
     </>
   );
 }
