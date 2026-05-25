@@ -346,7 +346,7 @@ function QuizQuestion({
             className={`rounded-xl border-2 px-4 py-4 text-left text-sm font-medium transition-all duration-200 sm:text-base ${
               selectedValue === option.value
                 ? "border-sky-500 bg-sky-50 text-sky-700 dark:border-sky-400 dark:bg-sky-900/30 dark:text-sky-300"
-                : "border-slate-200 text-slate-700 hover:border-sky-300 hover:bg-sky-50/50 dark:border-slate-600 dark:text-slate-300 dark:hover:border-sky-700"
+                : "border-slate-200 text-slate-700 hover:border-sky-300 hover:bg-sky-50/50 dark:border-slate-600 dark:text-slate-300 dark:hover:border-sky-500/50 dark:hover:bg-sky-500/10"
             }`}
           >
             {option.label}
