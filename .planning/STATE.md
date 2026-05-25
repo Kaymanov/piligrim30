@@ -19,7 +19,7 @@
 
 - [x] Hero — тёмный gradient, orbital cards вокруг lotus man, floating animation
 - [x] Problems — "Когда стоит обратиться" (8 карточек, иконки из block2/)
-- [ ] DebtTypes — "Какие долги можно списать"
+- [x] DebtTypes — "Какие долги можно списать" (8 плиток, inline SVG иконки)
 - [ ] Timeline — "Как проходит работа" (8 этапов)
 - [ ] Quiz — интерактивный квиз (7 вопросов)
 - [ ] ИИ-Юрист баннер (после квиза) + floating widget
@@ -55,7 +55,7 @@
 ## Session Continuity
 
 - **Mode:** YOLO
-- **Next step:** Секция "Какие долги можно списать" (DebtTypes)
+- **Next step:** Секция "Как проходит работа" (Timeline)
 
 ---
 
