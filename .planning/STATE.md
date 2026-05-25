@@ -20,7 +20,7 @@
 - [x] Hero — тёмный gradient, orbital cards вокруг lotus man, floating animation
 - [x] Problems — "Когда стоит обратиться" (8 карточек, иконки из block2/)
 - [x] DebtTypes — "Какие долги можно списать" (8 плиток, inline SVG иконки)
-- [ ] Timeline — "Как проходит работа" (8 этапов)
+- [x] Timeline — "Как проходит работа" (8 этапов, scroll-linked line fill)
 - [ ] Quiz — интерактивный квиз (7 вопросов)
 - [ ] ИИ-Юрист баннер (после квиза) + floating widget
 - [ ] Cases — кейсы из API
@@ -57,7 +57,7 @@
 ## Session Continuity
 
 - **Mode:** YOLO
-- **Next step:** Секция "Как проходит работа" (Timeline)
+- **Next step:** Секция "Интерактивный квиз" (Quiz)
 
 ---
 
