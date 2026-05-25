@@ -39,7 +39,9 @@
 
 ## Recent Progress
 
-- 2026-05-25: Problems section с кастомными SVG-иконками из block2/
+- 2026-05-25: DebtTypes redesigned — dark section, horizontal chips with checkmarks, slide-in animation
+- 2026-05-25: All icons consolidated to /images/icon/ (removed block2/, root SVGs)
+- 2026-05-25: Problems section с кастомными SVG-иконками из icon/
 - 2026-05-25: Hero — orbital cards вокруг lotus man (man.png), floating animation
 - 2026-05-25: Header — scroll morph, glow button, dark mode fix, favicon
 - 2026-05-25: Footer — accordion, реквизиты ИП, логотип

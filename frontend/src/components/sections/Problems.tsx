@@ -5,17 +5,17 @@ import { motion } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 
 const PROBLEMS = [
-  { title: "Нечем платить кредиты", icon: "/images/block2/Credit-card.svg" },
-  { title: "Накопились микрозаймы", icon: "/images/block2/Wallet.svg" },
-  { title: "Звонят коллекторы", icon: "/images/block2/Active-call.svg" },
-  { title: "Приставы арестовали карту", icon: "/images/block2/Wallet%233.svg" },
-  { title: "Есть просрочки", icon: "/images/block2/Clock.svg" },
-  { title: "Пришло письмо из суда", icon: "/images/block2/Incoming-mail.svg" },
+  { title: "Нечем платить кредиты", icon: "/images/icon/Credit-card.svg" },
+  { title: "Накопились микрозаймы", icon: "/images/icon/Wallet.svg" },
+  { title: "Звонят коллекторы", icon: "/images/icon/Active-call.svg" },
+  { title: "Приставы арестовали карту", icon: "/images/icon/Wallet%233.svg" },
+  { title: "Есть просрочки", icon: "/images/icon/Clock.svg" },
+  { title: "Пришло письмо из суда", icon: "/images/icon/Incoming-mail.svg" },
   {
     title: "Удерживают деньги с зарплаты",
-    icon: "/images/block2/Chart-line%231.svg",
+    icon: "/images/icon/Chart-line%231.svg",
   },
-  { title: "Есть риск потери имущества", icon: "/images/block2/Home.svg" },
+  { title: "Есть риск потери имущества", icon: "/images/icon/Home.svg" },
 ];
 
 // Staggered animation for cards
@@ -33,7 +33,10 @@ const cardVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: "easeOut" as const },
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+    },
   },
 };
 

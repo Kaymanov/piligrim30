@@ -1,261 +1,112 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { Container } from "@/components/ui/Container";
 
 const DEBT_TYPES = [
-  {
-    title: "Кредиты",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-        <rect
-          x="4"
-          y="10"
-          width="32"
-          height="20"
-          rx="4"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
-        <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1.5" />
-        <path
-          d="M20 17v6M17 20h6"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.7"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Кредитные карты",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-        <rect
-          x="4"
-          y="10"
-          width="32"
-          height="20"
-          rx="4"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
-        <path d="M4 16h32" stroke="currentColor" strokeWidth="2" />
-        <path
-          d="M10 24h6"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M10 28h10"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.5"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Микрозаймы",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-        <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="2" />
-        <path
-          d="M20 12v16M14 18c0-3 2.5-5 6-5s6 2 6 5-2.5 4-6 4"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M14 26c0 2 2.5 3 6 3s6-1 6-3"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.6"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Долги по ЖКХ",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-        <path
-          d="M8 36V16l12-10 12 10v20"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-        <path d="M16 36v-10h8v10" stroke="currentColor" strokeWidth="1.5" />
-        <path
-          d="M18 20h4M20 18v4"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.6"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Налоги",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-        <rect
-          x="8"
-          y="6"
-          width="24"
-          height="30"
-          rx="3"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
-        <path
-          d="M14 14h12M14 20h12M14 26h8"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-        <path
-          d="M28 28l4 4M28 32l4-4"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          opacity="0.7"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Долги по распискам",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-        <path
-          d="M10 6h16l6 6v22a2 2 0 01-2 2H10a2 2 0 01-2-2V8a2 2 0 012-2z"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
-        <path d="M26 6v6h6" stroke="currentColor" strokeWidth="1.5" />
-        <path
-          d="M14 18h12M14 24h8"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-        <path
-          d="M14 30l3 2 5-6"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          opacity="0.7"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Задолженности перед банками",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-        <path
-          d="M6 14l14-8 14 8"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-        <path d="M8 14v16h24V14" stroke="currentColor" strokeWidth="2" />
-        <path d="M8 30h24" stroke="currentColor" strokeWidth="2.5" />
-        <path
-          d="M14 14v16M20 14v16M26 14v16"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-      </svg>
-    ),
-  },
+  { title: "Кредиты", icon: "/images/icon/Credit-card.svg" },
+  { title: "Кредитные карты", icon: "/images/icon/Wallet%233.svg" },
+  { title: "Микрозаймы", icon: "/images/icon/Money.svg" },
+  { title: "Долги по ЖКХ", icon: "/images/icon/Home.svg" },
+  { title: "Налоги", icon: "/images/icon/File.svg" },
+  { title: "Долги по распискам", icon: "/images/icon/Selected-file.svg" },
+  { title: "Задолженности перед банками", icon: "/images/icon/Building.svg" },
   {
     title: "Исполнительные производства",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-        <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="2" />
-        <path
-          d="M14 20h12"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        />
-        <path
-          d="M20 14v12"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          opacity="0.5"
-        />
-        {/* Gavel */}
-        <path
-          d="M28 8l4 4M26 10l4 4"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          opacity="0.7"
-        />
-      </svg>
-    ),
+    icon: "/images/icon/Shield-protected.svg",
   },
 ];
 
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.06 },
+    transition: { staggerChildren: 0.07 },
   },
 };
 
-const tileVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
+const chipVariants = {
+  hidden: { opacity: 0, x: -20 },
   visible: {
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.4, ease: "easeOut" as const },
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+    },
   },
 };
 
 export function DebtTypes() {
   return (
-    <SectionWrapper
-      title="Какие долги можно списать"
-      subtitle="Через процедуру банкротства физического лица"
-      bg="white"
-      id="debts"
-    >
-      <motion.div
-        className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-      >
-        {DEBT_TYPES.map((debt) => (
-          <motion.div
-            key={debt.title}
-            variants={tileVariants}
-            className="group flex flex-col items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-5 text-center shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-200 hover:bg-white hover:shadow-md hover:shadow-blue-500/5 dark:border-slate-700 dark:bg-slate-800/50 dark:hover:border-blue-700 dark:hover:bg-slate-800 sm:p-6"
-          >
-            {/* Icon container */}
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-900 transition-all group-hover:bg-blue-100 group-hover:text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 dark:group-hover:bg-blue-900/50 sm:h-16 sm:w-16">
-              {debt.icon}
-            </div>
+    <section className="relative overflow-hidden bg-slate-900 py-16 text-white md:py-20 lg:py-24 dark:bg-slate-950">
+      {/* Subtle background glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/4 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl" />
+        <div className="absolute right-1/4 top-1/3 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
+      </div>
 
-            {/* Title */}
-            <p className="text-xs font-semibold leading-tight text-slate-700 dark:text-slate-200 sm:text-sm">
-              {debt.title}
-            </p>
-          </motion.div>
-        ))}
-      </motion.div>
-    </SectionWrapper>
+      <Container className="relative z-10">
+        {/* Header */}
+        <div className="mb-12 text-center md:mb-16">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+            Какие долги можно списать
+          </h2>
+          <p className="mt-4 text-lg text-slate-400">
+            Через процедуру банкротства физического лица
+          </p>
+        </div>
+
+        {/* Chips grid — horizontal items with checkmark */}
+        <motion.div
+          className="mx-auto grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          {DEBT_TYPES.map((debt) => (
+            <motion.div
+              key={debt.title}
+              variants={chipVariants}
+              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm transition-all duration-300 hover:border-sky-400/40 hover:bg-white/10"
+            >
+              {/* Checkmark circle */}
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-400 transition-colors group-hover:bg-sky-500/30">
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={3}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+
+              {/* Icon */}
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/15">
+                <Image
+                  src={debt.icon}
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="h-5 w-5 [filter:invert(70%)_sepia(50%)_saturate(1000%)_hue-rotate(175deg)_brightness(110%)]"
+                />
+              </div>
+
+              {/* Title */}
+              <span className="text-sm font-medium text-slate-200 group-hover:text-white sm:text-base">
+                {debt.title}
+              </span>
+            </motion.div>
+          ))}
+        </motion.div>
+      </Container>
+    </section>
   );
 }

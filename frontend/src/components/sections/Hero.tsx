@@ -6,18 +6,18 @@ import { Container } from "@/components/ui/Container";
 
 // Feature cards with image icons
 const FEATURES = [
-  { title: "Списание долгов навсегда", icon: "/images/Money.svg" },
+  { title: "Списание долгов навсегда", icon: "/images/icon/Money.svg" },
   {
     title: "Полная защита от коллекторов",
-    icon: "/images/Shield-protected.svg",
+    icon: "/images/icon/Shield-protected.svg",
   },
   {
     title: "Сохранение имущества",
-    icon: "/images/Home-heart.svg",
+    icon: "/images/icon/Home-heart.svg",
   },
   {
     title: "Скидка при оформлении заявки через сайт",
-    icon: "/images/Sale%232.svg",
+    icon: "/images/icon/Sale%232.svg",
   },
 ];
 
