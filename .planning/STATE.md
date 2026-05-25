@@ -22,7 +22,7 @@
 - [x] DebtTypes — "Какие долги можно списать" (8 плиток, inline SVG иконки)
 - [x] Timeline — "Как проходит работа" (8 этапов, scroll-linked line fill)
 - [x] Quiz — интерактивный квиз (6 вопросов → контактная форма → quiz-lead)
-- [ ] ИИ-Юрист баннер (после квиза) + floating widget
+- [x] ИИ-Юрист — floating widget (все страницы) + баннер после квиза
 - [ ] Cases — кейсы из API
 - [ ] Reviews — отзывы из API
 - [ ] FAQ — аккордеон из API
@@ -57,7 +57,7 @@
 ## Session Continuity
 
 - **Mode:** YOLO
-- **Next step:** ИИ-Юрист (floating widget + баннер после квиза)
+- **Next step:** Секции Cases, Reviews, FAQ, LatestPosts, FinalCTA
 
 ---
 
