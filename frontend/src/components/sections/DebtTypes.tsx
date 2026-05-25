@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import { Container } from "@/components/ui/Container";
 
 const DEBT_TYPES = [
@@ -18,26 +19,10 @@ const DEBT_TYPES = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.07 },
-  },
-};
-
-const chipVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
-    },
-  },
-};
-
 export function DebtTypes() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
   return (
     <section className="relative overflow-hidden bg-blue-900 py-16 text-white md:py-20 lg:py-24 dark:bg-slate-950">
       {/* Subtle background glow */}
@@ -57,19 +42,23 @@ export function DebtTypes() {
           </p>
         </div>
 
-        {/* Chips grid — horizontal items with checkmark */}
-        <motion.div
+        {/* Chips grid */}
+        <div
+          ref={ref}
           className="mx-auto grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
         >
-          {DEBT_TYPES.map((debt) => (
+          {DEBT_TYPES.map((debt, i) => (
             <motion.div
               key={debt.title}
-              variants={chipVariants}
-              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm transition-all duration-300 hover:border-sky-400/40 hover:bg-white/10"
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+              transition={{
+                duration: 0.5,
+                delay: i * 0.07,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              style={{ willChange: "transform, opacity" }}
+              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm transition-[border-color,background-color] duration-300 hover:border-sky-400/40 hover:bg-white/10"
             >
               {/* Checkmark circle */}
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-400 transition-colors group-hover:bg-sky-500/30">
@@ -105,7 +94,7 @@ export function DebtTypes() {
               </span>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </Container>
     </section>
   );
