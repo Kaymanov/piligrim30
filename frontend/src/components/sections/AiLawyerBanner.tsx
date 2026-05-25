@@ -55,7 +55,7 @@ export function AiLawyerBanner() {
             {/* CTA */}
             <button
               onClick={openChat}
-              className="ai-glow-button shrink-0 whitespace-nowrap rounded-full bg-white px-8 py-4 text-base font-semibold text-blue-900 shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl dark:bg-sky-500 dark:text-white"
+              className="ai-glow-button relative shrink-0 whitespace-nowrap rounded-full bg-white px-8 py-4 text-base font-semibold text-blue-900 shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl dark:bg-sky-500 dark:text-white"
             >
               Задать вопрос
             </button>
