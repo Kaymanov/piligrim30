@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
+import { openLeadModal } from "@/lib/modal-events";
 
 // Feature cards with image icons
 const FEATURES = [
@@ -119,12 +120,12 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start"
             >
-              <a
-                href="#contact"
+              <button
+                onClick={openLeadModal}
                 className="inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-4 text-base font-medium text-white shadow-lg shadow-blue-500/30 transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-xl hover:shadow-blue-500/50"
               >
                 Получить консультацию
-              </a>
+              </button>
               <a
                 href="#quiz"
                 className="inline-flex items-center justify-center rounded-full border-2 border-sky-400/60 bg-sky-400/5 px-8 py-4 text-base font-medium text-sky-300 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-sky-400 hover:bg-sky-400/10"

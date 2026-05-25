@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { Container } from "@/components/ui/Container";
+import { openChat, openCallback } from "@/lib/modal-events";
 
 const NAV_ITEMS = [
   { label: "Банкротство", href: "/bankrotstvo-fizicheskih-lic" },
@@ -184,8 +185,8 @@ export function Header() {
                 </motion.button>
 
                 {/* AI Lawyer CTA — glowing pulsing button (hidden on mobile) */}
-                <Link
-                  href="#chat"
+                <button
+                  onClick={openChat}
                   className="ai-glow-button relative hidden items-center gap-2 overflow-visible whitespace-nowrap rounded-full bg-blue-900 px-5 py-3 text-sm font-medium text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl md:inline-flex dark:bg-blue-600"
                 >
                   <svg
@@ -202,7 +203,7 @@ export function Header() {
                     />
                   </svg>
                   <span className="whitespace-nowrap">ИИ-Юрист</span>
-                </Link>
+                </button>
 
                 {/* Mobile menu button */}
                 <motion.button
@@ -268,9 +269,11 @@ export function Header() {
 
                     {/* Mobile CTA buttons */}
                     <div className="mt-4 flex flex-col gap-3 px-4">
-                      <Link
-                        href="#chat"
-                        onClick={() => setMobileMenuOpen(false)}
+                      <button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          openChat();
+                        }}
                         className="ai-glow-button relative flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-blue-900 px-6 py-3 text-base font-medium text-white shadow-md dark:bg-blue-600"
                       >
                         <svg
@@ -287,11 +290,13 @@ export function Header() {
                           />
                         </svg>
                         <span className="whitespace-nowrap">ИИ-Юрист</span>
-                      </Link>
+                      </button>
 
-                      <a
-                        href="tel:+79965057050"
-                        onClick={() => setMobileMenuOpen(false)}
+                      <button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          openCallback();
+                        }}
                         className="flex items-center justify-center gap-2 whitespace-nowrap rounded-full border-2 border-sky-600 px-6 py-3 text-base font-medium text-sky-600 transition-colors hover:bg-sky-50 dark:border-sky-400 dark:text-sky-400"
                       >
                         <svg
@@ -310,7 +315,7 @@ export function Header() {
                         <span className="whitespace-nowrap">
                           Обратный звонок
                         </span>
-                      </a>
+                      </button>
                     </div>
                   </motion.div>
                 </motion.nav>

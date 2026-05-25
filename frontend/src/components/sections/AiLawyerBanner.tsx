@@ -3,23 +3,11 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Container } from "@/components/ui/Container";
+import { openChat } from "@/lib/modal-events";
 
-interface AiLawyerBannerProps {
-  onOpenChat?: () => void;
-}
-
-export function AiLawyerBanner({ onOpenChat }: AiLawyerBannerProps) {
+export function AiLawyerBanner() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  const handleClick = () => {
-    if (onOpenChat) {
-      onOpenChat();
-    } else {
-      // Fallback: dispatch custom event to open chat widget
-      window.dispatchEvent(new CustomEvent("open-chat"));
-    }
-  };
 
   return (
     <section className="py-12 md:py-16">
@@ -66,7 +54,7 @@ export function AiLawyerBanner({ onOpenChat }: AiLawyerBannerProps) {
 
             {/* CTA */}
             <button
-              onClick={handleClick}
+              onClick={openChat}
               className="ai-glow-button shrink-0 whitespace-nowrap rounded-full bg-white px-8 py-4 text-base font-semibold text-blue-900 shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl dark:bg-sky-500 dark:text-white"
             >
               Задать вопрос

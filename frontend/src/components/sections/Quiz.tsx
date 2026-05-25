@@ -96,6 +96,7 @@ export function Quiz() {
   const progress = ((currentStep + 1) / totalSteps) * 100;
 
   const handleAnswer = (questionId: string, value: string) => {
+    interactedRef.current = true; // Mark as interacted on any click
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
     // Auto-advance to next question
     if (currentStep < QUESTIONS.length - 1) {

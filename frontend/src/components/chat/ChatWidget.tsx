@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sendChatMessage, resetChat, type ChatResponse } from "@/lib/api";
+import { MODAL_EVENTS } from "@/lib/modal-events";
 
 interface Message {
   role: "user" | "assistant";
@@ -27,6 +28,13 @@ export function ChatWidget() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Listen for global open-chat events
+  useEffect(() => {
+    const handler = () => setIsOpen(true);
+    window.addEventListener(MODAL_EVENTS.OPEN_CHAT, handler);
+    return () => window.removeEventListener(MODAL_EVENTS.OPEN_CHAT, handler);
+  }, []);
 
   // Get quiz context from sessionStorage
   const getQuizContext = (): Record<string, string> | undefined => {
