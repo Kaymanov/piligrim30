@@ -105,7 +105,7 @@ export function ChatWidget() {
             exit={{ scale: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             onClick={() => setIsOpen(true)}
-            className="ai-glow-button fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-900 text-white shadow-xl transition-transform hover:scale-105 sm:h-16 sm:w-16 dark:bg-blue-600"
+            className="ai-glow-button fixed bottom-6 right-6 z-50 hidden h-14 w-14 items-center justify-center rounded-full bg-blue-900 text-white shadow-xl transition-transform hover:scale-105 sm:h-16 sm:w-16 md:flex dark:bg-blue-600"
             aria-label="Открыть ИИ-Юрист"
           >
             <svg
