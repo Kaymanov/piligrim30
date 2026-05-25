@@ -12,7 +12,7 @@ const FEATURES = [
     icon: "/images/Shield-protected.svg",
   },
   {
-    title: "Сохранение имущества и качества жизни",
+    title: "Сохранение имущества",
     icon: "/images/Home-heart.svg",
   },
   {
