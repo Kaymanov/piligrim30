@@ -128,3 +128,14 @@
       0 0 0 0 rgba(139, 92, 246, 0);
   }
 }
+
+/* === Hero section: dark by default, balanced light variant === */
+.hero-section {
+  /* Default: dark mode aesthetic (как на макете) */
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0c4a6e 100%);
+}
+
+/* Light mode: keep premium feel with rich blue gradient */
+:where(html:not(.dark)) .hero-section {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0284c7 100%);
+}
