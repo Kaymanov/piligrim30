@@ -39,7 +39,7 @@ const chipVariants = {
 
 export function DebtTypes() {
   return (
-    <section className="relative overflow-hidden bg-slate-900 py-16 text-white md:py-20 lg:py-24 dark:bg-slate-950">
+    <section className="relative overflow-hidden bg-blue-900 py-16 text-white md:py-20 lg:py-24 dark:bg-slate-950">
       {/* Subtle background glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/4 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl" />
