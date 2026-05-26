@@ -97,15 +97,15 @@ export function Cases() {
             style={{ willChange: "transform, opacity" }}
           >
             <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-lg hover:shadow-sky-500/5 dark:border-slate-700 dark:hover:border-sky-700">
-              {/* Top: debt amount on dark bg */}
-              <div className="bg-slate-900 px-5 py-6 text-center dark:bg-slate-800">
-                <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+              {/* Top: debt amount — soft gradient in light, dark in dark mode */}
+              <div className="bg-gradient-to-br from-blue-50 to-sky-50 px-5 py-6 text-center dark:from-slate-800 dark:to-slate-800">
+                <p className="text-xs font-medium uppercase tracking-wider text-blue-400 dark:text-slate-400">
                   Сумма долга
                 </p>
-                <p className="mt-1 text-2xl font-extrabold text-white sm:text-3xl">
+                <p className="mt-1 text-2xl font-extrabold text-blue-900 sm:text-3xl dark:text-white">
                   {caseItem.debt_amount}
                 </p>
-                <p className="mt-2 text-xs text-slate-400">
+                <p className="mt-2 text-xs text-blue-400 dark:text-slate-400">
                   Срок процедуры: {caseItem.case_duration}
                 </p>
               </div>
