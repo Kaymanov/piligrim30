@@ -69,7 +69,7 @@ export function FinalCTA() {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Бесплатная консультация
+            Бесплатная консультация при сумме долга от 300000 ₽
           </span>
           <span className="flex items-center gap-1.5">
             <svg
@@ -101,7 +101,7 @@ export function FinalCTA() {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Возможна рассрочка
+            Скидка при оформление заявки через сайт
           </span>
         </motion.div>
       </Container>

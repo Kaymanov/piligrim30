@@ -101,7 +101,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl"
             >
-              Банкротство физических лиц и иные юридические услуги в Астрахани
+              Банкротство граждан и иные юридические услуги в Астрахани
             </motion.h1>
 
             <motion.p
