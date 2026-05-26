@@ -4,6 +4,7 @@ import { DebtTypes } from "@/components/sections/DebtTypes";
 import { Timeline } from "@/components/sections/Timeline";
 import { Quiz } from "@/components/sections/Quiz";
 import { AiLawyerBanner } from "@/components/sections/AiLawyerBanner";
+import { Cases } from "@/components/sections/Cases";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Timeline />
       <Quiz />
       <AiLawyerBanner />
+      <Cases />
     </>
   );
 }
