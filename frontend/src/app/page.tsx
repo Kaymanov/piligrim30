@@ -6,6 +6,7 @@ import { Quiz } from "@/components/sections/Quiz";
 import { AiLawyerBanner } from "@/components/sections/AiLawyerBanner";
 import { Cases } from "@/components/sections/Cases";
 import { Reviews } from "@/components/sections/Reviews";
+import { Faq } from "@/components/sections/Faq";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <AiLawyerBanner />
       <Cases />
       <Reviews />
+      <Faq />
     </>
   );
 }

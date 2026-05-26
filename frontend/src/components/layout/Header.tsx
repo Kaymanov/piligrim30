@@ -14,8 +14,8 @@ const NAV_ITEMS = [
   { label: "Услуги", href: "/services" },
   { label: "Кейсы", href: "/cases" },
   { label: "Отзывы", href: "/reviews" },
-  { label: "Блог", href: "/blog" },
-  { label: "FAQ", href: "/faq" },
+  { label: "Новости", href: "/blog" },
+  { label: "ЧАВО", href: "/faq" },
   { label: "Контакты", href: "/contacts" },
 ];
 

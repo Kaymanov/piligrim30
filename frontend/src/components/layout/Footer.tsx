@@ -16,10 +16,10 @@ const SERVICE_LINKS = [
 ];
 
 const INFO_LINKS = [
-  { label: "Блог", href: "/blog" },
+  { label: "Новости", href: "/blog" },
   { label: "Кейсы", href: "/cases" },
   { label: "Отзывы", href: "/reviews" },
-  { label: "FAQ", href: "/faq" },
+  { label: "ЧАВО", href: "/faq" },
   { label: "Контакты", href: "/contacts" },
 ];
 
