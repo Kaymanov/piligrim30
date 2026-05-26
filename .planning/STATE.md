@@ -26,8 +26,10 @@
 - [x] Cases — кейсы (mock data, 4 карточки с раскрывающимися деталями)
 - [x] Reviews — отзывы (mock data, 6 карточек со звёздами и источниками)
 - [x] FAQ — ЧАВО аккордеон (8 вопросов, mock data)
-- [ ] LatestPosts — последние статьи из API
-- [ ] FinalCTA — форма заявки
+- [x] LatestPosts — последние новости (4 mock карточки)
+- [x] FinalCTA — форма заявки (LeadForm в тёмной секции)
+
+## Phase 4 Wave 2 Status: COMPLETE ✓
 
 ## Key Decisions
 
@@ -57,7 +59,7 @@
 ## Session Continuity
 
 - **Mode:** YOLO
-- **Next step:** Секции Cases, Reviews, FAQ, LatestPosts, FinalCTA
+- **Next step:** Phase 4 Wave 3 — внутренние страницы + SEO
 
 ---
 
