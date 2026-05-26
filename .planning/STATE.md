@@ -23,8 +23,8 @@
 - [x] Timeline — "Как проходит работа" (8 этапов, scroll-linked line fill)
 - [x] Quiz — интерактивный квиз (6 вопросов → контактная форма → quiz-lead)
 - [x] ИИ-Юрист — floating widget (все страницы) + баннер после квиза
-- [x] Cases — кейсы (mock data, 4 карточки)
-- [ ] Reviews — отзывы из API
+- [x] Cases — кейсы (mock data, 4 карточки с раскрывающимися деталями)
+- [x] Reviews — отзывы (mock data, 6 карточек со звёздами и источниками)
 - [ ] FAQ — аккордеон из API
 - [ ] LatestPosts — последние статьи из API
 - [ ] FinalCTA — форма заявки
