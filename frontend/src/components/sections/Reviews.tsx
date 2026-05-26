@@ -156,9 +156,9 @@ export function Reviews() {
           <Image
             src="/images/yandex.svg"
             alt="Яндекс"
-            width={20}
-            height={20}
-            className="h-5 w-5"
+            width={24}
+            height={24}
+            className="h-6 w-6"
           />
           Отзывы на Яндекс Картах
         </a>
@@ -171,9 +171,9 @@ export function Reviews() {
           <Image
             src="/images/logotip-2gis.svg"
             alt="2ГИС"
-            width={20}
-            height={20}
-            className="h-5 w-5"
+            width={64}
+            height={30}
+            className="h-7 w-auto"
           />
           Отзывы на 2ГИС
         </a>
