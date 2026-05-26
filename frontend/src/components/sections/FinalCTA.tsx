@@ -12,7 +12,7 @@ export function FinalCTA() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-blue-900 py-16 md:py-20 lg:py-24 dark:bg-slate-950"
+      className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-16 md:py-20 lg:py-24 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
     >
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0">

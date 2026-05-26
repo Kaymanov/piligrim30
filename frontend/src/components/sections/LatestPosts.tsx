@@ -17,6 +17,8 @@ const MOCK_POSTS = [
     category: "Банкротство",
     reading_time: 7,
     published_at: "2025-12-10",
+    gradient: "from-blue-600 to-sky-500",
+    icon: "⚖️",
   },
   {
     id: 2,
@@ -27,6 +29,8 @@ const MOCK_POSTS = [
     category: "Кредиты",
     reading_time: 5,
     published_at: "2025-12-05",
+    gradient: "from-violet-600 to-blue-500",
+    icon: "💳",
   },
   {
     id: 3,
@@ -37,6 +41,8 @@ const MOCK_POSTS = [
     category: "Списание долгов",
     reading_time: 6,
     published_at: "2025-11-28",
+    gradient: "from-sky-600 to-teal-500",
+    icon: "📋",
   },
   {
     id: 4,
@@ -47,6 +53,8 @@ const MOCK_POSTS = [
     category: "Имущество",
     reading_time: 8,
     published_at: "2025-11-20",
+    gradient: "from-blue-800 to-violet-600",
+    icon: "🏠",
   },
 ];
 
@@ -57,7 +65,7 @@ export function LatestPosts() {
   return (
     <SectionWrapper
       title="Полезные материалы"
-      subtitle="Статьи и новости о банкротстве и долгах"
+      subtitle="Статьи и новости"
       bg="slate"
       id="blog"
     >
@@ -79,34 +87,44 @@ export function LatestPosts() {
           >
             <Link
               href={`/blog/${post.slug}`}
-              className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-700"
+              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-700"
             >
-              {/* Category badge */}
-              <span className="inline-block self-start rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700 dark:bg-sky-900/30 dark:text-sky-400">
-                {post.category}
-              </span>
+              {/* Cover image — gradient with icon */}
+              <div
+                className={`flex h-36 items-center justify-center bg-gradient-to-br ${post.gradient}`}
+              >
+                <span className="text-4xl opacity-80">{post.icon}</span>
+              </div>
 
-              {/* Title */}
-              <h3 className="mt-3 text-base font-bold leading-snug text-slate-800 transition-colors group-hover:text-blue-900 dark:text-white dark:group-hover:text-sky-400 sm:text-lg">
-                {post.title}
-              </h3>
-
-              {/* Excerpt */}
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                {post.excerpt}
-              </p>
-
-              {/* Meta */}
-              <div className="mt-4 flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
-                <span>
-                  {new Date(post.published_at).toLocaleDateString("ru-RU", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  })}
+              {/* Content */}
+              <div className="flex flex-1 flex-col p-5">
+                {/* Category badge */}
+                <span className="inline-block self-start rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700 dark:bg-sky-900/30 dark:text-sky-400">
+                  {post.category}
                 </span>
-                <span>·</span>
-                <span>{post.reading_time} мин чтения</span>
+
+                {/* Title */}
+                <h3 className="mt-3 text-base font-bold leading-snug text-slate-800 transition-colors group-hover:text-blue-900 dark:text-white dark:group-hover:text-sky-400">
+                  {post.title}
+                </h3>
+
+                {/* Excerpt */}
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                  {post.excerpt}
+                </p>
+
+                {/* Meta */}
+                <div className="mt-4 flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
+                  <span>
+                    {new Date(post.published_at).toLocaleDateString("ru-RU", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </span>
+                  <span>·</span>
+                  <span>{post.reading_time} мин чтения</span>
+                </div>
               </div>
             </Link>
           </motion.div>
