@@ -12,12 +12,12 @@ export function FinalCTA() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-16 md:py-20 lg:py-24 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
+      className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-slate-100 py-16 md:py-20 lg:py-24 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
     >
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-sky-500/15 blur-3xl" />
-        <div className="absolute -right-32 bottom-1/4 h-72 w-72 rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-sky-300/20 blur-3xl" />
+        <div className="absolute -right-32 bottom-1/4 h-72 w-72 rounded-full bg-blue-300/15 blur-3xl" />
       </div>
 
       <Container className="relative z-10">
@@ -28,10 +28,10 @@ export function FinalCTA() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto max-w-2xl text-center"
         >
-          <h2 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl lg:text-4xl">
             Разберём вашу ситуацию и предложим законный путь решения
           </h2>
-          <p className="mt-4 text-base text-blue-100 sm:text-lg dark:text-slate-400">
+          <p className="mt-4 text-base text-slate-600 sm:text-lg dark:text-slate-400">
             Заполните форму — юрист свяжется с вами в ближайшее время для
             бесплатной консультации
           </p>
@@ -53,7 +53,7 @@ export function FinalCTA() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mx-auto mt-8 flex max-w-lg flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-blue-200 dark:text-slate-500"
+          className="mx-auto mt-8 flex max-w-lg flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500 dark:text-slate-500"
         >
           <span className="flex items-center gap-1.5">
             <svg

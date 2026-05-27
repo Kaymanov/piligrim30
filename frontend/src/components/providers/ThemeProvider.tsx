@@ -28,6 +28,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const stored = localStorage.getItem("theme") as Theme | null;
     if (stored) {
       setThemeState(stored);
+    } else {
+      // Default to dark theme
+      setThemeState("dark");
     }
   }, []);
 
