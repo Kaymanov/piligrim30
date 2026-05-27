@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 
@@ -17,8 +18,8 @@ const MOCK_POSTS = [
     category: "Банкротство",
     reading_time: 7,
     published_at: "2025-12-10",
-    gradient: "from-blue-600 to-sky-500",
-    icon: "⚖️",
+    cover:
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D0%B2%D0%B5%D0%B4%D0%B5%D1%82_%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82.png",
   },
   {
     id: 2,
@@ -29,8 +30,8 @@ const MOCK_POSTS = [
     category: "Кредиты",
     reading_time: 5,
     published_at: "2025-12-05",
-    gradient: "from-violet-600 to-blue-500",
-    icon: "💳",
+    cover:
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%A7%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA_%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BC%D1%83_%D0%BD%D0%B5%D1%87%D0%B5.png",
   },
   {
     id: 3,
@@ -41,8 +42,8 @@ const MOCK_POSTS = [
     category: "Списание долгов",
     reading_time: 6,
     published_at: "2025-11-28",
-    gradient: "from-sky-600 to-teal-500",
-    icon: "📋",
+    cover:
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D1%81%D1%82%D0%BE%D0%B8%D1%82_%D0%B2%D0%BE%D0%B7%D0%BB%D0%B5_%D0%B4%D0%BE.png",
   },
   {
     id: 4,
@@ -53,8 +54,8 @@ const MOCK_POSTS = [
     category: "Имущество",
     reading_time: 8,
     published_at: "2025-11-20",
-    gradient: "from-blue-800 to-violet-600",
-    icon: "🏠",
+    cover:
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%97%D0%B0%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9_%D0%B4%D0%BE%D0%BC._%D0%A4%D0%BE%D1%82%D0%BE.png",
   },
 ];
 
@@ -89,11 +90,15 @@ export function LatestPosts() {
               href={`/blog/${post.slug}`}
               className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-700"
             >
-              {/* Cover image — gradient with icon */}
-              <div
-                className={`flex h-36 items-center justify-center bg-gradient-to-br ${post.gradient}`}
-              >
-                <span className="text-4xl opacity-80">{post.icon}</span>
+              {/* Cover image */}
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src={post.cover}
+                  alt={post.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
               </div>
 
               {/* Content */}
