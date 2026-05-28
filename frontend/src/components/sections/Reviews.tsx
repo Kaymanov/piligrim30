@@ -127,11 +127,11 @@ export function Reviews() {
         }}
       >
         <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex gap-5">
+          <div className="-ml-5 flex">
             {MOCK_REVIEWS.map((review) => (
               <div
                 key={review.id}
-                className="min-w-0 flex-[0_0_85%] sm:flex-[0_0_45%] lg:flex-[0_0_32%]"
+                className="min-w-0 flex-[0_0_85%] pl-5 sm:flex-[0_0_45%] lg:flex-[0_0_33.333%]"
               >
                 <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
                   {/* Header: avatar + name + rating */}
