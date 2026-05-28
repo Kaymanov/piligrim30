@@ -31,4 +31,9 @@ uv run python manage.py collectstatic --noinput
 
 # Start server
 echo "Starting server"
-exec uv run gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3
+exec uv run gunicorn core.wsgi:application \
+  --bind 0.0.0.0:8000 \
+  --workers 3 \
+  --worker-class gthread \
+  --threads 4 \
+  --timeout 300

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { sendChatMessage, resetChat, type ChatResponse } from "@/lib/api";
+import { streamChatMessage, resetChat } from "@/lib/api";
 import { MODAL_EVENTS } from "@/lib/modal-events";
 
 interface Message {
@@ -57,32 +57,50 @@ export function ChatWidget() {
     setIsTyping(true);
     userMessageCount.current += 1;
 
-    try {
-      const response: ChatResponse = await sendChatMessage(
-        text,
-        getQuizContext(),
-      );
+    // Track if CTA should be shown after this response
+    const showCta =
+      userMessageCount.current >= 3 && userMessageCount.current % 3 === 0;
 
-      // Check if CTA should be shown (after 3 user messages)
-      const showCta =
-        userMessageCount.current >= 3 && userMessageCount.current % 3 === 0;
+    // Add empty assistant message that will be filled by stream
+    setMessages((prev) => [
+      ...prev,
+      { role: "assistant", content: "", showCta },
+    ]);
 
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: response.reply, showCta },
-      ]);
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content:
-            "Извините, произошла ошибка. Попробуйте позже или оставьте заявку на сайте.",
-        },
-      ]);
-    } finally {
-      setIsTyping(false);
-    }
+    let accumulated = "";
+
+    streamChatMessage(
+      text,
+      getQuizContext(),
+      (chunk) => {
+        accumulated += chunk;
+        setIsTyping(false);
+        setMessages((prev) => {
+          const next = [...prev];
+          next[next.length - 1] = {
+            role: "assistant",
+            content: accumulated,
+            showCta,
+          };
+          return next;
+        });
+      },
+      () => {
+        setIsTyping(false);
+      },
+      () => {
+        setIsTyping(false);
+        setMessages((prev) => {
+          const next = [...prev];
+          next[next.length - 1] = {
+            role: "assistant",
+            content:
+              "Извините, произошла ошибка. Попробуйте позже или оставьте заявку на сайте.",
+          };
+          return next;
+        });
+      },
+    );
   };
 
   const handleReset = async () => {

@@ -160,7 +160,9 @@ class ChatStreamView(APIView):
                 full_reply = ""
                 for chunk in stream:
                     full_reply += chunk
-                    yield f"data: {chunk}\n\n"
+                    # Encode chunk as base64 to avoid SSE format issues with newlines
+                    import json
+                    yield f"data: {json.dumps(chunk)}\n\n"
 
                 # Save to history after streaming completes
                 history.append({'role': 'user', 'content': message})
@@ -201,8 +203,10 @@ class ChatStreamView(APIView):
 
     def _stream_text(self, text: str):
         """Stream a static text as SSE."""
+        import json
+
         def gen():
-            yield f"data: {text}\n\n"
+            yield f"data: {json.dumps(text)}\n\n"
             yield "data: [DONE]\n\n"
 
         response = StreamingHttpResponse(gen(), content_type="text/event-stream")
