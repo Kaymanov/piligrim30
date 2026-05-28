@@ -17,7 +17,7 @@ export function AiLawyerBanner() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900 via-blue-800 to-sky-900 p-8 text-white shadow-xl sm:p-10 md:p-12 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-50 via-sky-50 to-blue-100 p-8 shadow-xl sm:p-10 md:p-12 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
         >
           {/* Background glow */}
           <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-sky-400/20 blur-3xl" />
@@ -25,9 +25,9 @@ export function AiLawyerBanner() {
 
           <div className="relative z-10 flex flex-col items-center gap-6 text-center md:flex-row md:text-left">
             {/* Icon */}
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm md:h-20 md:w-20">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-sky-100 dark:bg-white/10 backdrop-blur-sm md:h-20 md:w-20">
               <svg
-                className="h-8 w-8 md:h-10 md:w-10"
+                className="h-8 w-8 text-blue-900 md:h-10 md:w-10 dark:text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -43,10 +43,10 @@ export function AiLawyerBanner() {
 
             {/* Text */}
             <div className="flex-1">
-              <h3 className="text-xl font-bold sm:text-2xl">
+              <h3 className="text-xl font-bold text-slate-900 sm:text-2xl dark:text-white">
                 Остались вопросы? Спросите ИИ-Юриста
               </h3>
-              <p className="mt-2 text-sm text-blue-100 sm:text-base dark:text-slate-400">
+              <p className="mt-2 text-sm text-slate-600 sm:text-base dark:text-slate-400">
                 Получите мгновенный ответ на вопросы о банкротстве, долгах и
                 списании кредитов. Бесплатно и без регистрации.
               </p>

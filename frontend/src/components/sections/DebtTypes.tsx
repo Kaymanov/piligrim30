@@ -24,7 +24,7 @@ export function DebtTypes() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="relative overflow-hidden bg-blue-900 py-16 text-white md:py-20 lg:py-24 dark:bg-slate-950">
+    <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50 py-16 md:py-20 lg:py-24 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Subtle background glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/4 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl" />
@@ -34,10 +34,10 @@ export function DebtTypes() {
       <Container className="relative z-10">
         {/* Header */}
         <div className="mb-12 text-center md:mb-16">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl dark:text-white">
             Какие долги можно списать
           </h2>
-          <p className="mt-4 text-lg text-slate-400">
+          <p className="mt-4 text-lg text-slate-500 dark:text-slate-400">
             Через процедуру банкротства физического лица
           </p>
         </div>
@@ -58,10 +58,10 @@ export function DebtTypes() {
                 ease: [0.22, 1, 0.36, 1],
               }}
               style={{ willChange: "transform, opacity" }}
-              className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm transition-[border-color,background-color] duration-300 hover:border-sky-400/40 hover:bg-white/10"
+              className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-white/5 px-5 py-4 backdrop-blur-sm transition-[border-color,background-color] duration-300 hover:border-sky-300 hover:shadow-md dark:hover:border-sky-400/40 dark:hover:bg-white/10"
             >
               {/* Checkmark circle */}
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-500/20 text-sky-400 transition-colors group-hover:bg-sky-500/30">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-50 dark:bg-sky-500/20 text-sky-600 transition-colors group-hover:bg-sky-100 dark:text-sky-400 dark:group-hover:bg-sky-500/30">
                 <svg
                   className="h-4 w-4"
                   fill="none"
@@ -89,7 +89,7 @@ export function DebtTypes() {
               </div>
 
               {/* Title */}
-              <span className="text-sm font-medium text-slate-200 group-hover:text-white sm:text-base">
+              <span className="text-sm font-medium text-slate-700 group-hover:text-slate-900 dark:text-slate-200 dark:group-hover:text-white sm:text-base">
                 {debt.title}
               </span>
             </motion.div>
