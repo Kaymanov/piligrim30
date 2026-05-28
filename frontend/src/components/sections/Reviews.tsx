@@ -81,7 +81,7 @@ export function Reviews() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
-      align: "start",
+      align: "center",
       slidesToScroll: 1,
       containScroll: false,
     },
