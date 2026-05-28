@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 
 // Mock data — will be replaced with API call later
@@ -77,8 +78,36 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export function Reviews() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      slidesToScroll: 1,
+      containScroll: false,
+    },
+    [
+      Autoplay({
+        delay: 4000,
+        stopOnInteraction: true,
+        stopOnMouseEnter: true,
+      }),
+    ],
+  );
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on("select", onSelect);
+    onSelect();
+  }, [emblaApi, onSelect]);
 
   return (
     <SectionWrapper
@@ -87,61 +116,80 @@ export function Reviews() {
       bg="slate"
       id="reviews"
     >
+      {/* Carousel with fade-edge mask */}
       <div
-        ref={ref}
-        className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        className="relative"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
+        }}
       >
-        {MOCK_REVIEWS.map((review, i) => (
-          <motion.div
-            key={review.id}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 0.5,
-              delay: i * 0.08,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            style={{ willChange: "transform, opacity" }}
-            className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
-          >
-            {/* Header: avatar + name + rating */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-50 dark:bg-sky-900/30">
-                  <Image
-                    src="/images/icon/Contact%231.svg"
-                    alt=""
-                    width={20}
-                    height={20}
-                    className="h-5 w-5 [filter:invert(40%)_sepia(80%)_saturate(1500%)_hue-rotate(175deg)_brightness(95%)]"
-                  />
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-800 dark:text-white">
-                    {review.author_name}
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex gap-5">
+            {MOCK_REVIEWS.map((review) => (
+              <div
+                key={review.id}
+                className="min-w-0 flex-[0_0_85%] sm:flex-[0_0_45%] lg:flex-[0_0_32%]"
+              >
+                <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+                  {/* Header: avatar + name + rating */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-50 dark:bg-sky-900/30">
+                        <Image
+                          src="/images/icon/Contact%231.svg"
+                          alt=""
+                          width={20}
+                          height={20}
+                          className="h-5 w-5 [filter:invert(40%)_sepia(80%)_saturate(1500%)_hue-rotate(175deg)_brightness(95%)]"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-800 dark:text-white">
+                          {review.author_name}
+                        </p>
+                        <StarRating rating={review.rating} />
+                      </div>
+                    </div>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-medium text-slate-500 dark:bg-slate-700 dark:text-slate-400">
+                      {review.source}
+                    </span>
+                  </div>
+
+                  {/* Text */}
+                  <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                    {review.text}
                   </p>
-                  <StarRating rating={review.rating} />
+
+                  {/* Date */}
+                  <p className="mt-4 text-xs text-slate-400 dark:text-slate-500">
+                    {new Date(review.created_at).toLocaleDateString("ru-RU", {
+                      year: "numeric",
+                      month: "long",
+                    })}
+                  </p>
                 </div>
               </div>
-              {/* Source badge */}
-              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-medium text-slate-500 dark:bg-slate-700 dark:text-slate-400">
-                {review.source}
-              </span>
-            </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
-            {/* Text */}
-            <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-              {review.text}
-            </p>
-
-            {/* Date */}
-            <p className="mt-4 text-xs text-slate-400 dark:text-slate-500">
-              {new Date(review.created_at).toLocaleDateString("ru-RU", {
-                year: "numeric",
-                month: "long",
-              })}
-            </p>
-          </motion.div>
+      {/* Dots indicator */}
+      <div className="mt-6 flex justify-center gap-2">
+        {scrollSnaps.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => emblaApi?.scrollTo(i)}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              i === selectedIndex
+                ? "w-6 bg-sky-500"
+                : "w-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600"
+            }`}
+            aria-label={`Перейти к отзыву ${i + 1}`}
+          />
         ))}
       </div>
 
