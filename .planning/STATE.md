@@ -29,7 +29,27 @@
 - [x] LatestPosts — последние новости (4 mock карточки)
 - [x] FinalCTA — форма заявки (LeadForm в тёмной секции)
 
-## Phase 4 Wave 2 Status: COMPLETE ✓
+## Phase 4 Wave 3 Progress (Внутренние страницы + SEO)
+
+- [x] Шаблон ServicePage (переиспользуемый)
+- [x] /bankrotstvo-fizicheskih-lic
+- [x] /spisanie-dolgov
+- [x] /bankrotstvo-pod-klyuch
+- [x] /bankrotstvo-cherez-mfc
+- [x] /blog (список статей с обложками)
+- [x] /blog/[slug] (placeholder для API)
+- [x] /cases (список кейсов)
+- [x] /cases/[slug] (placeholder для API)
+- [x] /reviews (отдельная страница)
+- [x] /faq (отдельная страница)
+- [x] /contacts (адрес, телефон, форма)
+- [x] /privacy-policy
+- [x] /personal-data-consent
+- [x] /not-found (404)
+- [x] /sitemap.xml
+- [x] /robots.txt
+
+## Phase 4 Wave 3 Status: COMPLETE ✓
 
 ## Key Decisions
 
@@ -59,7 +79,7 @@
 ## Session Continuity
 
 - **Mode:** YOLO
-- **Next step:** Phase 4 Wave 3 — внутренние страницы + SEO
+- **Next step:** Подключение реальных данных из API, тестирование, деплой
 
 ---
 
