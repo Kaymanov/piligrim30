@@ -8,7 +8,7 @@ import { MODAL_EVENTS } from "@/lib/modal-events";
 interface Message {
   role: "user" | "assistant";
   content: string;
-  isLoading?: boolean;
+  showCta?: boolean;
 }
 
 const WELCOME_MESSAGE: Message = {
@@ -23,6 +23,7 @@ export function ChatWidget() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const userMessageCount = useRef(0);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -54,15 +55,21 @@ export function ChatWidget() {
     setMessages((prev) => [...prev, { role: "user", content: text }]);
     setInput("");
     setIsTyping(true);
+    userMessageCount.current += 1;
 
     try {
       const response: ChatResponse = await sendChatMessage(
         text,
         getQuizContext(),
       );
+
+      // Check if CTA should be shown (after 3 user messages)
+      const showCta =
+        userMessageCount.current >= 3 && userMessageCount.current % 3 === 0;
+
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: response.reply },
+        { role: "assistant", content: response.reply, showCta },
       ]);
     } catch {
       setMessages((prev) => [
@@ -85,6 +92,7 @@ export function ChatWidget() {
       /* ignore */
     }
     setMessages([WELCOME_MESSAGE]);
+    userMessageCount.current = 0;
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -96,7 +104,7 @@ export function ChatWidget() {
 
   return (
     <>
-      {/* Floating button — plain <button>, no transform wrapper to keep position:fixed working */}
+      {/* Floating button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
@@ -267,7 +275,7 @@ function ChatBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
 
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+    <div className={`flex flex-col ${isUser ? "items-end" : "items-start"}`}>
       <div
         className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
           isUser
@@ -277,6 +285,19 @@ function ChatBubble({ message }: { message: Message }) {
       >
         {message.content}
       </div>
+      {/* CTA after 3 messages */}
+      {message.showCta && (
+        <div className="mt-2 max-w-[85%] rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-xs text-sky-800 dark:border-sky-800 dark:bg-sky-900/20 dark:text-sky-300">
+          💡 Для детального разбора запишитесь на{" "}
+          <a href="/contacts" className="font-medium underline">
+            бесплатную консультацию
+          </a>{" "}
+          или позвоните:{" "}
+          <a href="tel:+79965057050" className="font-medium">
+            +7 (996) 505-70-50
+          </a>
+        </div>
+      )}
     </div>
   );
 }

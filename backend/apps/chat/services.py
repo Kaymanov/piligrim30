@@ -53,7 +53,8 @@ class AIChatService:
         return bool(self.api_key) and self.api_key != 'your-polza-api-key'
 
     def generate_response(
-        self, message: str, history: list, quiz_context: dict = None
+        self, message: str, history: list, quiz_context: dict = None,
+        rag_context: str = ""
     ) -> str:
         """
         Генерирует ответ через Polza.ai API.
@@ -62,6 +63,7 @@ class AIChatService:
             message: Сообщение пользователя
             history: История чата [{'role': 'user'|'assistant', 'content': str}]
             quiz_context: Контекст из квиза (опционально)
+            rag_context: Релевантный контекст из базы знаний (RAG)
 
         Returns:
             Текст ответа
@@ -79,7 +81,7 @@ class AIChatService:
                 timeout=API_TIMEOUT_SECONDS,
             )
 
-            # Build system instruction with optional quiz context
+            # Build system instruction with optional quiz context + RAG
             system_content = SYSTEM_PROMPT
             if quiz_context:
                 context_str = QUIZ_CONTEXT_TEMPLATE.format(
@@ -91,21 +93,18 @@ class AIChatService:
                     income_type=quiz_context.get('income_type', 'не указан'),
                 )
                 system_content += context_str
+            if rag_context:
+                system_content += rag_context
 
             # Build messages array
             messages = [{"role": "system", "content": system_content}]
-
-            # Add history
             for msg in history:
                 messages.append({
                     "role": msg['role'] if msg['role'] == 'user' else 'assistant',
                     "content": msg['content'],
                 })
-
-            # Add current message
             messages.append({"role": "user", "content": message})
 
-            # Call API
             response = client.chat.completions.create(
                 model=self.model,
                 messages=messages,
@@ -123,6 +122,61 @@ class AIChatService:
         except Exception as e:
             logger.error(f"Polza.ai API error: {e}")
             raise AIServiceUnavailableError(f"API error: {e}")
+
+    def generate_response_stream(
+        self, message: str, history: list, quiz_context: dict = None,
+        rag_context: str = ""
+    ):
+        """
+        Stream response from Polza.ai API (generator yielding text chunks).
+        """
+        if not self.is_available():
+            raise AIServiceUnavailableError("API key not configured")
+
+        try:
+            client = OpenAI(
+                base_url=self.base_url,
+                api_key=self.api_key,
+                timeout=API_TIMEOUT_SECONDS,
+            )
+
+            system_content = SYSTEM_PROMPT
+            if quiz_context:
+                context_str = QUIZ_CONTEXT_TEMPLATE.format(
+                    debt_amount=quiz_context.get('debt_amount', 'не указана'),
+                    has_overdue=quiz_context.get('has_overdue', 'не указано'),
+                    has_enforcement=quiz_context.get('has_enforcement', 'не указано'),
+                    has_property=quiz_context.get('has_property', 'не указано'),
+                    has_mortgage=quiz_context.get('has_mortgage', 'не указано'),
+                    income_type=quiz_context.get('income_type', 'не указан'),
+                )
+                system_content += context_str
+            if rag_context:
+                system_content += rag_context
+
+            messages = [{"role": "system", "content": system_content}]
+            for msg in history:
+                messages.append({
+                    "role": msg['role'] if msg['role'] == 'user' else 'assistant',
+                    "content": msg['content'],
+                })
+            messages.append({"role": "user", "content": message})
+
+            stream = client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                temperature=0.7,
+                max_tokens=1024,
+                stream=True,
+            )
+
+            for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
+
+        except Exception as e:
+            logger.error(f"Polza.ai streaming error: {e}")
+            raise AIServiceUnavailableError(f"Streaming error: {e}")
 
 
 def is_on_topic(message: str) -> bool:
