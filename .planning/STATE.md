@@ -35,7 +35,8 @@
 - [x] ИИ-Юрист improvements: RAG, logging (ChatLog), CTA after 3 msgs, SSE streaming
 - [x] Icons consolidated to /images/icon/
 - [x] Dark theme by default
-- [x] Блог→Новости, FAQ→ЧАВО rename
+- [x] Якорные ссылки: Контакты→#contact, ЧАВО→#faq, Отзывы→#reviews
+- [x] Страница /services с данными piligrim30.ru (доп. услуги + перечень)
 
 ## Key Decisions
 
