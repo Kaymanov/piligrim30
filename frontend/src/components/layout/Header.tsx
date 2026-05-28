@@ -13,10 +13,10 @@ const NAV_ITEMS = [
   { label: "Банкротство", href: "/bankrotstvo-fizicheskih-lic" },
   { label: "Услуги", href: "/services" },
   { label: "Кейсы", href: "/cases" },
-  { label: "Отзывы", href: "/reviews" },
+  { label: "Отзывы", href: "/#reviews" },
   { label: "Новости", href: "/blog" },
-  { label: "ЧАВО", href: "/faq" },
-  { label: "Контакты", href: "/contacts" },
+  { label: "ЧАВО", href: "/#faq" },
+  { label: "Контакты", href: "/#contact" },
 ];
 
 export function Header() {

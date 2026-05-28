@@ -18,9 +18,9 @@ const SERVICE_LINKS = [
 const INFO_LINKS = [
   { label: "Новости", href: "/blog" },
   { label: "Кейсы", href: "/cases" },
-  { label: "Отзывы", href: "/reviews" },
-  { label: "ЧАВО", href: "/faq" },
-  { label: "Контакты", href: "/contacts" },
+  { label: "Отзывы", href: "/#reviews" },
+  { label: "ЧАВО", href: "/#faq" },
+  { label: "Контакты", href: "/#contact" },
 ];
 
 const LEGAL_LINKS = [
