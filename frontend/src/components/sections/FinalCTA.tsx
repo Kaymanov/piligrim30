@@ -185,18 +185,42 @@ export function FinalCTA() {
               </div>
             </div>
 
-            {/* Yandex Map */}
-            <div className="overflow-hidden rounded-2xl shadow-lg">
-              <iframe
-                src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A5864a5b5-aa09-493d-af0a-5dcba8945a83&amp;width=100%25&amp;height=300&amp;lang=ru_RU&amp;scroll=true"
-                width="100%"
-                height="300"
-                frameBorder="0"
-                className="w-full"
-                title="Карта — Правовой Пилигрим, ул. Савушкина 43"
-                loading="lazy"
-              />
-            </div>
+            {/* Yandex Map — iframe works on production domain, fallback link for localhost */}
+            <a
+              href="https://yandex.ru/maps/-/CDaZfV~r"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block overflow-hidden rounded-2xl shadow-lg"
+            >
+              <div className="flex h-[300px] items-center justify-center bg-slate-200 dark:bg-slate-700">
+                <div className="text-center">
+                  <svg
+                    className="mx-auto h-12 w-12 text-slate-400 transition-colors group-hover:text-sky-500 dark:text-slate-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  <p className="mt-3 text-sm font-medium text-slate-500 transition-colors group-hover:text-sky-600 dark:text-slate-400">
+                    Открыть на Яндекс Картах →
+                  </p>
+                  <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
+                    ул. Савушкина д. 43, офис 103
+                  </p>
+                </div>
+              </div>
+            </a>
           </div>
         </motion.div>
 
