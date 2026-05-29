@@ -125,13 +125,13 @@ export default function ServicesPage() {
                 className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-lg hover:shadow-sky-500/5 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-700"
               >
                 {/* Image */}
-                <div className="relative flex h-44 items-center justify-center bg-slate-50 p-4 dark:bg-slate-700/50">
+                <div className="relative h-44 w-full overflow-hidden">
                   <Image
                     src={service.image}
                     alt={service.title}
-                    width={160}
-                    height={160}
-                    className="h-32 w-32 object-contain transition-transform duration-300 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
 
