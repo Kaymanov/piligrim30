@@ -244,10 +244,17 @@ export function Header() {
               </div>
             </div>
 
-            {/* Mobile menu — no animation, instant open/close */}
-            {mobileMenuOpen && (
-              <nav className="xl:hidden">
-                <div className="flex flex-col gap-1 py-4">
+            {/* Mobile menu — smooth content animation */}
+            <AnimatePresence>
+              {mobileMenuOpen && (
+                <motion.nav
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden xl:hidden"
+                >
+                  <div className="flex flex-col gap-1 py-4">
                   {NAV_ITEMS.map((item) => (
                     <Link
                       key={item.href}
@@ -308,8 +315,9 @@ export function Header() {
                     </button>
                   </div>
                 </div>
-              </nav>
-            )}
+              </motion.nav>
+              )}
+            </AnimatePresence>
           </div>
         </header>
       </Container>
