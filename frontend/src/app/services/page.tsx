@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { openLeadModal } from "@/lib/modal-events";
@@ -10,49 +11,55 @@ const ADDITIONAL_SERVICES = [
     title: "Жилищные споры",
     description:
       "Защита прав в жилищных правоотношениях, споры с управляющими компаниями, выселение, вселение.",
-    icon: "🏠",
+    image:
+      "/images/service-img/%D0%B6%D0%B8%D0%BB%D0%B8%D1%89%D0%BD%D1%8B%D0%B5%20%D1%81%D0%BF%D0%BE%D1%80%D1%8B.png",
   },
   {
     title: "Наследственные споры",
     description:
       "Оспаривание завещаний, восстановление сроков, раздел наследственного имущества.",
-    icon: "📜",
+    image:
+      "/images/service-img/%D0%BD%D0%B0%D1%81%D0%BB%D0%B5%D0%B4%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5%20%D1%81%D0%BF%D0%BE%D1%80%D1%8B.png",
   },
   {
     title: "Защита прав потребителей",
     description:
       "Возврат товаров, компенсация за некачественные услуги, претензии и суды.",
-    icon: "🛡️",
+    image:
+      "/images/service-img/%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B8%D1%82%D0%B5%D0%BB%D0%B8.png",
   },
   {
     title: "Семейные споры",
     description:
       "Расторжение брака, раздел имущества, алименты, определение места жительства детей.",
-    icon: "👨‍👩‍👧",
+    image:
+      "/images/service-img/%D1%81%D0%B5%D0%BC%D0%B5%D0%B9%D0%BD%D1%8B%D0%B5%20%D1%81%D0%BF%D0%BE%D1%80%D1%8B.png",
   },
   {
     title: "Трудовые споры",
     description:
       "Незаконное увольнение, невыплата зарплаты, восстановление на работе.",
-    icon: "💼",
+    image:
+      "/images/service-img/%D1%82%D1%80%D1%83%D0%B4%D0%BE%D0%B2%D1%8B%D0%B5%20%D1%81%D0%BF%D0%BE%D1%80%D1%8B.png",
   },
   {
     title: "Защита интересов участников СВО",
     description:
       "Юридическая помощь участникам СВО и членам их семей по любым правовым вопросам.",
-    icon: "⭐",
+    image: "/images/service-img/%D1%81%D0%B2%D0%BE.png",
   },
   {
     title: "Споры в ЖКХ",
     description:
       "Перерасчёт коммунальных платежей, споры с ресурсоснабжающими организациями.",
-    icon: "🔧",
+    image:
+      "/images/service-img/%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D1%8F%D1%8E%D1%89%D1%8F%D1%8F%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F.png",
   },
   {
     title: "Прочие юридические вопросы",
     description:
       "Любые правовые ситуации — проконсультируем и поможем найти решение.",
-    icon: "⚖️",
+    image: "/images/service-img/%D0%BF%D1%80%D0%BE%D1%87%D0%B5%D0%B5.png",
   },
 ];
 
@@ -115,15 +122,28 @@ export default function ServicesPage() {
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 style={{ willChange: "transform, opacity" }}
-                className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-lg hover:shadow-sky-500/5 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-700"
+                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-lg hover:shadow-sky-500/5 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-700"
               >
-                <span className="text-3xl">{service.icon}</span>
-                <h3 className="mt-4 text-base font-bold text-slate-900 dark:text-white">
-                  {service.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                  {service.description}
-                </p>
+                {/* Image */}
+                <div className="relative flex h-44 items-center justify-center bg-slate-50 p-4 dark:bg-slate-700/50">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={160}
+                    height={160}
+                    className="h-32 w-32 object-contain transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+
+                {/* Text */}
+                <div className="p-5">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                    {service.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                    {service.description}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -182,7 +202,6 @@ export default function ServicesPage() {
       <section className="py-16 md:py-20">
         <Container>
           <div className="mx-auto max-w-2xl">
-            {/* Notice */}
             <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 dark:border-amber-900/50 dark:bg-amber-900/10">
               <h3 className="font-bold text-amber-900 dark:text-amber-400">
                 Обратите внимание
@@ -194,7 +213,6 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            {/* CTA */}
             <div className="mt-8 text-center">
               <button
                 onClick={openLeadModal}
