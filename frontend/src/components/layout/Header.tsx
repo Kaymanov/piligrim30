@@ -60,15 +60,14 @@ export function Header() {
       <Container>
         <header
           className={clsx(
-            // Base styles
-            "transition-all duration-500 ease-out",
+            // Base styles — transition only bg/shadow/blur, NOT border-radius
+            "transition-[background-color,box-shadow,backdrop-filter] duration-500 ease-out",
+            // Border radius — instant, no transition
+            scrolled && !mobileMenuOpen && "rounded-full",
+            scrolled && mobileMenuOpen && "rounded-2xl",
             // Glassmorphism — stronger when scrolled
             scrolled
-              ? clsx(
-                  "bg-white/60 shadow-lg shadow-slate-900/5 backdrop-blur-2xl backdrop-saturate-150 dark:bg-slate-900/60 dark:shadow-slate-900/30",
-                  // Pill when collapsed, rectangle when burger menu is open
-                  mobileMenuOpen ? "rounded-2xl" : "rounded-full",
-                )
+              ? "bg-white/60 shadow-lg shadow-slate-900/5 backdrop-blur-2xl backdrop-saturate-150 dark:bg-slate-900/60 dark:shadow-slate-900/30"
               : "bg-white/70 backdrop-blur-md dark:bg-slate-900/70",
           )}
         >
