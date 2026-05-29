@@ -151,7 +151,7 @@ export default function BlogPage() {
         </p>
 
         {/* Filters bar */}
-        <div className="sticky top-16 z-30 mt-8 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-800/90 lg:top-20">
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-800/90 lg:top-20">
           {/* Search */}
           <div className="relative">
             <svg
