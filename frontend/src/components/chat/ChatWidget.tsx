@@ -1,31 +1,66 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 import { streamChatMessage, resetChat } from "@/lib/api";
-import { MODAL_EVENTS } from "@/lib/modal-events";
+import { MODAL_EVENTS, openCallback, openLeadModal } from "@/lib/modal-events";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
   showCta?: boolean;
+  isStreaming?: boolean;
 }
 
-const WELCOME_MESSAGE: Message = {
-  role: "assistant",
-  content:
-    "Здравствуйте! Я ИИ-Юрист юридического кабинета «Правовой Пилигрим». Задайте вопрос о банкротстве, долгах или списании кредитов — постараюсь помочь.",
-};
+const SUGGESTED_QUESTIONS = [
+  "Можно ли списать микрозаймы?",
+  "Что будет с квартирой?",
+  "Сколько стоит банкротство?",
+  "Какие документы нужны?",
+];
+
+function getQuizContext(): Record<string, string> | undefined {
+  try {
+    const ctx = sessionStorage.getItem("quiz_context");
+    return ctx ? JSON.parse(ctx) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function getPersonalizedWelcome(): Message {
+  const quiz = getQuizContext();
+  if (quiz) {
+    return {
+      role: "assistant",
+      content: `Здравствуйте! Вижу, что вы прошли квиз — сумма долга: ${quiz.debt_amount || "не указана"}, просрочки: ${quiz.has_overdue || "не указано"}. Могу подробнее разобрать вашу ситуацию. Задайте вопрос!`,
+    };
+  }
+  return {
+    role: "assistant",
+    content:
+      "Здравствуйте! Я ИИ-Юрист проекта «Правовой Пилигрим». Задайте вопрос о банкротстве, долгах или списании кредитов — постараюсь помочь.",
+  };
+}
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const userMessageCount = useRef(0);
 
-  // Auto-scroll to bottom
+  // Initialize welcome message on first open
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      setMessages([getPersonalizedWelcome()]);
+    }
+  }, [isOpen, messages.length]);
+
+  // Auto-scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -37,80 +72,84 @@ export function ChatWidget() {
     return () => window.removeEventListener(MODAL_EVENTS.OPEN_CHAT, handler);
   }, []);
 
-  // Get quiz context from sessionStorage
-  const getQuizContext = (): Record<string, string> | undefined => {
-    try {
-      const ctx = sessionStorage.getItem("quiz_context");
-      return ctx ? JSON.parse(ctx) : undefined;
-    } catch {
-      return undefined;
-    }
-  };
+  const handleSend = useCallback(
+    async (text?: string) => {
+      const msg = (text || input).trim();
+      if (!msg || isTyping) return;
 
-  const handleSend = async () => {
-    const text = input.trim();
-    if (!text || isTyping) return;
+      setMessages((prev) => [...prev, { role: "user", content: msg }]);
+      setInput("");
+      setIsTyping(true);
+      setShowSuggestions(false);
+      userMessageCount.current += 1;
 
-    // Add user message
-    setMessages((prev) => [...prev, { role: "user", content: text }]);
-    setInput("");
-    setIsTyping(true);
-    userMessageCount.current += 1;
+      const showCta =
+        userMessageCount.current >= 3 && userMessageCount.current % 3 === 0;
 
-    // Track if CTA should be shown after this response
-    const showCta =
-      userMessageCount.current >= 3 && userMessageCount.current % 3 === 0;
+      // Add empty streaming message
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "", showCta, isStreaming: true },
+      ]);
 
-    // Add empty assistant message that will be filled by stream
-    setMessages((prev) => [
-      ...prev,
-      { role: "assistant", content: "", showCta },
-    ]);
+      let accumulated = "";
 
-    let accumulated = "";
-
-    streamChatMessage(
-      text,
-      getQuizContext(),
-      (chunk) => {
-        accumulated += chunk;
-        setIsTyping(false);
-        setMessages((prev) => {
-          const next = [...prev];
-          next[next.length - 1] = {
-            role: "assistant",
-            content: accumulated,
-            showCta,
-          };
-          return next;
-        });
-      },
-      () => {
-        setIsTyping(false);
-      },
-      () => {
-        setIsTyping(false);
-        setMessages((prev) => {
-          const next = [...prev];
-          next[next.length - 1] = {
-            role: "assistant",
-            content:
-              "Извините, произошла ошибка. Попробуйте позже или оставьте заявку на сайте.",
-          };
-          return next;
-        });
-      },
-    );
-  };
+      streamChatMessage(
+        msg,
+        getQuizContext(),
+        (chunk) => {
+          accumulated += chunk;
+          setIsTyping(false);
+          setMessages((prev) => {
+            const next = [...prev];
+            next[next.length - 1] = {
+              role: "assistant",
+              content: accumulated,
+              showCta,
+              isStreaming: true,
+            };
+            return next;
+          });
+        },
+        () => {
+          setIsTyping(false);
+          // Mark streaming complete
+          setMessages((prev) => {
+            const next = [...prev];
+            next[next.length - 1] = {
+              ...next[next.length - 1],
+              isStreaming: false,
+            };
+            return next;
+          });
+        },
+        () => {
+          setIsTyping(false);
+          setMessages((prev) => {
+            const next = [...prev];
+            next[next.length - 1] = {
+              role: "assistant",
+              content:
+                "Извините, произошла ошибка. Попробуйте позже или оставьте заявку на сайте.",
+              isStreaming: false,
+            };
+            return next;
+          });
+        },
+      );
+    },
+    [input, isTyping],
+  );
 
   const handleReset = async () => {
     try {
       await resetChat();
     } catch {
-      /* ignore */
+      /* */
     }
-    setMessages([WELCOME_MESSAGE]);
+    setMessages([getPersonalizedWelcome()]);
     userMessageCount.current = 0;
+    setShowSuggestions(true);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -118,6 +157,18 @@ export function ChatWidget() {
       e.preventDefault();
       handleSend();
     }
+  };
+
+  const handleFeedback = (msgIndex: number, positive: boolean) => {
+    // TODO: send feedback to backend (ChatLog update)
+    setMessages((prev) => {
+      const next = [...prev];
+      next[msgIndex] = {
+        ...next[msgIndex],
+        content: next[msgIndex].content + (positive ? " ✓" : ""),
+      };
+      return next;
+    });
   };
 
   return (
@@ -225,7 +276,12 @@ export function ChatWidget() {
             <div className="flex-1 overflow-y-auto px-4 py-4">
               <div className="space-y-4">
                 {messages.map((msg, i) => (
-                  <ChatBubble key={i} message={msg} />
+                  <ChatBubble
+                    key={i}
+                    message={msg}
+                    index={i}
+                    onFeedback={handleFeedback}
+                  />
                 ))}
                 {isTyping && (
                   <div className="flex items-center gap-2 text-sm text-slate-400">
@@ -240,6 +296,24 @@ export function ChatWidget() {
                 <div ref={messagesEndRef} />
               </div>
             </div>
+
+            {/* Suggested questions */}
+            {showSuggestions && messages.length <= 1 && (
+              <div className="border-t border-slate-100 px-4 py-3 dark:border-slate-700">
+                <p className="mb-2 text-xs text-slate-400">Частые вопросы:</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {SUGGESTED_QUESTIONS.map((q) => (
+                    <button
+                      key={q}
+                      onClick={() => handleSend(q)}
+                      className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-sky-100 hover:text-sky-700 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-400"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Disclaimer */}
             <div className="border-t border-slate-100 bg-slate-50 px-4 py-2 dark:border-slate-700 dark:bg-slate-800/50">
@@ -261,7 +335,7 @@ export function ChatWidget() {
                   className="max-h-24 flex-1 resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none transition-all focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
                 />
                 <button
-                  onClick={handleSend}
+                  onClick={() => handleSend()}
                   disabled={!input.trim() || isTyping}
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-900 text-white transition-all hover:bg-blue-800 disabled:opacity-40 dark:bg-blue-600"
                   aria-label="Отправить"
@@ -289,8 +363,15 @@ export function ChatWidget() {
   );
 }
 
-function ChatBubble({ message }: { message: Message }) {
+interface ChatBubbleProps {
+  message: Message;
+  index: number;
+  onFeedback: (index: number, positive: boolean) => void;
+}
+
+function ChatBubble({ message, index, onFeedback }: ChatBubbleProps) {
   const isUser = message.role === "user";
+  const [feedbackGiven, setFeedbackGiven] = useState(false);
 
   return (
     <div className={`flex flex-col ${isUser ? "items-end" : "items-start"}`}>
@@ -301,19 +382,93 @@ function ChatBubble({ message }: { message: Message }) {
             : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200"
         }`}
       >
-        {message.content}
+        {isUser ? (
+          message.content
+        ) : (
+          <div className="prose prose-sm prose-slate max-w-none dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5">
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+          </div>
+        )}
+        {/* Typing cursor while streaming */}
+        {message.isStreaming && (
+          <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-sky-500" />
+        )}
       </div>
-      {/* CTA after 3 messages */}
-      {message.showCta && (
-        <div className="mt-2 max-w-[85%] rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-xs text-sky-800 dark:border-sky-800 dark:bg-sky-900/20 dark:text-sky-300">
-          💡 Для детального разбора запишитесь на{" "}
-          <a href="/contacts" className="font-medium underline">
-            бесплатную консультацию
-          </a>{" "}
-          или позвоните:{" "}
-          <a href="tel:+79965057050" className="font-medium">
-            +7 (996) 505-70-50
-          </a>
+
+      {/* Feedback buttons — only for completed assistant messages */}
+      {!isUser &&
+        !message.isStreaming &&
+        message.content &&
+        !feedbackGiven &&
+        index > 0 && (
+          <div className="mt-1 flex gap-1">
+            <button
+              onClick={() => {
+                onFeedback(index, true);
+                setFeedbackGiven(true);
+              }}
+              className="rounded px-1.5 py-0.5 text-xs text-slate-400 transition-colors hover:bg-green-50 hover:text-green-600 dark:hover:bg-green-900/20"
+              title="Полезно"
+            >
+              👍
+            </button>
+            <button
+              onClick={() => {
+                onFeedback(index, false);
+                setFeedbackGiven(true);
+              }}
+              className="rounded px-1.5 py-0.5 text-xs text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"
+              title="Не полезно"
+            >
+              👎
+            </button>
+          </div>
+        )}
+      {feedbackGiven && !isUser && (
+        <p className="mt-0.5 text-[10px] text-slate-300 dark:text-slate-600">
+          Спасибо за отзыв
+        </p>
+      )}
+
+      {/* CTA after 3 messages — call or form */}
+      {message.showCta && !message.isStreaming && (
+        <div className="mt-2 max-w-[85%] space-y-2 rounded-xl border border-sky-200 bg-sky-50 p-3 dark:border-sky-800 dark:bg-sky-900/20">
+          <p className="text-xs font-medium text-sky-800 dark:text-sky-300">
+            💡 Для детального разбора рекомендую связаться с юристом:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <a
+              href="tel:+79965057050"
+              className="inline-flex items-center gap-1.5 rounded-full bg-sky-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-sky-700"
+            >
+              <svg
+                className="h-3 w-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                />
+              </svg>
+              Позвонить
+            </a>
+            <button
+              onClick={() => openLeadModal()}
+              className="inline-flex items-center gap-1.5 rounded-full border border-sky-300 bg-white px-3 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-50 dark:border-sky-700 dark:bg-slate-800 dark:text-sky-400"
+            >
+              Оставить заявку
+            </button>
+            <button
+              onClick={() => openCallback()}
+              className="inline-flex items-center gap-1.5 rounded-full border border-sky-300 bg-white px-3 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-50 dark:border-sky-700 dark:bg-slate-800 dark:text-sky-400"
+            >
+              Обратный звонок
+            </button>
+          </div>
         </div>
       )}
     </div>
