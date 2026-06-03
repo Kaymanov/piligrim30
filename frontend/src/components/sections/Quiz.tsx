@@ -188,7 +188,7 @@ export function Quiz() {
           {/* Step indicator */}
           {state === "quiz" && (
             <div className="border-b border-slate-100 px-6 pt-6 pb-4 dark:border-slate-700">
-              <div className="flex items-center justify-between">
+              <div className="mx-auto flex max-w-md items-center justify-center">
                 {QUESTIONS.map((_, i) => (
                   <div key={i} className="flex flex-1 items-center">
                     {/* Step circle */}
@@ -309,7 +309,7 @@ export function Quiz() {
                         </p>
                       )}
                     </div>
-                    {(errors.server !== undefined) && (
+                    {errors.server !== undefined && (
                       <p className="text-sm text-red-500">
                         {errors.server || "Произошла ошибка"}
                       </p>
