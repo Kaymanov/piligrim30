@@ -184,216 +184,230 @@ export function Quiz() {
       id="quiz"
     >
       <div className="mx-auto max-w-2xl">
-        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
-          {/* Step indicator */}
-          {state === "quiz" && (
-            <div className="border-b border-slate-100 px-6 pt-6 pb-4 dark:border-slate-700">
-              <div className="mx-auto flex max-w-md items-center justify-center">
-                {QUESTIONS.map((_, i) => (
-                  <div key={i} className="flex flex-1 items-center">
-                    {/* Step circle */}
-                    <motion.div
-                      className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
-                        i < currentStep
-                          ? "bg-sky-500 text-white"
-                          : i === currentStep
-                            ? "bg-blue-900 text-white shadow-lg shadow-blue-900/30 dark:bg-blue-500"
-                            : "bg-slate-100 text-slate-400 dark:bg-slate-700 dark:text-slate-500"
-                      }`}
-                      animate={
-                        i === currentStep
-                          ? { scale: [1, 1.15, 1] }
-                          : { scale: 1 }
-                      }
-                      transition={{ duration: 0.3 }}
-                    >
-                      {i < currentStep ? (
-                        <svg
-                          className="h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={3}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      ) : (
-                        <span>{i + 1}</span>
-                      )}
-                    </motion.div>
-                    {/* Connector line */}
-                    {i < QUESTIONS.length - 1 && (
-                      <div className="mx-1 flex-1">
-                        <div className="h-0.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
-                          <motion.div
-                            className="h-full bg-sky-500"
-                            initial={{ width: "0%" }}
-                            animate={{ width: i < currentStep ? "100%" : "0%" }}
-                            transition={{ duration: 0.3 }}
-                          />
+        {/* Ambient glow behind quiz card */}
+        <div className="relative">
+          <div className="pointer-events-none absolute -inset-4 -z-10">
+            <div className="absolute left-1/4 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-sky-400/10 blur-3xl" />
+            <div className="absolute right-1/4 top-1/3 h-48 w-48 rounded-full bg-blue-400/10 blur-3xl" />
+            <div className="absolute bottom-0 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-violet-400/10 blur-3xl" />
+          </div>
+
+          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
+            {/* Step indicator */}
+            {state === "quiz" && (
+              <div className="border-b border-slate-100 px-6 pt-6 pb-4 dark:border-slate-700">
+                <div className="mx-auto flex max-w-md items-center justify-center">
+                  {QUESTIONS.map((_, i) => (
+                    <div key={i} className="flex flex-1 items-center">
+                      {/* Step circle */}
+                      <motion.div
+                        className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
+                          i < currentStep
+                            ? "bg-sky-500 text-white"
+                            : i === currentStep
+                              ? "bg-blue-900 text-white shadow-lg shadow-blue-900/30 dark:bg-blue-500"
+                              : "bg-slate-100 text-slate-400 dark:bg-slate-700 dark:text-slate-500"
+                        }`}
+                        animate={
+                          i === currentStep
+                            ? { scale: [1, 1.15, 1] }
+                            : { scale: 1 }
+                        }
+                        transition={{ duration: 0.3 }}
+                      >
+                        {i < currentStep ? (
+                          <svg
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={3}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        ) : (
+                          <span>{i + 1}</span>
+                        )}
+                      </motion.div>
+                      {/* Connector line */}
+                      {i < QUESTIONS.length - 1 && (
+                        <div className="mx-1 flex-1">
+                          <div className="h-0.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
+                            <motion.div
+                              className="h-full bg-sky-500"
+                              initial={{ width: "0%" }}
+                              animate={{
+                                width: i < currentStep ? "100%" : "0%",
+                              }}
+                              transition={{ duration: 0.3 }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Content */}
-          <div className="p-6 sm:p-8">
-            <AnimatePresence mode="wait">
-              {state === "quiz" && (
-                <QuizQuestion
-                  key={currentStep}
-                  question={QUESTIONS[currentStep]}
-                  stepNumber={currentStep + 1}
-                  selectedValue={answers[QUESTIONS[currentStep].id]}
-                  onAnswer={handleAnswer}
-                />
-              )}
+            {/* Content */}
+            <div className="p-6 sm:p-8">
+              <AnimatePresence mode="wait">
+                {state === "quiz" && (
+                  <QuizQuestion
+                    key={currentStep}
+                    question={QUESTIONS[currentStep]}
+                    stepNumber={currentStep + 1}
+                    selectedValue={answers[QUESTIONS[currentStep].id]}
+                    onAnswer={handleAnswer}
+                  />
+                )}
 
-              {state === "contact" && (
-                <motion.div
-                  key="contact"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <p className="mb-6 text-center text-lg font-medium text-slate-700 dark:text-slate-200">
-                    Оставьте телефон — юрист оценит вашу ситуацию
-                  </p>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Honeypot */}
-                    <input
-                      type="text"
-                      name="website"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      className="absolute -left-[9999px] opacity-0"
-                      onChange={(e) => {
-                        honeypotRef.current = e.target.value;
-                      }}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Имя"
-                      value={contactData.name}
-                      onChange={(e) =>
-                        setContactData({ ...contactData, name: e.target.value })
-                      }
-                      className="w-full rounded-xl border border-slate-200 bg-transparent px-4 py-3 outline-none transition-all focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-slate-600"
-                    />
-                    <div>
+                {state === "contact" && (
+                  <motion.div
+                    key="contact"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <p className="mb-6 text-center text-lg font-medium text-slate-700 dark:text-slate-200">
+                      Оставьте телефон — юрист оценит вашу ситуацию
+                    </p>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      {/* Honeypot */}
                       <input
-                        type="tel"
-                        placeholder="Телефон *"
-                        value={contactData.phone}
+                        type="text"
+                        name="website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        className="absolute -left-[9999px] opacity-0"
+                        onChange={(e) => {
+                          honeypotRef.current = e.target.value;
+                        }}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Имя"
+                        value={contactData.name}
                         onChange={(e) =>
                           setContactData({
                             ...contactData,
-                            phone: e.target.value,
+                            name: e.target.value,
                           })
                         }
                         className="w-full rounded-xl border border-slate-200 bg-transparent px-4 py-3 outline-none transition-all focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-slate-600"
-                        required
                       />
-                      {errors.phone && (
-                        <p className="mt-1 text-sm text-red-500">
-                          {errors.phone}
+                      <div>
+                        <input
+                          type="tel"
+                          placeholder="Телефон *"
+                          value={contactData.phone}
+                          onChange={(e) =>
+                            setContactData({
+                              ...contactData,
+                              phone: e.target.value,
+                            })
+                          }
+                          className="w-full rounded-xl border border-slate-200 bg-transparent px-4 py-3 outline-none transition-all focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-slate-600"
+                          required
+                        />
+                        {errors.phone && (
+                          <p className="mt-1 text-sm text-red-500">
+                            {errors.phone}
+                          </p>
+                        )}
+                      </div>
+                      {errors.server !== undefined && (
+                        <p className="text-sm text-red-500">
+                          {errors.server || "Произошла ошибка"}
                         </p>
                       )}
-                    </div>
-                    {errors.server !== undefined && (
-                      <p className="text-sm text-red-500">
-                        {errors.server || "Произошла ошибка"}
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        size="lg"
+                        className="w-full"
+                      >
+                        Получить оценку ситуации
+                      </Button>
+                      <p className="text-center text-xs text-slate-400">
+                        Нажимая кнопку, вы соглашаетесь на обработку
+                        персональных данных
                       </p>
-                    )}
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      size="lg"
-                      className="w-full"
-                    >
-                      Получить оценку ситуации
-                    </Button>
-                    <p className="text-center text-xs text-slate-400">
-                      Нажимая кнопку, вы соглашаетесь на обработку персональных
-                      данных
-                    </p>
-                  </form>
-                </motion.div>
-              )}
+                    </form>
+                  </motion.div>
+                )}
 
-              {state === "submitting" && (
-                <motion.div
-                  key="submitting"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex flex-col items-center py-10"
-                >
-                  <div className="h-10 w-10 animate-spin rounded-full border-4 border-sky-200 border-t-sky-500" />
-                  <p className="mt-4 text-slate-500">Отправляем...</p>
-                </motion.div>
-              )}
-
-              {state === "success" && (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4 }}
-                  className="flex flex-col items-center py-10 text-center"
-                >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-                    <svg
-                      className="h-8 w-8 text-green-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">
-                    Заявка отправлена!
-                  </h3>
-                  <p className="mt-2 text-slate-500 dark:text-slate-400">
-                    Юрист свяжется с вами в ближайшее время
-                  </p>
-                </motion.div>
-              )}
-
-              {state === "error" && !errors.server && (
-                <motion.div
-                  key="error"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex flex-col items-center py-10 text-center"
-                >
-                  <p className="text-red-500">
-                    Произошла ошибка. Попробуйте ещё раз.
-                  </p>
-                  <Button
-                    variant="secondary"
-                    className="mt-4"
-                    onClick={() => setState("contact")}
+                {state === "submitting" && (
+                  <motion.div
+                    key="submitting"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex flex-col items-center py-10"
                   >
-                    Попробовать снова
-                  </Button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    <div className="h-10 w-10 animate-spin rounded-full border-4 border-sky-200 border-t-sky-500" />
+                    <p className="mt-4 text-slate-500">Отправляем...</p>
+                  </motion.div>
+                )}
+
+                {state === "success" && (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col items-center py-10 text-center"
+                  >
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                      <svg
+                        className="h-8 w-8 text-green-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">
+                      Заявка отправлена!
+                    </h3>
+                    <p className="mt-2 text-slate-500 dark:text-slate-400">
+                      Юрист свяжется с вами в ближайшее время
+                    </p>
+                  </motion.div>
+                )}
+
+                {state === "error" && !errors.server && (
+                  <motion.div
+                    key="error"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex flex-col items-center py-10 text-center"
+                  >
+                    <p className="text-red-500">
+                      Произошла ошибка. Попробуйте ещё раз.
+                    </p>
+                    <Button
+                      variant="secondary"
+                      className="mt-4"
+                      onClick={() => setState("contact")}
+                    >
+                      Попробовать снова
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
