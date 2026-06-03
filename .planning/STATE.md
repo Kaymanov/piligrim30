@@ -70,7 +70,8 @@
 - Frontend Docker: npm install вместо npm ci (platform mismatch)
 - Квиз отправка: нужно проверить на production (CORS + trailing slash)
 
-- [x] Quiz: redesign B+C+E (card tiles + step indicator + decorative number)
+- [x] Quiz: redesign B+C+E (card tiles + step indicator + decorative number + ambient glow)
+- [x] Chat: modernized (suggested questions, typing effect, markdown, feedback, quiz personalization, CTA with call/form/callback)
 - [x] Blog: search, category filters, type toggle, sort (non-sticky)
 - [x] Header: burger animation restored (smooth height/opacity, no border-radius morph)
 - [x] Services: real images from service-img/ (object-cover)
