@@ -55,3 +55,9 @@ backend/media/
 
 # DB
 backend/db.sqlite3
+
+# GSD
+.kilo/
+.planning/
+DESIGN_SPEC.md
+UPDATE_SPEC.md
