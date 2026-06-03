@@ -14,13 +14,20 @@ const inter = Inter({
   display: "swap",
 });
 
+const isProduction =
+  process.env.NEXT_PUBLIC_SITE_URL === "https://piligrim30.ru";
+
 export const metadata: Metadata = {
   title: {
     default: "Правовой Пилигрим | Банкротство в Астрахани",
     template: "%s | Правовой Пилигрим",
   },
   description: "Правовой Пилигрим | Банкротство в Астрахани",
-  metadataBase: new URL("https://piligrim30.ru"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://piligrim30.ru",
+  ),
+  // Block indexing on test/staging domains
+  ...(!isProduction && { robots: { index: false, follow: false } }),
   openGraph: {
     type: "website",
     locale: "ru_RU",
