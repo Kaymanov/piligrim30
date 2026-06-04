@@ -188,7 +188,7 @@ export function FinalCTA() {
             {/* Yandex Map */}
             <div className="overflow-hidden rounded-2xl shadow-lg">
               <iframe
-                src="https://yandex.ru/map-widget/v1/?um=constructor%3A5864a5b5-aa09-493d-af0a-5dcba8945a83&amp;source=constructor"
+                src="https://yandex.ru/map-widget/v1/?um=constructor%3A68c20cd9aa764315d0c340839e671ba34c919d34098b722c52b3ed605999242e&amp;source=constructor"
                 width="100%"
                 height="300"
                 frameBorder="0"
