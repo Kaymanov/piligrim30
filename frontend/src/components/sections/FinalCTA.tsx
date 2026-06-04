@@ -50,7 +50,7 @@ export function FinalCTA() {
             <h3 className="mb-5 text-lg font-bold text-slate-900 dark:text-white">
               Записаться на консультацию
             </h3>
-            <LeadForm sourcePage="homepage-final-cta" />
+            <LeadForm />
           </div>
 
           {/* Right: Contacts + Map */}
