@@ -189,14 +189,16 @@ export function LeadForm({ sourcePage, className }: LeadFormProps) {
             }
             className="mt-1 h-4 w-4 rounded border-slate-300 text-blue-900 focus:ring-sky-500"
           />
-          <span className="text-sm text-slate-500 dark:text-slate-400">
-            Я согласен на{" "}
-            <a
-              href="/personal-data-consent"
-              className="text-sky-600 hover:underline"
-            >
-              обработку персональных данных
+          <span className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+            Отправляя формы на данном сайте, вы даете{" "}
+            <a href="/personal-data-consent" className="text-sky-600 hover:underline">
+              согласие на обработку персональных данных
+            </a>{" "}
+            в соответствии с ФЗ от 27.07.2006 № 152-ФЗ. Отправляя свои данные, Вы соглашаетесь с{" "}
+            <a href="/privacy-policy" className="text-sky-600 hover:underline">
+              политикой конфиденциальности
             </a>
+            . Также представляете право на осуществление оператору исходящих звонков на указанный Вами номер телефона.
           </span>
         </label>
         {errors.consent && (

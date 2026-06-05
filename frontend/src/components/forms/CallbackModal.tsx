@@ -257,9 +257,12 @@ export function CallbackModal() {
                     Заказать звонок
                   </Button>
 
-                  <p className="text-center text-xs text-slate-400">
-                    Нажимая кнопку, вы соглашаетесь на обработку персональных
-                    данных
+                  <p className="text-center text-xs leading-relaxed text-slate-400">
+                    Отправляя формы на данном сайте, вы даете{" "}
+                    <a href="/personal-data-consent" className="text-sky-600 hover:underline">согласие на обработку персональных данных</a>{" "}
+                    в соответствии с ФЗ от 27.07.2006 № 152-ФЗ. Отправляя свои данные, Вы соглашаетесь с{" "}
+                    <a href="/privacy-policy" className="text-sky-600 hover:underline">политикой конфиденциальности</a>.
+                    Также представляете право на осуществление оператору исходящих звонков на указанный Вами номер телефона.
                   </p>
                 </form>
               )}
