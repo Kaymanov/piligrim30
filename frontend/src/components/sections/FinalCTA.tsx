@@ -43,7 +43,7 @@ export function FinalCTA() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2"
+          className="mx-auto mt-12 grid max-w-5xl grid-cols-1 items-center gap-8 lg:grid-cols-2"
         >
           {/* Left: Form */}
           <div className="rounded-3xl bg-white p-6 shadow-xl sm:p-8 dark:bg-slate-800">
@@ -58,7 +58,7 @@ export function FinalCTA() {
             {/* Contact cards */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {/* Address */}
-              <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800">
+              <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800 flex items-center">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
                     <svg
@@ -92,7 +92,7 @@ export function FinalCTA() {
               </div>
 
               {/* Phone */}
-              <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800">
+              <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800 flex items-center">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
                     <svg
@@ -124,7 +124,7 @@ export function FinalCTA() {
               </div>
 
               {/* Email */}
-              <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800">
+              <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800 flex items-center">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
                     <svg
@@ -156,7 +156,7 @@ export function FinalCTA() {
               </div>
 
               {/* Working hours */}
-              <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800">
+              <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800 flex items-center">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
                     <svg
