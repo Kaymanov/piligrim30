@@ -376,21 +376,23 @@ function ChatBubble({ message, index, onFeedback }: ChatBubbleProps) {
 
   return (
     <div className={`flex flex-col ${isUser ? "items-end" : "items-start"}`}>
-      <div
-        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-          isUser
-            ? "bg-blue-900 text-white dark:bg-blue-600"
-            : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200"
-        }`}
-      >
-        {isUser ? (
-          message.content
-        ) : (
-          <div className="prose prose-sm prose-slate max-w-none dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5">
-            <ReactMarkdown>{message.content}</ReactMarkdown>
-          </div>
-        )}
-      </div>
+      {!isUser && !message.content ? null : (
+        <div
+          className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+            isUser
+              ? "bg-blue-900 text-white dark:bg-blue-600"
+              : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200"
+          }`}
+        >
+          {isUser ? (
+            message.content
+          ) : (
+            <div className="prose prose-sm prose-slate max-w-none dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5">
+              <ReactMarkdown>{message.content}</ReactMarkdown>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Feedback buttons — only for completed assistant messages */}
       {!isUser &&
