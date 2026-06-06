@@ -1,6 +1,6 @@
 """
 Rule-based fallback ответы для ИИ-Юриста.
-Используются при недоступности Gemini API.
+Используются при недоступности POLZA API.
 """
 
 FALLBACK_RESPONSES = {

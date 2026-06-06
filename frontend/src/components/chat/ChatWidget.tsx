@@ -40,7 +40,7 @@ function getPersonalizedWelcome(): Message {
   return {
     role: "assistant",
     content:
-      "Здравствуйте! Я ИИ-Юрист проекта «Правовой Пилигрим». Задайте вопрос о банкротстве, долгах или списании кредитов — постараюсь помочь.",
+      "Здравствуйте! Я ИИ-Юрист юридического кабинета «Правовой Пилигрим». Задайте вопрос о банкротстве, долгах или списании кредитов — постараюсь помочь.",
   };
 }
 
@@ -54,11 +54,12 @@ export function ChatWidget() {
   const userMessageCount = useRef(0);
 
   // Initialize welcome message on first open
-  useEffect(() => {
-    if (isOpen && messages.length === 0) {
+  const handleOpen = useCallback(() => {
+    setIsOpen(true);
+    if (messages.length === 0) {
       setMessages([getPersonalizedWelcome()]);
     }
-  }, [isOpen, messages.length]);
+  }, [messages.length]);
 
   // Auto-scroll
   useEffect(() => {
@@ -67,10 +68,10 @@ export function ChatWidget() {
 
   // Listen for global open-chat events
   useEffect(() => {
-    const handler = () => setIsOpen(true);
+    const handler = () => handleOpen();
     window.addEventListener(MODAL_EVENTS.OPEN_CHAT, handler);
     return () => window.removeEventListener(MODAL_EVENTS.OPEN_CHAT, handler);
-  }, []);
+  }, [handleOpen]);
 
   const handleSend = useCallback(
     async (text?: string) => {
@@ -176,7 +177,7 @@ export function ChatWidget() {
       {/* Floating button */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={handleOpen}
           className="ai-glow-button fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-900 text-white shadow-xl transition-transform hover:scale-105 md:hidden dark:bg-blue-600"
           aria-label="Открыть ИИ-Юрист"
         >
@@ -389,7 +390,6 @@ function ChatBubble({ message, index, onFeedback }: ChatBubbleProps) {
             <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         )}
-
       </div>
 
       {/* Feedback buttons — only for completed assistant messages */}
