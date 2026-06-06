@@ -15,9 +15,9 @@ interface Message {
 
 const SUGGESTED_QUESTIONS = [
   "Можно ли списать микрозаймы?",
-  "Что будет с квартирой?",
+  "Что будет с квартирой при банкротстве?",
   "Сколько стоит банкротство?",
-  "Какие документы нужны?",
+  "Какие последствия после банкротства?",
 ];
 
 function getQuizContext(): Record<string, string> | undefined {
@@ -389,10 +389,7 @@ function ChatBubble({ message, index, onFeedback }: ChatBubbleProps) {
             <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         )}
-        {/* Typing cursor while streaming */}
-        {message.isStreaming && (
-          <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-sky-500" />
-        )}
+
       </div>
 
       {/* Feedback buttons — only for completed assistant messages */}
