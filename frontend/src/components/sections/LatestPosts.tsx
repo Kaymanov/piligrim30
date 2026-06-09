@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { LazyImage } from "@/components/ui/LazyImage";
 import { motion, useInView } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 
@@ -92,7 +92,7 @@ export function LatestPosts() {
             >
               {/* Cover image */}
               <div className="relative h-44 w-full overflow-hidden">
-                <Image
+                <LazyImage
                   src={post.cover}
                   alt={post.title}
                   fill

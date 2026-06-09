@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import { LazyImage } from "@/components/ui/LazyImage";
 import { motion, useInView } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { openLeadModal } from "@/lib/modal-events";
@@ -126,7 +126,7 @@ export default function ServicesPage() {
               >
                 {/* Image */}
                 <div className="relative h-44 w-full overflow-hidden">
-                  <Image
+                  <LazyImage
                     src={service.image}
                     alt={service.title}
                     fill

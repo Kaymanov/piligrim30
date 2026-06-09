@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { LazyImage } from "@/components/ui/LazyImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 
@@ -260,7 +260,7 @@ export default function BlogPage() {
                       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
                     >
                       <div className="relative h-48 w-full overflow-hidden">
-                        <Image
+                        <LazyImage
                           src={post.cover}
                           alt={post.title}
                           fill
