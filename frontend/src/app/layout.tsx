@@ -43,9 +43,18 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${inter.variable} antialiased`}
+      className={`${inter.variable} antialiased dark`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Anti-FOUC: apply theme synchronously before first paint.
+            Default is dark. Prevents the light→dark flash on load. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var d;if(t==='light'){d=false;}else if(t==='dark'){d=true;}else if(t==='system'){d=window.matchMedia('(prefers-color-scheme: dark)').matches;}else{d=true;}var r=document.documentElement;if(d){r.classList.add('dark');}else{r.classList.remove('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`,
+          }}
+        />
+      </head>
       <body className="flex min-h-screen flex-col bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-100">
         <ThemeProvider>
           <Header />

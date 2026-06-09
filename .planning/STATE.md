@@ -3,9 +3,9 @@
 ## Current Position
 
 - **Milestone:** v1.0 — Frontend MVP
-- **Phase:** 4 — Frontend MVP
-- **Status:** complete (all 3 waves done + polish)
-- **Last Action:** FinalCTA contacts + Yandex Map + Reviews carousel
+- **Phase:** 4 — Frontend MVP (deployed)
+- **Status:** complete (all 3 waves + polish + skeletons + deploy)
+- **Last Action:** Skeleton preloader, PageTransition, TopProgressBar, LazyImage
 
 ## Completed Phases
 
@@ -53,22 +53,30 @@
 
 ## Recent Progress
 
+- 2026-06-09: Skeleton preloader + PageTransition + TopProgressBar (committed + pushed)
+- 2026-06-04: Deploy to VPS (test.piligrim30.ru) — Docker networking fixed
+- 2026-06-03: Chat modernization (suggested Qs, streaming, markdown, feedback, CTA, emoji)
+- 2026-06-03: Icons replaced (new_icon set), Quiz radio elements, DebtTypes cleaned
+- 2026-06-02: Privacy policy 152-ФЗ, consent text under all forms
+- 2026-06-01: LazyImage component (shimmer + fade-in)
+- 2026-05-30: Form protection fix (source_page uses window.location.href)
+- 2026-05-29: Yandex Map iframe in FinalCTA (constructor ID configured)
 - 2026-05-25: FinalCTA — contacts grid + Yandex Map placeholder
 - 2026-05-25: Reviews — Embla Carousel + fade mask + autoplay + center align
 - 2026-05-25: ИИ-Юрист — RAG, ChatLog, CTA after 3 msgs, SSE streaming
 - 2026-05-25: Wave 3 complete — 17 internal pages + sitemap + robots
 - 2026-05-25: Wave 2 complete — all 11 homepage sections
-- 2026-05-25: Multiple polish fixes (dark mode, animations, icons, colors)
 - 2026-05-24: Wave 1 complete — design system, layout, API client
 - 2026-05-24: Phase 3 complete — email, form protection, AI chat (Polza.ai)
 - 2026-05-23: GSD project initialized
 
 ## Open Issues
 
-- Яндекс Карта iframe заблокирована на localhost (работает на production)
-- Нет тестовых данных в API (кейсы, отзывы, FAQ, блог) — заполнить после деплоя
+- [x] Яндекс Карта iframe — работает на production (constructor ID 68c20cd9...)
+- [ ] Form source_page: fix deployed (uses window.location.href) — verify after rebuild
+- [ ] Нет тестовых данных в API (кейсы, отзывы, FAQ, блог) — заполнить после деплоя
 - Frontend Docker: npm install вместо npm ci (platform mismatch)
-- Квиз отправка: нужно проверить на production (CORS + trailing slash)
+- На сервере: `git pull && docker compose build --no-cache frontend && docker compose up -d`
 
 - [x] Quiz: redesign B+C+E (card tiles + step indicator + decorative number + ambient glow)
 - [x] Chat: modernized (suggested questions, typing effect, markdown, feedback, quiz personalization, CTA with call/form/callback)
@@ -79,8 +87,9 @@
 ## Session Continuity
 
 - **Mode:** YOLO
-- **Next step:** Деплой на сервер или дополнительные правки
+- **Next step:** Rebuild frontend on server (`git pull && docker compose build --no-cache frontend && docker compose up -d`)
+- **Pending verification:** Skeletons during page transitions, LazyImage fade-in, source_page form fix
 
 ---
 
-_Last updated: 2026-05-25_
+_Last updated: 2026-06-09_

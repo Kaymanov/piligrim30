@@ -14,9 +14,7 @@ export function LazyImage({ className, alt, ...props }: ImageProps) {
   return (
     <>
       {/* Shimmer placeholder — absolute positioned behind image */}
-      {!loaded && (
-        <div className="absolute inset-0 z-0 animate-pulse bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 dark:from-slate-700 dark:via-slate-800 dark:to-slate-700" />
-      )}
+      {!loaded && <div className="skeleton-shimmer absolute inset-0 z-0" />}
       <Image
         {...props}
         alt={alt}
