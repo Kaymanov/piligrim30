@@ -6,17 +6,17 @@ import { useRef } from "react";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 
 const PROBLEMS = [
-  { title: "Нечем платить кредиты", icon: "/images/icon/Credit-card.svg" },
-  { title: "Накопились микрозаймы", icon: "/images/icon/Wallet.svg" },
-  { title: "Звонят коллекторы", icon: "/images/icon/Active-call.svg" },
-  { title: "Приставы арестовали карту", icon: "/images/icon/Wallet%233.svg" },
-  { title: "Есть просрочки", icon: "/images/icon/Clock.svg" },
-  { title: "Пришло письмо из суда", icon: "/images/icon/Incoming-mail.svg" },
+  { title: "Нечем платить кредиты", icon: "/images/new_icon/credit_card_block.svg" },
+  { title: "Накопились микрозаймы", icon: "/images/new_icon/wallet.svg" },
+  { title: "Звонят коллекторы", icon: "/images/new_icon/call.svg" },
+  { title: "Приставы арестовали карту", icon: "/images/new_icon/graph.svg" },
+  { title: "Есть просрочки", icon: "/images/new_icon/clock.svg" },
+  { title: "Пришло письмо из суда", icon: "/images/new_icon/inbox.svg" },
   {
     title: "Удерживают деньги с зарплаты",
-    icon: "/images/icon/Chart-line%231.svg",
+    icon: "/images/new_icon/money.svg",
   },
-  { title: "Есть риск потери имущества", icon: "/images/icon/Home.svg" },
+  { title: "Есть риск потери имущества", icon: "/images/new_icon/home.svg" },
 ];
 
 export function Problems() {

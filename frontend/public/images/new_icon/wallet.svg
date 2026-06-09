@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="184.2002"
+   height="216.39911"
+   viewBox="0 0 184.20019 216.39911"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="g1"
+     transform="translate(-8089.1062,-665.60358)">
+    <path
+       id="path301"
+       d="m 61951.6,9857.88 h -1156.8 c -58.8,0 -106.5,47.67 -106.5,106.47 v 803.05 c 0,58.8 47.7,106.5 106.5,106.5 h 1156.8 c 43.2,0 78.2,-35.1 78.2,-78.3 v -859.49 c 0,-43.2 -35,-78.23 -78.2,-78.23 z"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+    <path
+       id="path302"
+       d="m 62029.8,10562.7 h -256.9 c -108.7,0 -196.8,-88.1 -196.8,-196.8 0,-108.7 88.1,-196.8 196.8,-196.8 h 256.9"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+    <path
+       id="path303"
+       d="m 61825.8,10365.9 c 0,-16.4 -13.3,-29.6 -29.6,-29.6 -16.4,0 -29.6,13.2 -29.6,29.6 0,16.3 13.2,29.6 29.6,29.6 16.3,0 29.6,-13.3 29.6,-29.6 z"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+    <path
+       id="path304"
+       d="m 60895.6,10873.9 680.4,557.7 386.6,-563.2"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+    <path
+       id="path305"
+       d="m 61228.8,10873.9 476.3,395.7"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+  </g>
+</svg>

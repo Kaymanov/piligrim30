@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="199.6936"
+   height="199.69464"
+   viewBox="0 0 199.6936 199.69464"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="g1"
+     transform="translate(-4015.3863,-978.58271)">
+    <path
+       id="path543"
+       d="m 31593.1,8364.68 c 0,-402.54 -326.3,-728.86 -728.8,-728.86 -402.6,0 -728.9,326.32 -728.9,728.86 0,402.54 326.3,728.85 728.9,728.85 402.5,0 728.8,-326.31 728.8,-728.85 z"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+    <path
+       id="path544"
+       d="m 31179,8679.41 -629.5,-629.47"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+    <path
+       id="path545"
+       d="m 30966.2,8030.62 -14.5,14.44 c -38.1,38.19 -38.1,100.11 0,138.3 l 93.9,93.84 c 38.2,38.19 100.1,38.19 138.3,0 l 14.4,-14.43 c 38.2,-38.19 38.2,-100.1 0,-138.29 l -93.8,-93.86 c -38.2,-38.18 -100.1,-38.18 -138.3,0 z"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+    <path
+       id="path546"
+       d="m 30544.6,8452.15 -14.4,14.43 c -38.2,38.19 -38.2,100.11 0,138.3 l 93.9,93.85 c 38.2,38.18 100.1,38.18 138.3,0 l 14.4,-14.43 c 38.2,-38.2 38.2,-100.11 0,-138.29 l -93.9,-93.86 c -38.1,-38.19 -100.1,-38.19 -138.3,0 z"
+       style="fill:none;stroke:#231f20;stroke-width:40;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.13333333,0,0,-0.13333333,0,2193.72)" />
+  </g>
+</svg>

@@ -1,21 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Container } from "@/components/ui/Container";
 
 const DEBT_TYPES = [
-  { title: "Кредиты", icon: "/images/icon/Credit-card.svg" },
-  { title: "Кредитные карты", icon: "/images/icon/Wallet%233.svg" },
-  { title: "Микрозаймы", icon: "/images/icon/Money.svg" },
-  { title: "Долги по ЖКХ", icon: "/images/icon/Home.svg" },
-  { title: "Налоги", icon: "/images/icon/File.svg" },
-  { title: "Долги по распискам", icon: "/images/icon/Selected-file.svg" },
-  { title: "Задолженности перед банками", icon: "/images/icon/Building.svg" },
+  { title: "Кредиты" },
+  { title: "Кредитные карты" },
+  { title: "Микрозаймы" },
+  { title: "Долги по ЖКХ" },
+  { title: "Налоги" },
+  { title: "Долги по распискам" },
+  { title: "Задолженности перед банками" },
   {
     title: "Исполнительные производства",
-    icon: "/images/icon/Shield-protected.svg",
   },
 ];
 
@@ -77,16 +75,7 @@ export function DebtTypes() {
                 </svg>
               </div>
 
-              {/* Icon */}
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/15">
-                <Image
-                  src={debt.icon}
-                  alt=""
-                  width={24}
-                  height={24}
-                  className="h-5 w-5 [filter:invert(70%)_sepia(50%)_saturate(1000%)_hue-rotate(175deg)_brightness(110%)]"
-                />
-              </div>
+
 
               {/* Title */}
               <span className="text-sm font-medium text-slate-700 group-hover:text-slate-900 dark:text-slate-200 dark:group-hover:text-white sm:text-base">

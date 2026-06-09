@@ -12,50 +12,49 @@ const QUESTIONS = [
     id: "debt_amount",
     question: "Какая общая сумма ваших долгов?",
     options: [
-      { label: "До 300 000 ₽", value: "до 300 000", icon: "💳" },
-      { label: "300 000 — 500 000 ₽", value: "300 000 — 500 000", icon: "💰" },
+      { label: "До 300 000 ₽", value: "до 300 000" },
+      { label: "300 000 — 500 000 ₽", value: "300 000 — 500 000" },
       {
         label: "500 000 — 1 000 000 ₽",
         value: "500 000 — 1 000 000",
-        icon: "📊",
       },
-      { label: "Более 1 000 000 ₽", value: "более 1 000 000", icon: "🏦" },
+      { label: "Более 1 000 000 ₽", value: "более 1 000 000" },
     ],
   },
   {
     id: "has_overdue",
     question: "Есть ли у вас просрочки по платежам?",
     options: [
-      { label: "Да, более 3 месяцев", value: "да, более 3 мес", icon: "🔴" },
-      { label: "Да, менее 3 месяцев", value: "да, менее 3 мес", icon: "🟡" },
-      { label: "Нет просрочек", value: "нет", icon: "✅" },
+      { label: "Да, более 3 месяцев", value: "да, более 3 мес" },
+      { label: "Да, менее 3 месяцев", value: "да, менее 3 мес" },
+      { label: "Нет просрочек", value: "нет" },
     ],
   },
   {
     id: "has_enforcement",
     question: "Есть ли исполнительные производства?",
     options: [
-      { label: "Да, есть", value: "да", icon: "⚖️" },
-      { label: "Нет", value: "нет", icon: "🙌" },
-      { label: "Не знаю", value: "не знаю", icon: "❓" },
+      { label: "Да, есть", value: "да" },
+      { label: "Нет", value: "нет" },
+      { label: "Не знаю", value: "не знаю" },
     ],
   },
   {
     id: "has_property",
     question: "Есть ли у вас имущество?",
     options: [
-      { label: "Единственное жильё", value: "единственное жильё", icon: "🏠" },
-      { label: "Несколько объектов", value: "несколько объектов", icon: "🏘️" },
-      { label: "Автомобиль", value: "автомобиль", icon: "🚗" },
-      { label: "Нет имущества", value: "нет", icon: "📦" },
+      { label: "Единственное жильё", value: "единственное жильё" },
+      { label: "Несколько объектов", value: "несколько объектов" },
+      { label: "Автомобиль", value: "автомобиль" },
+      { label: "Нет имущества", value: "нет" },
     ],
   },
   {
     id: "has_mortgage",
     question: "Есть ли ипотека?",
     options: [
-      { label: "Да", value: "да", icon: "🔑" },
-      { label: "Нет", value: "нет", icon: "🆓" },
+      { label: "Да", value: "да" },
+      { label: "Нет", value: "нет" },
     ],
   },
   {
@@ -65,11 +64,10 @@ const QUESTIONS = [
       {
         label: "Официальная зарплата",
         value: "официальная зарплата",
-        icon: "💼",
       },
-      { label: "Неофициальный доход", value: "неофициальный", icon: "🤝" },
-      { label: "Пенсия / пособие", value: "пенсия/пособие", icon: "🏛️" },
-      { label: "Нет дохода", value: "нет дохода", icon: "🚫" },
+      { label: "Неофициальный доход", value: "неофициальный" },
+      { label: "Пенсия / пособие", value: "пенсия/пособие" },
+      { label: "Нет дохода", value: "нет дохода" },
     ],
   },
 ];
@@ -430,7 +428,7 @@ interface QuizQuestionProps {
   question: {
     id: string;
     question: string;
-    options: { label: string; value: string; icon: string }[];
+    options: { label: string; value: string }[];
   };
   selectedValue?: string;
   onAnswer: (questionId: string, value: string) => void;
@@ -479,8 +477,20 @@ function QuizQuestion({
                   : "border-slate-200 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50/50 hover:shadow-md dark:border-slate-600 dark:hover:border-sky-700 dark:hover:bg-sky-900/10"
               }`}
             >
-              {/* Icon */}
-              <span className="text-2xl sm:text-3xl">{option.icon}</span>
+              {/* Radio indicator */}
+              <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 sm:h-6 sm:w-6 ${
+                isSelected
+                  ? "border-sky-500 bg-sky-500"
+                  : "border-slate-300 group-hover:border-sky-400 dark:border-slate-600"
+              }`}>
+                {isSelected && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="h-2 w-2 rounded-full bg-white sm:h-2.5 sm:w-2.5"
+                  />
+                )}
+              </span>
 
               {/* Label */}
               <span
