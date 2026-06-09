@@ -62,7 +62,7 @@ export function FinalCTA() {
               <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800 flex items-center">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
-                    <Image src="/images/new_icon/location.svg" alt="" width={20} height={20} className="h-5 w-5" />
+                    <Image src="/images/new_icon/location.svg" alt="" width={20} height={20} className="h-5 w-5 [filter:invert(40%)_sepia(80%)_saturate(1500%)_hue-rotate(175deg)_brightness(95%)]" />
                   </div>
                   <div>
                     <p className="text-xs font-medium text-slate-400 dark:text-slate-500">
@@ -79,7 +79,7 @@ export function FinalCTA() {
               <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800 flex items-center">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
-                    <Image src="/images/new_icon/call.svg" alt="" width={20} height={20} className="h-5 w-5" />
+                    <Image src="/images/new_icon/call.svg" alt="" width={20} height={20} className="h-5 w-5 [filter:invert(40%)_sepia(80%)_saturate(1500%)_hue-rotate(175deg)_brightness(95%)]" />
                   </div>
                   <div>
                     <p className="text-xs font-medium text-slate-400 dark:text-slate-500">
@@ -99,7 +99,7 @@ export function FinalCTA() {
               <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800 flex items-center">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
-                    <Image src="/images/new_icon/inbox.svg" alt="" width={20} height={20} className="h-5 w-5" />
+                    <Image src="/images/new_icon/inbox.svg" alt="" width={20} height={20} className="h-5 w-5 [filter:invert(40%)_sepia(80%)_saturate(1500%)_hue-rotate(175deg)_brightness(95%)]" />
                   </div>
                   <div>
                     <p className="text-xs font-medium text-slate-400 dark:text-slate-500">
@@ -119,7 +119,7 @@ export function FinalCTA() {
               <div className="rounded-2xl bg-white p-5 shadow-md dark:bg-slate-800 flex items-center">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
-                    <Image src="/images/new_icon/clock.svg" alt="" width={20} height={20} className="h-5 w-5" />
+                    <Image src="/images/new_icon/clock.svg" alt="" width={20} height={20} className="h-5 w-5 [filter:invert(40%)_sepia(80%)_saturate(1500%)_hue-rotate(175deg)_brightness(95%)]" />
                   </div>
                   <div>
                     <p className="text-xs font-medium text-slate-400 dark:text-slate-500">
