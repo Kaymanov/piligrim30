@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { CallbackModal } from "@/components/forms/CallbackModal";
 import { LeadModal } from "@/components/forms/LeadModal";
+import { Preloader } from "@/components/ui/Preloader";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -57,6 +58,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen flex-col bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-100">
         <ThemeProvider>
+          <Preloader />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
