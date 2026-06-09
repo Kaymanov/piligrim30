@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/ui/PageTransition";
 import { Hero } from "@/components/sections/Hero";
 import { Problems } from "@/components/sections/Problems";
 import { DebtTypes } from "@/components/sections/DebtTypes";
@@ -12,7 +13,7 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 
 export default function Home() {
   return (
-    <>
+    <PageTransition>
       <Hero />
       <Problems />
       <DebtTypes />
@@ -24,6 +25,6 @@ export default function Home() {
       <Faq />
       <LatestPosts />
       <FinalCTA />
-    </>
+    </PageTransition>
   );
 }
