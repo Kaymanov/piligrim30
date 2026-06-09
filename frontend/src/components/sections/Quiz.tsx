@@ -503,28 +503,7 @@ function QuizQuestion({
                 {option.label}
               </span>
 
-              {/* Selected indicator */}
-              {isSelected && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-sky-500 sm:right-3 sm:top-3"
-                >
-                  <svg
-                    className="h-3 w-3 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={3}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </motion.div>
-              )}
+
             </button>
           );
         })}
