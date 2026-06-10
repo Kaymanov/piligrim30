@@ -3,9 +3,17 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { getFAQ, type FAQ } from "@/lib/api";
+import { useApiData } from "@/lib/useApiData";
 
-// Mock data — will be replaced with API call later
-const MOCK_FAQ = [
+interface FaqCard {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+// Fallback data — used if API is unavailable or DB is empty
+const MOCK_FAQ: FaqCard[] = [
   {
     id: 1,
     question: "Можно ли списать все долги через банкротство?",
@@ -60,6 +68,16 @@ export function Faq() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
+  const { data } = useApiData<FaqCard>(
+    async () =>
+      (await getFAQ()).map((f: FAQ) => ({
+        id: f.id,
+        question: f.question,
+        answer: f.answer,
+      })),
+    MOCK_FAQ,
+  );
+
   return (
     <SectionWrapper
       title="Часто задаваемые вопросы"
@@ -69,7 +87,7 @@ export function Faq() {
     >
       <div ref={ref} className="mx-auto max-w-3xl">
         <div className="divide-y divide-slate-200 dark:divide-slate-700">
-          {MOCK_FAQ.map((item, i) => (
+          {data.map((item, i) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
@@ -132,9 +150,10 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <p className="pb-2 pt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:text-base">
-              {answer}
-            </p>
+            <div
+              className="prose prose-sm prose-slate max-w-none pb-2 pt-3 leading-relaxed text-slate-600 dark:prose-invert dark:text-slate-400 sm:text-base"
+              dangerouslySetInnerHTML={{ __html: answer }}
+            />
           </motion.div>
         )}
       </AnimatePresence>

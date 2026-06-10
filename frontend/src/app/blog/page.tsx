@@ -5,9 +5,23 @@ import Link from "next/link";
 import { LazyImage } from "@/components/ui/LazyImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/Container";
+import { getBlogPosts, mediaUrl, type BlogPost } from "@/lib/api";
+import { useApiData } from "@/lib/useApiData";
 
-// Mock data — will be replaced with API
-const POSTS = [
+interface PostCard {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  category: string;
+  is_news: boolean;
+  reading_time: number;
+  published_at: string;
+  cover: string;
+}
+
+// Fallback data — used if API is unavailable or DB is empty
+const POSTS: PostCard[] = [
   {
     id: 1,
     title:
@@ -89,14 +103,23 @@ const POSTS = [
   },
 ];
 
-const CATEGORIES = [
-  "Все",
-  "Банкротство",
-  "Кредиты",
-  "Списание долгов",
-  "Имущество",
-];
 const TYPES = ["Все", "Статьи", "Новости"] as const;
+
+function mapPost(p: BlogPost): PostCard {
+  return {
+    id: p.id,
+    title: p.title,
+    slug: p.slug,
+    excerpt: p.excerpt,
+    category: p.category_data?.name || "Статья",
+    is_news: p.is_news,
+    reading_time: p.reading_time,
+    published_at: p.published_at,
+    cover:
+      mediaUrl(p.cover_image) ||
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D0%B2%D0%B5%D0%B4%D0%B5%D1%82_%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82.png",
+  };
+}
 
 export default function BlogPage() {
   const [search, setSearch] = useState("");
@@ -104,8 +127,19 @@ export default function BlogPage() {
   const [activeType, setActiveType] = useState<(typeof TYPES)[number]>("Все");
   const [sortNewest, setSortNewest] = useState(true);
 
+  const { data: POSTS_DATA } = useApiData<PostCard>(
+    async () => (await getBlogPosts()).map(mapPost),
+    POSTS,
+  );
+
+  // Build category list dynamically from data
+  const CATEGORIES = useMemo(() => {
+    const cats = Array.from(new Set(POSTS_DATA.map((p) => p.category)));
+    return ["Все", ...cats];
+  }, [POSTS_DATA]);
+
   const filtered = useMemo(() => {
-    let result = [...POSTS];
+    let result = [...POSTS_DATA];
 
     // Category filter
     if (activeCategory !== "Все") {
@@ -137,7 +171,7 @@ export default function BlogPage() {
     });
 
     return result;
-  }, [search, activeCategory, activeType, sortNewest]);
+  }, [search, activeCategory, activeType, sortNewest, POSTS_DATA]);
 
   return (
     <section className="py-12 md:py-16">

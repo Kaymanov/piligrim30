@@ -8,6 +8,44 @@ const API_BASE =
     ? "http://localhost:8001/api/v1"
     : "/api/v1";
 
+/**
+ * Base URL for Django-served media files (uploaded images).
+ * Mirrors API_BASE host but without the /api/v1 suffix.
+ */
+const MEDIA_BASE =
+  typeof window !== "undefined" && window.location.hostname === "localhost"
+    ? "http://localhost:8001"
+    : "";
+
+/**
+ * Convert a backend image path/URL into a usable absolute URL.
+ * Returns null for empty values so callers can fall back to a placeholder.
+ *
+ * On production we return an absolute URL based on the current origin so
+ * next/image treats it as a remote image (matched by remotePatterns) and the
+ * optimizer fetches it via nginx → Django.
+ */
+export function mediaUrl(path: string | null | undefined): string | null {
+  if (!path) return null;
+  // Already absolute (DRF often returns full URL when request context is present)
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+
+  if (MEDIA_BASE) {
+    // Local dev: http://localhost:8001/media/...
+    return `${MEDIA_BASE}${normalized}`;
+  }
+
+  // Production: build absolute URL from current origin (same host as nginx)
+  if (typeof window !== "undefined") {
+    return `${window.location.origin}${normalized}`;
+  }
+
+  // SSR fallback: root-relative
+  return normalized;
+}
+
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface SiteSettings {
@@ -49,7 +87,8 @@ export interface BlogPost {
   h1: string;
   excerpt: string;
   content: string;
-  category: { name: string; slug: string } | null;
+  category: number | null;
+  category_data: { id: number; name: string; slug: string } | null;
   tags: string;
   author: string;
   cover_image: string | null;

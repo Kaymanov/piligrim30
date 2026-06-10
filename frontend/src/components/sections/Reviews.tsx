@@ -5,9 +5,20 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { getReviews, type Review } from "@/lib/api";
+import { useApiData } from "@/lib/useApiData";
 
-// Mock data — will be replaced with API call later
-const MOCK_REVIEWS = [
+interface ReviewCard {
+  id: number;
+  author_name: string;
+  rating: number;
+  text: string;
+  source: string;
+  created_at: string;
+}
+
+// Fallback data — used if API is unavailable or DB is empty
+const MOCK_REVIEWS: ReviewCard[] = [
   {
     id: 1,
     author_name: "Алексей М.",
@@ -78,6 +89,19 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export function Reviews() {
+  const { data: reviewsData } = useApiData<ReviewCard>(
+    async () =>
+      (await getReviews()).map((r: Review) => ({
+        id: r.id,
+        author_name: r.author_name,
+        rating: r.rating,
+        text: r.text,
+        source: r.source || "Отзыв",
+        created_at: r.created_at,
+      })),
+    MOCK_REVIEWS,
+  );
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -107,7 +131,7 @@ export function Reviews() {
     setScrollSnaps(emblaApi.scrollSnapList());
     emblaApi.on("select", onSelect);
     onSelect();
-  }, [emblaApi, onSelect]);
+  }, [emblaApi, onSelect, reviewsData]);
 
   return (
     <SectionWrapper
@@ -128,7 +152,7 @@ export function Reviews() {
       >
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="-ml-5 flex">
-            {MOCK_REVIEWS.map((review) => (
+            {reviewsData.map((review) => (
               <div
                 key={review.id}
                 className="min-w-0 flex-[0_0_85%] pl-5 sm:flex-[0_0_45%] lg:flex-[0_0_33.333%]"

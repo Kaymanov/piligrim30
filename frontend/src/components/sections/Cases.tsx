@@ -3,9 +3,32 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { getCases, type Case } from "@/lib/api";
+import { useApiData } from "@/lib/useApiData";
 
-// Mock data — will be replaced with API call later
-const MOCK_CASES = [
+interface CaseCard {
+  id: number;
+  title: string;
+  slug: string;
+  debt_amount: string;
+  case_duration: string;
+  client_problem: string;
+  what_was_done: string;
+  result: string;
+  lawyer_comment: string;
+}
+
+// strip HTML tags for plain-text display in cards
+function stripHtml(html: string): string {
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// Fallback data — used if API is unavailable or DB is empty
+const MOCK_CASES: CaseCard[] = [
   {
     id: 1,
     title: "Списание долга 780 000 ₽",
@@ -73,6 +96,22 @@ export function Cases() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
+  const { data } = useApiData<CaseCard>(
+    async () =>
+      (await getCases()).map((c: Case) => ({
+        id: c.id,
+        title: c.title,
+        slug: c.slug,
+        debt_amount: c.debt_amount,
+        case_duration: c.case_duration,
+        client_problem: stripHtml(c.client_problem),
+        what_was_done: stripHtml(c.what_was_done),
+        result: stripHtml(c.result),
+        lawyer_comment: stripHtml(c.lawyer_comment),
+      })),
+    MOCK_CASES,
+  );
+
   return (
     <SectionWrapper
       title="Реальные кейсы"
@@ -84,7 +123,7 @@ export function Cases() {
         ref={ref}
         className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {MOCK_CASES.map((caseItem, i) => (
+        {data.map((caseItem, i) => (
           <motion.div
             key={caseItem.id}
             initial={{ opacity: 0, y: 30 }}

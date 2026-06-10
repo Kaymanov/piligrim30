@@ -5,9 +5,22 @@ import Link from "next/link";
 import { LazyImage } from "@/components/ui/LazyImage";
 import { motion, useInView } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { getBlogPosts, mediaUrl, type BlogPost } from "@/lib/api";
+import { useApiData } from "@/lib/useApiData";
 
-// Mock data — will be replaced with API call later
-const MOCK_POSTS = [
+interface PostCard {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  category: string;
+  reading_time: number;
+  published_at: string;
+  cover: string;
+}
+
+// Fallback data — used if API is unavailable or DB is empty
+const MOCK_POSTS: PostCard[] = [
   {
     id: 1,
     title:
@@ -59,9 +72,29 @@ const MOCK_POSTS = [
   },
 ];
 
+function mapPost(p: BlogPost): PostCard {
+  return {
+    id: p.id,
+    title: p.title,
+    slug: p.slug,
+    excerpt: p.excerpt,
+    category: p.category_data?.name || "Статья",
+    reading_time: p.reading_time,
+    published_at: p.published_at,
+    cover:
+      mediaUrl(p.cover_image) ||
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D0%B2%D0%B5%D0%B4%D0%B5%D1%82_%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82.png",
+  };
+}
+
 export function LatestPosts() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  const { data } = useApiData<PostCard>(async () => {
+    const posts = await getBlogPosts();
+    return posts.slice(0, 4).map(mapPost);
+  }, MOCK_POSTS);
 
   return (
     <SectionWrapper
@@ -74,7 +107,7 @@ export function LatestPosts() {
         ref={ref}
         className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {MOCK_POSTS.map((post, i) => (
+        {data.map((post, i) => (
           <motion.div
             key={post.id}
             initial={{ opacity: 0, y: 30 }}
