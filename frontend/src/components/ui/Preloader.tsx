@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 /**
  * Full-screen branded preloader overlay.
@@ -74,20 +75,14 @@ export function Preloader() {
       {/* Centered brand */}
       <div className="preloader-center">
         <div className="preloader-logo-ring">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.5}
-            className="preloader-logo-icon"
-          >
-            {/* Scales of justice */}
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 3v18M5 7h14M7 7l-3 6a3 3 0 006 0L7 7zm10 0l-3 6a3 3 0 006 0l-3-6zM8 21h8"
-            />
-          </svg>
+          <Image
+            src="/images/logo.png"
+            alt="Правовой Пилигрим"
+            width={48}
+            height={73}
+            priority
+            className="preloader-logo-img"
+          />
         </div>
         <p className="preloader-title">Правовой Пилигрим</p>
         <div className="preloader-dots">
