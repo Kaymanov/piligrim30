@@ -1,54 +1,34 @@
-"use client";
-
-import { use, useEffect, useState } from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { LeadForm } from "@/components/forms/LeadForm";
-import { getCaseBySlug, type Case } from "@/lib/api";
+import { getCaseBySlugSSR } from "@/lib/server-api";
 
-export default function CaseDetailPage({
+export const revalidate = 300;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const item = await getCaseBySlugSSR(slug);
+  if (!item) return { title: "Кейс не найден" };
+  return {
+    title: item.seo_title || item.title,
+    description: item.seo_description || "",
+  };
+}
+
+export default async function CaseDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = use(params);
-  const [item, setItem] = useState<Case | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+  const { slug } = await params;
+  const item = await getCaseBySlugSSR(slug);
 
-  useEffect(() => {
-    let active = true;
-    getCaseBySlug(slug)
-      .then((c) => {
-        if (active) setItem(c);
-      })
-      .catch(() => {
-        if (active) setNotFound(true);
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <article className="py-12 md:py-16">
-        <Container>
-          <div className="mx-auto max-w-3xl animate-pulse space-y-4">
-            <div className="h-10 w-3/4 rounded bg-slate-200 dark:bg-slate-700" />
-            <div className="h-24 w-full rounded-2xl bg-slate-200 dark:bg-slate-700" />
-            <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-700" />
-            <div className="h-4 w-2/3 rounded bg-slate-200 dark:bg-slate-700" />
-          </div>
-        </Container>
-      </article>
-    );
-  }
-
-  if (notFound || !item) {
+  if (!item) {
     return (
       <article className="py-20 text-center">
         <Container>

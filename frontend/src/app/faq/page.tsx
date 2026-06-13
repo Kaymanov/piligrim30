@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Faq } from "@/components/sections/Faq";
+import { getFAQSSR } from "@/lib/server-api";
 
 export const metadata: Metadata = {
   title: "Часто задаваемые вопросы (ЧАВО)",
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
     "Ответы на популярные вопросы о банкротстве физических лиц, списании долгов, последствиях и стоимости процедуры.",
 };
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const faq = await getFAQSSR();
   return (
     <section className="py-12 md:py-16">
       <Container>
@@ -20,7 +22,7 @@ export default function FaqPage() {
         </p>
       </Container>
       <div className="mt-8">
-        <Faq />
+        <Faq initial={faq} />
       </div>
     </section>
   );

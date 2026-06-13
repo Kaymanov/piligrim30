@@ -12,7 +12,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-piligrim_user} -d ${POSTGRES_DB:-piligrim_db}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-piligrim_user} -d ${POSTGRES_DB:-piligrim_db}",
+        ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -67,6 +71,10 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    environment:
+      # Internal URL for server-side data fetching (SSR/ISR). Override in .env
+      # if backend uses host networking (http://127.0.0.1:8001/api/v1).
+      INTERNAL_API_URL: "${INTERNAL_API_URL:-http://backend:8000/api/v1}"
     depends_on:
       - backend
     networks:

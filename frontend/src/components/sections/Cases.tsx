@@ -27,6 +27,20 @@ function stripHtml(html: string): string {
     .trim();
 }
 
+function mapCase(c: Case): CaseCard {
+  return {
+    id: c.id,
+    title: c.title,
+    slug: c.slug,
+    debt_amount: c.debt_amount,
+    case_duration: c.case_duration,
+    client_problem: stripHtml(c.client_problem),
+    what_was_done: stripHtml(c.what_was_done),
+    result: stripHtml(c.result),
+    lawyer_comment: stripHtml(c.lawyer_comment),
+  };
+}
+
 // Fallback data — used if API is unavailable or DB is empty
 const MOCK_CASES: CaseCard[] = [
   {
@@ -91,25 +105,15 @@ const MOCK_CASES: CaseCard[] = [
   },
 ];
 
-export function Cases() {
+export function Cases({ initial }: { initial?: Case[] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
   const { data } = useApiData<CaseCard>(
-    async () =>
-      (await getCases()).map((c: Case) => ({
-        id: c.id,
-        title: c.title,
-        slug: c.slug,
-        debt_amount: c.debt_amount,
-        case_duration: c.case_duration,
-        client_problem: stripHtml(c.client_problem),
-        what_was_done: stripHtml(c.what_was_done),
-        result: stripHtml(c.result),
-        lawyer_comment: stripHtml(c.lawyer_comment),
-      })),
+    async () => (await getCases()).map(mapCase),
     MOCK_CASES,
+    initial ? initial.map(mapCase) : undefined,
   );
 
   return (

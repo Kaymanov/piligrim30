@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Reviews } from "@/components/sections/Reviews";
+import { getReviewsSSR } from "@/lib/server-api";
 
 export const metadata: Metadata = {
   title: "Отзывы клиентов",
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
     "Реальные отзывы клиентов о работе юристов Правовой Пилигрим по банкротству физических лиц в Астрахани.",
 };
 
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const reviews = await getReviewsSSR();
   return (
     <section className="py-12 md:py-16">
       <Container>
@@ -20,7 +22,7 @@ export default function ReviewsPage() {
         </p>
       </Container>
       <div className="mt-8">
-        <Reviews />
+        <Reviews initial={reviews} />
       </div>
     </section>
   );

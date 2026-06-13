@@ -64,7 +64,7 @@ const MOCK_FAQ: FaqCard[] = [
   },
 ];
 
-export function Faq() {
+export function Faq({ initial }: { initial?: FAQ[] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -76,6 +76,13 @@ export function Faq() {
         answer: f.answer,
       })),
     MOCK_FAQ,
+    initial
+      ? initial.map((f) => ({
+          id: f.id,
+          question: f.question,
+          answer: f.answer,
+        }))
+      : undefined,
   );
 
   return (

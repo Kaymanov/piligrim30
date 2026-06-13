@@ -88,7 +88,7 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-export function Reviews() {
+export function Reviews({ initial }: { initial?: Review[] }) {
   const { data: reviewsData } = useApiData<ReviewCard>(
     async () =>
       (await getReviews()).map((r: Review) => ({
@@ -100,6 +100,16 @@ export function Reviews() {
         created_at: r.created_at,
       })),
     MOCK_REVIEWS,
+    initial
+      ? initial.map((r) => ({
+          id: r.id,
+          author_name: r.author_name,
+          rating: r.rating,
+          text: r.text,
+          source: r.source || "Отзыв",
+          created_at: r.created_at,
+        }))
+      : undefined,
   );
 
   const [emblaRef, emblaApi] = useEmblaCarousel(

@@ -31,8 +31,7 @@ const MOCK_POSTS: PostCard[] = [
     category: "Банкротство",
     reading_time: 7,
     published_at: "2025-12-10",
-    cover:
-      "/images/blog-img/lawyer-consult.webp",
+    cover: "/images/blog-img/lawyer-consult.webp",
   },
   {
     id: 2,
@@ -43,8 +42,7 @@ const MOCK_POSTS: PostCard[] = [
     category: "Кредиты",
     reading_time: 5,
     published_at: "2025-12-05",
-    cover:
-      "/images/blog-img/no-money.webp",
+    cover: "/images/blog-img/no-money.webp",
   },
   {
     id: 3,
@@ -55,8 +53,7 @@ const MOCK_POSTS: PostCard[] = [
     category: "Списание долгов",
     reading_time: 6,
     published_at: "2025-11-28",
-    cover:
-      "/images/blog-img/lawyer-house.webp",
+    cover: "/images/blog-img/lawyer-house.webp",
   },
   {
     id: 4,
@@ -67,8 +64,7 @@ const MOCK_POSTS: PostCard[] = [
     category: "Имущество",
     reading_time: 8,
     published_at: "2025-11-20",
-    cover:
-      "/images/blog-img/country-house.webp",
+    cover: "/images/blog-img/country-house.webp",
   },
 ];
 
@@ -81,20 +77,22 @@ function mapPost(p: BlogPost): PostCard {
     category: p.category_data?.name || "Статья",
     reading_time: p.reading_time,
     published_at: p.published_at,
-    cover:
-      mediaUrl(p.cover_image) ||
-      "/images/blog-img/lawyer-consult.webp",
+    cover: mediaUrl(p.cover_image) || "/images/blog-img/lawyer-consult.webp",
   };
 }
 
-export function LatestPosts() {
+export function LatestPosts({ initial }: { initial?: BlogPost[] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
-  const { data } = useApiData<PostCard>(async () => {
-    const posts = await getBlogPosts();
-    return posts.slice(0, 4).map(mapPost);
-  }, MOCK_POSTS);
+  const { data } = useApiData<PostCard>(
+    async () => {
+      const posts = await getBlogPosts();
+      return posts.slice(0, 4).map(mapPost);
+    },
+    MOCK_POSTS,
+    initial ? initial.slice(0, 4).map(mapPost) : undefined,
+  );
 
   return (
     <SectionWrapper

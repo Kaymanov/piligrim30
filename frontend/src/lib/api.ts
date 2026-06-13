@@ -27,8 +27,20 @@ const MEDIA_BASE =
  */
 export function mediaUrl(path: string | null | undefined): string | null {
   if (!path) return null;
-  // Already absolute (DRF often returns full URL when request context is present)
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+
+  // DRF returns absolute URLs built from the request host. For SSR the request
+  // host is the internal `backend:8000`, which the browser can't reach. Reduce
+  // any absolute URL that points at /media/ (or /static/) to a root-relative
+  // path so the browser resolves it against the public origin via nginx.
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    const mediaIdx = path.indexOf("/media/");
+    if (mediaIdx !== -1) {
+      const rel = path.slice(mediaIdx);
+      return MEDIA_BASE ? `${MEDIA_BASE}${rel}` : rel;
+    }
+    // Some other absolute URL (e.g. external) — leave as-is
+    return path;
+  }
 
   const normalized = path.startsWith("/") ? path : `/${path}`;
 
@@ -37,12 +49,8 @@ export function mediaUrl(path: string | null | undefined): string | null {
     return `${MEDIA_BASE}${normalized}`;
   }
 
-  // Production: build absolute URL from current origin (same host as nginx)
-  if (typeof window !== "undefined") {
-    return `${window.location.origin}${normalized}`;
-  }
-
-  // SSR fallback: root-relative
+  // Production: root-relative path. The browser resolves it against the
+  // current origin, and nginx routes /media/ to the backend.
   return normalized;
 }
 

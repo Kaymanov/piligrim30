@@ -1,58 +1,35 @@
-"use client";
-
-import { use, useEffect, useState } from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { LeadForm } from "@/components/forms/LeadForm";
-import { getBlogPostBySlug, type BlogPost } from "@/lib/api";
+import { getBlogPostBySlugSSR } from "@/lib/server-api";
 
-export default function BlogPostPage({
+// Revalidate this page periodically (ISR)
+export const revalidate = 300;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getBlogPostBySlugSSR(slug);
+  if (!post) return { title: "Статья не найдена" };
+  return {
+    title: post.seo_title || post.title,
+    description: post.seo_description || post.excerpt,
+  };
+}
+
+export default async function BlogPostPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = use(params);
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+  const { slug } = await params;
+  const post = await getBlogPostBySlugSSR(slug);
 
-  useEffect(() => {
-    let active = true;
-    getBlogPostBySlug(slug)
-      .then((p) => {
-        if (active) setPost(p);
-      })
-      .catch(() => {
-        if (active) setNotFound(true);
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <article className="py-12 md:py-16">
-        <Container>
-          <div className="mx-auto max-w-3xl animate-pulse space-y-4">
-            <div className="h-6 w-24 rounded-full bg-slate-200 dark:bg-slate-700" />
-            <div className="h-10 w-3/4 rounded bg-slate-200 dark:bg-slate-700" />
-            <div className="h-4 w-40 rounded bg-slate-200 dark:bg-slate-700" />
-            <div className="mt-8 space-y-3">
-              <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-700" />
-              <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-700" />
-              <div className="h-4 w-2/3 rounded bg-slate-200 dark:bg-slate-700" />
-            </div>
-          </div>
-        </Container>
-      </article>
-    );
-  }
-
-  if (notFound || !post) {
+  if (!post) {
     return (
       <article className="py-20 text-center">
         <Container>

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Cases } from "@/components/sections/Cases";
+import { getCasesSSR } from "@/lib/server-api";
 
 export const metadata: Metadata = {
   title: "Кейсы — реальные результаты работы",
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
     "Обезличенные результаты работы юристов по банкротству физических лиц в Астрахани. Реальные суммы, сроки и результаты.",
 };
 
-export default function CasesPage() {
+export default async function CasesPage() {
+  const cases = await getCasesSSR();
   return (
     <section className="py-12 md:py-16">
       <Container>
@@ -20,7 +22,7 @@ export default function CasesPage() {
         </p>
       </Container>
       <div className="mt-8">
-        <Cases />
+        <Cases initial={cases} />
       </div>
     </section>
   );
