@@ -3,7 +3,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from .models import BlogCategory, BlogPost
-from .serializers import BlogCategorySerializer, BlogPostSerializer
+from .serializers import (
+    BlogCategorySerializer,
+    BlogPostSerializer,
+    BlogPostListSerializer,
+)
 
 class BlogCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = BlogCategory.objects.all()
@@ -24,5 +28,14 @@ class BlogPostViewSet(viewsets.ReadOnlyModelViewSet):
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return BlogPostListSerializer
+        return BlogPostSerializer
+
     def get_queryset(self):
-        return BlogPost.objects.filter(status='published')
+        qs = BlogPost.objects.filter(status='published').select_related('category')
+        if self.action == 'list':
+            # Don't load the heavy `content` field for list views
+            return qs.defer('content')
+        return qs

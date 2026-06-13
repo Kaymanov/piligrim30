@@ -34,7 +34,7 @@ const POSTS: PostCard[] = [
     reading_time: 7,
     published_at: "2025-12-10",
     cover:
-      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D0%B2%D0%B5%D0%B4%D0%B5%D1%82_%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82.png",
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D0%B2%D0%B5%D0%B4%D0%B5%D1%82_%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82.webp",
   },
   {
     id: 2,
@@ -47,7 +47,7 @@ const POSTS: PostCard[] = [
     reading_time: 5,
     published_at: "2025-12-05",
     cover:
-      "/images/blog-img/imagen-4.0-generate-001_a_%D0%A7%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA_%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BC%D1%83_%D0%BD%D0%B5%D1%87%D0%B5.png",
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%A7%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA_%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BC%D1%83_%D0%BD%D0%B5%D1%87%D0%B5.webp",
   },
   {
     id: 3,
@@ -60,7 +60,7 @@ const POSTS: PostCard[] = [
     reading_time: 6,
     published_at: "2025-11-28",
     cover:
-      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D1%81%D1%82%D0%BE%D0%B8%D1%82_%D0%B2%D0%BE%D0%B7%D0%BB%D0%B5_%D0%B4%D0%BE.png",
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D1%81%D1%82%D0%BE%D0%B8%D1%82_%D0%B2%D0%BE%D0%B7%D0%BB%D0%B5_%D0%B4%D0%BE.webp",
   },
   {
     id: 4,
@@ -73,7 +73,7 @@ const POSTS: PostCard[] = [
     reading_time: 8,
     published_at: "2025-11-20",
     cover:
-      "/images/blog-img/imagen-4.0-generate-001_a_%D0%97%D0%B0%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9_%D0%B4%D0%BE%D0%BC._%D0%A4%D0%BE%D1%82%D0%BE.png",
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%97%D0%B0%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9_%D0%B4%D0%BE%D0%BC._%D0%A4%D0%BE%D1%82%D0%BE.webp",
   },
   {
     id: 5,
@@ -86,7 +86,7 @@ const POSTS: PostCard[] = [
     reading_time: 4,
     published_at: "2025-12-15",
     cover:
-      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D1%81%D1%82%D0%BE%D0%B8%D1%82_%D0%B2%D0%BE%D0%B7%D0%BB%D0%B5_%D0%B4%D0%BE.png",
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D1%81%D1%82%D0%BE%D0%B8%D1%82_%D0%B2%D0%BE%D0%B7%D0%BB%D0%B5_%D0%B4%D0%BE.webp",
   },
   {
     id: 6,
@@ -99,7 +99,7 @@ const POSTS: PostCard[] = [
     reading_time: 6,
     published_at: "2025-11-10",
     cover:
-      "/images/blog-img/imagen-4.0-generate-001_a_%D0%A7%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA_%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BC%D1%83_%D0%BD%D0%B5%D1%87%D0%B5.png",
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%A7%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA_%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BC%D1%83_%D0%BD%D0%B5%D1%87%D0%B5.webp",
   },
 ];
 
@@ -117,7 +117,7 @@ function mapPost(p: BlogPost): PostCard {
     published_at: p.published_at,
     cover:
       mediaUrl(p.cover_image) ||
-      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D0%B2%D0%B5%D0%B4%D0%B5%D1%82_%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82.png",
+      "/images/blog-img/imagen-4.0-generate-001_a_%D0%AE%D1%80%D0%B8%D1%81%D1%82_%D0%B2%D0%B5%D0%B4%D0%B5%D1%82_%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82.webp",
   };
 }
 
