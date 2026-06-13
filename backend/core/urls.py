@@ -19,10 +19,13 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve as static_serve
+from core.common.ckeditor_views import upload_file_webp
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("ckeditor5/", include('django_ckeditor_5.urls')),
+    # Custom CKEditor upload: converts to WebP + resizes. Replaces the package's
+    # default upload view (django_ckeditor_5.urls only defines this one path).
+    path("ckeditor5/image_upload/", upload_file_webp, name="ck_editor_5_upload_file"),
     
     path('api/v1/', include([
         path('', include('apps.pages.urls')),
