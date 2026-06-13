@@ -195,6 +195,17 @@
   transition:
     opacity 0.55s ease,
     visibility 0.55s ease;
+  /* Pure-CSS auto-hide independent of JS/hydration so it never blocks LCP.
+     Starts fading quickly — a full-screen overlay delays LCP, so keep it short. */
+  animation: preloader-autohide 0.4s ease 0.4s forwards;
+}
+
+@keyframes preloader-autohide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 /* Light theme variant */

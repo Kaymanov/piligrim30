@@ -10,34 +10,18 @@ import { useEffect, useState } from "react";
  * `loading.tsx` which only triggers for Suspense/dynamic route loading.
  *
  * Animations are pure CSS so the bar/logo move even before hydration.
- * After `window.load` (with a small minimum display time) it fades out and
- * unmounts, revealing the page.
+ * Hides on a short fixed timer after mount (NOT window.load) so it never
+ * delays LCP — the page content is server-rendered and ready immediately.
  */
 export function Preloader() {
   const [hidden, setHidden] = useState(false);
   const [removed, setRemoved] = useState(false);
 
   useEffect(() => {
-    const MIN_DISPLAY = 700; // ms — guarantee the animation is seen
-    const start = performance.now();
-
-    const finish = () => {
-      const elapsed = performance.now() - start;
-      const wait = Math.max(0, MIN_DISPLAY - elapsed);
-      window.setTimeout(() => setHidden(true), wait);
-    };
-
-    if (document.readyState === "complete") {
-      finish();
-    } else {
-      window.addEventListener("load", finish, { once: true });
-      // Safety fallback in case `load` is delayed/never fires
-      const fallback = window.setTimeout(finish, 3500);
-      return () => {
-        window.removeEventListener("load", finish);
-        window.clearTimeout(fallback);
-      };
-    }
+    // Matches the CSS auto-hide (starts 0.4s, done ~0.8s). JS handles final
+    // unmount + restoring scroll; the CSS fade is what the user sees.
+    const timer = window.setTimeout(() => setHidden(true), 800);
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Unmount after the fade-out transition completes
