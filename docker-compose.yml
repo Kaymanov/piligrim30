@@ -64,21 +64,15 @@ services:
       dockerfile: docker/frontend/Dockerfile
     container_name: piligrim_frontend
     restart: unless-stopped
-    volumes:
-      - /app/node_modules
-      - /app/.next
-    ports:
-      - "3000:3000"
+    # Host networking: Docker DNS is broken on this VPS (iptables issue).
+    # Frontend needs to reach backend at 127.0.0.1:8001 for SSR.
+    network_mode: "host"
     env_file:
       - .env
     environment:
-      # Internal URL for server-side data fetching (SSR/ISR). Override in .env
-      # if backend uses host networking (http://127.0.0.1:8001/api/v1).
-      INTERNAL_API_URL: "${INTERNAL_API_URL:-http://backend:8000/api/v1}"
+      INTERNAL_API_URL: "http://127.0.0.1:8001/api/v1"
     depends_on:
       - backend
-    networks:
-      - piligrim_network
 
 volumes:
   postgres_data:
