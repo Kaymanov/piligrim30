@@ -166,7 +166,7 @@ function OrbitalShowcase() {
           className="relative h-[16rem] w-[16rem] sm:h-[18rem] sm:w-[18rem] lg:h-[22rem] lg:w-[22rem]"
         >
           <Image
-            src="/images/man.png"
+            src="/images/man.webp"
             alt="Юрист в позе медитации"
             fill
             className="object-contain"
