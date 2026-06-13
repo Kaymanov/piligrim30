@@ -11,55 +11,49 @@ const ADDITIONAL_SERVICES = [
     title: "Жилищные споры",
     description:
       "Защита прав в жилищных правоотношениях, споры с управляющими компаниями, выселение, вселение.",
-    image:
-      "/images/service-img/%D0%B6%D0%B8%D0%BB%D0%B8%D1%89%D0%BD%D1%8B%D0%B5%20%D1%81%D0%BF%D0%BE%D1%80%D1%8B.webp",
+    image: "/images/service-img/housing.webp",
   },
   {
     title: "Наследственные споры",
     description:
       "Оспаривание завещаний, восстановление сроков, раздел наследственного имущества.",
-    image:
-      "/images/service-img/%D0%BD%D0%B0%D1%81%D0%BB%D0%B5%D0%B4%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5%20%D1%81%D0%BF%D0%BE%D1%80%D1%8B.webp",
+    image: "/images/service-img/inheritance.webp",
   },
   {
     title: "Защита прав потребителей",
     description:
       "Возврат товаров, компенсация за некачественные услуги, претензии и суды.",
-    image:
-      "/images/service-img/%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B8%D1%82%D0%B5%D0%BB%D0%B8.webp",
+    image: "/images/service-img/consumers.webp",
   },
   {
     title: "Семейные споры",
     description:
       "Расторжение брака, раздел имущества, алименты, определение места жительства детей.",
-    image:
-      "/images/service-img/%D1%81%D0%B5%D0%BC%D0%B5%D0%B9%D0%BD%D1%8B%D0%B5%20%D1%81%D0%BF%D0%BE%D1%80%D1%8B.webp",
+    image: "/images/service-img/family.webp",
   },
   {
     title: "Трудовые споры",
     description:
       "Незаконное увольнение, невыплата зарплаты, восстановление на работе.",
-    image:
-      "/images/service-img/%D1%82%D1%80%D1%83%D0%B4%D0%BE%D0%B2%D1%8B%D0%B5%20%D1%81%D0%BF%D0%BE%D1%80%D1%8B.webp",
+    image: "/images/service-img/labor.webp",
   },
   {
     title: "Защита интересов участников СВО",
     description:
       "Юридическая помощь участникам СВО и членам их семей по любым правовым вопросам.",
-    image: "/images/service-img/%D1%81%D0%B2%D0%BE.webp",
+    image: "/images/service-img/svo.webp",
   },
   {
     title: "Споры в ЖКХ",
     description:
       "Перерасчёт коммунальных платежей, споры с ресурсоснабжающими организациями.",
-    image:
-      "/images/service-img/%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D1%8F%D1%8E%D1%89%D1%8F%D1%8F%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F.webp",
+    image: "/images/service-img/zhkh.webp",
   },
   {
     title: "Прочие юридические вопросы",
     description:
       "Любые правовые ситуации — проконсультируем и поможем найти решение.",
-    image: "/images/service-img/%D0%BF%D1%80%D0%BE%D1%87%D0%B5%D0%B5.webp",
+    image: "/images/service-img/other.webp",
   },
 ];
 

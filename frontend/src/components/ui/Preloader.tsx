@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 /**
  * Full-screen branded preloader overlay.
@@ -75,12 +74,13 @@ export function Preloader() {
       {/* Centered brand */}
       <div className="preloader-center">
         <div className="preloader-logo-ring">
-          <Image
-            src="/images/logo.png"
+          {/* Plain img (not next/image) — tiny webp, must appear instantly */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/logo.webp"
             alt="Правовой Пилигрим"
             width={48}
             height={73}
-            priority
             className="preloader-logo-img"
           />
         </div>

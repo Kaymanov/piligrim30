@@ -125,7 +125,7 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <div className="relative h-14 w-[37px] shrink-0">
                 <Image
-                  src="/images/logo.png"
+                  src="/images/logo.webp"
                   alt="Правовой Пилигрим"
                   fill
                   className="object-contain brightness-110"
