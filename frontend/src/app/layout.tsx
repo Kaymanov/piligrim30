@@ -4,9 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ChatWidget } from "@/components/chat/ChatWidget";
-import { CallbackModal } from "@/components/forms/CallbackModal";
-import { LeadModal } from "@/components/forms/LeadModal";
+import { DeferredWidgets } from "@/components/layout/DeferredWidgets";
 import { Preloader } from "@/components/ui/Preloader";
 
 const inter = Inter({
@@ -62,9 +60,7 @@ export default function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
-          <ChatWidget />
-          <CallbackModal />
-          <LeadModal />
+          <DeferredWidgets />
         </ThemeProvider>
       </body>
     </html>
