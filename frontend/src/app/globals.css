@@ -180,3 +180,25 @@
 :where(html:not(.dark)) .hero-section {
   background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0284c7 100%);
 }
+
+/* === Page entrance: CSS-driven (runs at first paint, no hydration wait) === */
+.page-enter {
+  animation: page-enter-fade 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes page-enter-fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    animation: none;
+  }
+}

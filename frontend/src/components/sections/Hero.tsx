@@ -153,13 +153,10 @@ function OrbitalShowcase() {
       {/* Subtle radial glow behind man */}
       <div className="absolute inset-[15%] rounded-full bg-gradient-to-br from-sky-500/20 via-blue-500/20 to-violet-500/20 blur-2xl" />
 
-      {/* Lotus man — centered */}
-      <motion.div
-        className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-      >
+      {/* Lotus man — centered. No opacity/scale entrance: this is the LCP
+          element, so it must paint immediately (animation delay was adding
+          ~3s render delay to LCP). Gentle float only. */}
+      <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
         <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -171,10 +168,11 @@ function OrbitalShowcase() {
             fill
             className="object-contain"
             priority
+            fetchPriority="high"
             sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 352px"
           />
         </motion.div>
-      </motion.div>
+      </div>
 
       {/* Orbital cards — 4 corners */}
       {FEATURES.map((feature, i) => (
