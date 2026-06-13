@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { DeferredWidgets } from "@/components/layout/DeferredWidgets";
-import { Preloader } from "@/components/ui/Preloader";
+import { TopProgressBar } from "@/components/ui/TopProgressBar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -56,7 +56,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen flex-col bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-100">
         <ThemeProvider>
-          <Preloader />
+          <TopProgressBar />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
