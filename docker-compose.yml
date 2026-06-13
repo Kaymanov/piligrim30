@@ -70,9 +70,9 @@ services:
     env_file:
       - .env
     environment:
-      # Use `localhost` (in ALLOWED_HOSTS) — requests to 127.0.0.1 send a Host
-      # header Django rejects (400). With host networking localhost == host.
-      INTERNAL_API_URL: "http://localhost:8001/api/v1"
+      # Use 127.0.0.1 (stable IPv4 connect; `localhost` can resolve to ::1 and
+      # reset). 127.0.0.1 must be in DJANGO_ALLOWED_HOSTS.
+      INTERNAL_API_URL: "http://127.0.0.1:8001/api/v1"
     depends_on:
       - backend
 
