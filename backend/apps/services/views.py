@@ -11,7 +11,7 @@ class ServiceViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['is_featured']
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 

@@ -16,7 +16,7 @@ const INTERNAL_API_BASE =
   process.env.INTERNAL_API_URL || "http://backend:8000/api/v1";
 
 // Revalidate server cache every 5 minutes
-const REVALIDATE = 300;
+const REVALIDATE = 60;
 const TIMEOUT_MS = 4000;
 
 async function serverFetch<T>(endpoint: string, fallback: T): Promise<T> {

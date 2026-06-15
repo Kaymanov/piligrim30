@@ -5,7 +5,7 @@ import { LeadForm } from "@/components/forms/LeadForm";
 import { getBlogPostBySlugSSR } from "@/lib/server-api";
 
 // Revalidate this page periodically (ISR)
-export const revalidate = 300;
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,

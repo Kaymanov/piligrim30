@@ -14,7 +14,7 @@ class BlogCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = BlogCategorySerializer
     lookup_field = 'slug'
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
@@ -24,7 +24,7 @@ class BlogPostViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['category__slug', 'is_news', 'is_featured', 'is_expert_article']
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 

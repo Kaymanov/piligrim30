@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { getCaseBySlugSSR } from "@/lib/server-api";
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
