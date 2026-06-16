@@ -35,7 +35,7 @@ export default async function Home() {
       <Timeline />
       <Quiz />
       <AiLawyerBanner />
-      <Cases initial={cases} />
+      <Cases initial={cases} limit={4} />
       <Reviews initial={reviews} />
       <Faq initial={faq} />
       <LatestPosts initial={posts} />

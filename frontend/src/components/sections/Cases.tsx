@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { getCases, type Case } from "@/lib/api";
@@ -105,16 +106,25 @@ const MOCK_CASES: CaseCard[] = [
   },
 ];
 
-export function Cases({ initial }: { initial?: Case[] }) {
+export function Cases({
+  initial,
+  limit,
+}: {
+  initial?: Case[];
+  limit?: number;
+}) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
-  const { data } = useApiData<CaseCard>(
+  const { data: allData } = useApiData<CaseCard>(
     async () => (await getCases()).map(mapCase),
     MOCK_CASES,
     initial ? initial.map(mapCase) : undefined,
   );
+
+  const data = limit ? allData.slice(0, limit) : allData;
+  const hasMore = limit ? allData.length > limit : false;
 
   return (
     <SectionWrapper
@@ -247,6 +257,31 @@ export function Cases({ initial }: { initial?: Case[] }) {
         Результат зависит от обстоятельств конкретного дела. Все данные
         обезличены.
       </p>
+
+      {/* "Все кейсы" button when limited */}
+      {hasMore && (
+        <div className="mt-8 text-center">
+          <Link
+            href="/cases"
+            className="inline-flex items-center gap-2 rounded-full border-2 border-slate-200 bg-white px-6 py-3 text-sm font-medium text-slate-700 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-sky-500"
+          >
+            Все кейсы
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </Link>
+        </div>
+      )}
     </SectionWrapper>
   );
 }
