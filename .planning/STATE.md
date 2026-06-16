@@ -53,6 +53,7 @@
 
 ## Recent Progress
 
+- 2026-06-10: Content seeding (seed_content command) + frontend wired to API with fallback + media served in prod
 - 2026-06-09: FOUC fix — dark theme applied before first paint (blocking script), skeleton shimmer sweep, brighter progress bar
 - 2026-06-09: Skeleton preloader + PageTransition + TopProgressBar (committed + pushed)
 - 2026-06-04: Deploy to VPS (test.piligrim30.ru) — Docker networking fixed

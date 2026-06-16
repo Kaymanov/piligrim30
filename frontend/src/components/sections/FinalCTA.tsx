@@ -222,7 +222,7 @@ export function FinalCTA() {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            Возможна рассрочка
+            Чат поддержки 24/7
           </span>
         </motion.div>
       </Container>
