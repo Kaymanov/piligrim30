@@ -1,6 +1,8 @@
+import json
 import logging
 import time
 
+from django.conf import settings
 from django.http import StreamingHttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -17,7 +19,8 @@ logger = logging.getLogger(__name__)
 
 MAX_HISTORY_PAIRS = 10  # Keep last 10 exchanges (20 messages) per session
 
-# Session TTL for chat history: 2 hours of inactivity clears history
+# Chat session TTL in seconds (2 hours of inactivity → history cleared).
+# Applied when saving history to the session.
 CHAT_SESSION_TTL = 60 * 60 * 2
 
 
@@ -86,13 +89,14 @@ class ChatView(APIView):
         if show_cta:
             reply_with_cta = reply + LEAD_CTA_MESSAGE
 
-        # Update history
+        # Update history (keep last MAX_HISTORY_PAIRS exchanges)
         history.append({'role': 'user', 'content': message})
         history.append({'role': 'assistant', 'content': reply})
         max_messages = MAX_HISTORY_PAIRS * 2
         if len(history) > max_messages:
             history = history[-max_messages:]
         request.session['chat_history'] = history
+        request.session.set_expiry(CHAT_SESSION_TTL)
 
         # Log the conversation
         try:
@@ -165,8 +169,6 @@ class ChatStreamView(APIView):
                 full_reply = ""
                 for chunk in stream:
                     full_reply += chunk
-                    # Encode chunk as base64 to avoid SSE format issues with newlines
-                    import json
                     yield f"data: {json.dumps(chunk)}\n\n"
 
                 # Save to history after streaming completes
@@ -177,6 +179,7 @@ class ChatStreamView(APIView):
                 if len(new_history) > max_messages:
                     new_history = new_history[-max_messages:]
                 request.session['chat_history'] = new_history
+                request.session.set_expiry(CHAT_SESSION_TTL)
                 request.session.save()
 
                 # Log
@@ -207,8 +210,6 @@ class ChatStreamView(APIView):
 
     def _stream_text(self, text: str):
         """Stream a static text as SSE."""
-        import json
-
         def gen():
             yield f"data: {json.dumps(text)}\n\n"
             yield "data: [DONE]\n\n"

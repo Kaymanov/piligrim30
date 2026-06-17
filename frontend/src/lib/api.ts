@@ -332,6 +332,7 @@ export async function sendChatMessage(
   message: string,
   quizContext?: Record<string, string>,
 ): Promise<ChatResponse> {
+  if (!csrfToken) await getCSRFToken();
   return fetchAPI<ChatResponse>("/chat/", {
     method: "POST",
     body: JSON.stringify({ message, quiz_context: quizContext || null }),
