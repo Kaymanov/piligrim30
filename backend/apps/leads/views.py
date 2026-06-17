@@ -6,7 +6,7 @@ from rest_framework.throttling import AnonRateThrottle
 
 from .models import Lead
 from .serializers import LeadSerializer
-from .services import send_lead_notification
+from .tasks import send_lead_notification_task
 
 
 class LeadViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -19,9 +19,19 @@ class LeadViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     throttle_classes = [AnonRateThrottle]
 
     def perform_create(self, serializer):
-        """Save lead and send email notification."""
+        """Save lead and dispatch async email notification via Celery."""
         lead = serializer.save()
-        send_lead_notification(lead)
+        # Dispatch async — user gets 201 immediately; email goes in background.
+        # Falls back to synchronous send if Celery/Redis is unavailable.
+        try:
+            send_lead_notification_task.delay(lead.pk)
+        except Exception:
+            from .services import send_lead_notification
+            import logging
+            logging.getLogger(__name__).warning(
+                f"Celery unavailable — sending email synchronously for Lead {lead.pk}"
+            )
+            send_lead_notification(lead)
 
     @action(detail=False, methods=['post'], url_path='quiz')
     def quiz_lead(self, request):

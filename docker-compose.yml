@@ -58,6 +58,27 @@ services:
     networks:
       - piligrim_network
 
+  celery_worker:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: piligrim_celery
+    restart: unless-stopped
+    command: bash -c "cd /app/backend && uv run celery -A core worker -l info -c 2 -Q default"
+    volumes:
+      - ./backend:/app/backend
+      - /app/backend/.venv
+      - ./docker:/app/docker
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    networks:
+      - piligrim_network
+
   frontend:
     build:
       context: .
