@@ -15,7 +15,10 @@ from .throttling import ChatRateThrottle
 
 logger = logging.getLogger(__name__)
 
-MAX_HISTORY_PAIRS = 20
+MAX_HISTORY_PAIRS = 10  # Keep last 10 exchanges (20 messages) per session
+
+# Session TTL for chat history: 2 hours of inactivity clears history
+CHAT_SESSION_TTL = 60 * 60 * 2
 
 
 class ChatView(APIView):
@@ -139,9 +142,11 @@ class ChatStreamView(APIView):
             request.session.create()
 
         history = request.session.get('chat_history', [])
+        # Snapshot history before streaming — avoids race condition
+        history_snapshot = list(history)
 
         # Check off-topic
-        if not is_on_topic(message) and len(history) == 0:
+        if not is_on_topic(message) and len(history_snapshot) == 0:
             return self._stream_text(OFF_TOPIC_RESPONSE)
 
         # RAG context
@@ -153,7 +158,7 @@ class ChatStreamView(APIView):
 
         try:
             stream = service.generate_response_stream(
-                message, history, quiz_context, rag_context
+                message, history_snapshot, quiz_context, rag_context
             )
 
             def event_stream():
@@ -165,14 +170,13 @@ class ChatStreamView(APIView):
                     yield f"data: {json.dumps(chunk)}\n\n"
 
                 # Save to history after streaming completes
-                history.append({'role': 'user', 'content': message})
-                history.append({'role': 'assistant', 'content': full_reply})
+                new_history = list(history_snapshot)
+                new_history.append({'role': 'user', 'content': message})
+                new_history.append({'role': 'assistant', 'content': full_reply})
                 max_messages = MAX_HISTORY_PAIRS * 2
-                if len(history) > max_messages:
-                    history_trimmed = history[-max_messages:]
-                else:
-                    history_trimmed = history
-                request.session['chat_history'] = history_trimmed
+                if len(new_history) > max_messages:
+                    new_history = new_history[-max_messages:]
+                request.session['chat_history'] = new_history
                 request.session.save()
 
                 # Log
