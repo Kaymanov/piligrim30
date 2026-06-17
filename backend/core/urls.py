@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from core.common.ckeditor_views import upload_file_webp
+from apps.pages.health import health_check
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -11,6 +12,7 @@ urlpatterns = [
     path("ckeditor5/image_upload/", upload_file_webp, name="ck_editor_5_upload_file"),
 
     path('api/v1/', include([
+        path('health/', health_check, name='health_check'),
         path('', include('apps.pages.urls')),
         path('', include('apps.services.urls')),
         path('blog/', include('apps.blog.urls')),

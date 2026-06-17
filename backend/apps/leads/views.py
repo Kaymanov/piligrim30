@@ -2,11 +2,26 @@ from django.middleware.csrf import get_token
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
-from rest_framework.throttling import AnonRateThrottle
+from rest_framework.throttling import AnonRateThrottle, SimpleRateThrottle
 
 from .models import Lead
 from .serializers import LeadSerializer
 from .tasks import send_lead_notification_task
+
+
+class LeadSubmitThrottle(SimpleRateThrottle):
+    """
+    Stricter rate limit for lead form submissions: 3 per minute per IP.
+    Separate from the global AnonRateThrottle (5/min) to protect the
+    lead creation endpoint specifically.
+    """
+    scope = "lead_submit"
+
+    def get_cache_key(self, request, view):
+        return self.cache_format % {
+            "scope": self.scope,
+            "ident": self.get_ident(request),
+        }
 
 
 class LeadViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -16,7 +31,7 @@ class LeadViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
-    throttle_classes = [AnonRateThrottle]
+    throttle_classes = [LeadSubmitThrottle]
 
     def perform_create(self, serializer):
         """Save lead and dispatch async email notification via Celery."""

@@ -142,6 +142,7 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '5/minute',
         'chat': '10/minute',
+        'lead_submit': '3/minute',  # Stricter limit for form submissions
     }
 }
 
