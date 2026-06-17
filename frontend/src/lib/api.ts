@@ -350,9 +350,15 @@ export async function streamChatMessage(
   onError: (err: Error) => void,
 ): Promise<void> {
   try {
+    // Ensure CSRF token is available before the streaming request
+    if (!csrfToken) await getCSRFToken();
+
     const res = await fetch(`${API_BASE}/chat/stream/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(csrfToken ? { "X-CSRFToken": csrfToken } : {}),
+      },
       credentials: "include",
       body: JSON.stringify({ message, quiz_context: quizContext || null }),
     });
