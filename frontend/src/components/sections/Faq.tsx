@@ -5,6 +5,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { getFAQ, type FAQ } from "@/lib/api";
 import { useApiData } from "@/lib/useApiData";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 interface FaqCard {
   id: number;
@@ -159,7 +160,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
           >
             <div
               className="prose prose-sm prose-slate max-w-none pb-2 pt-3 leading-relaxed text-slate-600 dark:prose-invert dark:text-slate-400 sm:text-base"
-              dangerouslySetInnerHTML={{ __html: answer }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer) }}
             />
           </motion.div>
         )}

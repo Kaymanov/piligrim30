@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { getCaseBySlugSSR } from "@/lib/server-api";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export const revalidate = 60;
 
@@ -90,7 +91,9 @@ export default async function CaseDetailPage({
                 </p>
                 <div
                   className="prose prose-slate mt-2 max-w-none italic dark:prose-invert"
-                  dangerouslySetInnerHTML={{ __html: item.lawyer_comment }}
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeHtml(item.lawyer_comment),
+                  }}
                 />
               </div>
             )}
@@ -128,7 +131,7 @@ function Section({ title, html }: { title: string; html: string }) {
       </h2>
       <div
         className="prose prose-slate mt-2 max-w-none dark:prose-invert"
-        dangerouslySetInnerHTML={{ __html: html }}
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(html) }}
       />
     </div>
   );

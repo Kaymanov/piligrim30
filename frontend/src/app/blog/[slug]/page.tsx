@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { getBlogPostBySlugSSR } from "@/lib/server-api";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 // Revalidate this page periodically (ISR)
 export const revalidate = 60;
@@ -85,7 +86,7 @@ export default async function BlogPostPage({
           {/* Content from CKEditor */}
           <div
             className="prose prose-slate mt-8 max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-sky-600"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
           />
 
           {/* CTA */}
