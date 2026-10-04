@@ -3,6 +3,8 @@
  * Browser hits Django directly on localhost:8001 (CORS enabled).
  */
 
+import type { SEOFields } from "@/lib/seo";
+
 const API_BASE =
   typeof window !== "undefined" && window.location.hostname === "localhost"
     ? "http://localhost:8001/api/v1"
@@ -88,7 +90,7 @@ export interface Service {
   schema_type: string;
 }
 
-export interface BlogPost {
+export interface BlogPost extends SEOFields {
   id: number;
   title: string;
   slug: string;
@@ -116,7 +118,7 @@ export interface BlogCategory {
   description: string;
 }
 
-export interface Case {
+export interface Case extends SEOFields {
   id: number;
   title: string;
   slug: string;
@@ -406,5 +408,6 @@ export async function streamChatMessage(
 }
 
 export async function resetChat(): Promise<void> {
+  if (!csrfToken) await getCSRFToken();
   await fetchAPI("/chat/reset/", { method: "POST", body: "{}" });
 }

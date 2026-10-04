@@ -1,12 +1,15 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/personal-data-consent", {
   title: "Согласие на обработку персональных данных",
-};
+});
 
 export default function PersonalDataConsentPage() {
   return (
+    <>
+    <StaticSchema path="/personal-data-consent" />
     <section className="py-12 md:py-16">
       <Container>
         <div className="prose prose-slate mx-auto max-w-3xl dark:prose-invert">
@@ -53,5 +56,6 @@ export default function PersonalDataConsentPage() {
         </div>
       </Container>
     </section>
+    </>
   );
 }

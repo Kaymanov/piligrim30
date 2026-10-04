@@ -1,17 +1,20 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { Reviews } from "@/components/sections/Reviews";
 import { getReviewsSSR } from "@/lib/server-api";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/reviews", {
   title: "Отзывы клиентов",
   description:
     "Реальные отзывы клиентов о работе юристов Правовой Пилигрим по банкротству физических лиц в Астрахани.",
-};
+});
 
 export default async function ReviewsPage() {
   const reviews = await getReviewsSSR();
   return (
+    <>
+    <StaticSchema path="/reviews" />
     <section className="py-12 md:py-16">
       <Container>
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
@@ -25,5 +28,6 @@ export default async function ReviewsPage() {
         <Reviews initial={reviews} />
       </div>
     </section>
+    </>
   );
 }

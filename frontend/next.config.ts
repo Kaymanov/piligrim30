@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   output: "standalone",
+  // Resolve metadata before sending HTML, including noindex and notFound().
+  htmlLimitedBots: /.*/,
   images: {
     // The frontend container has restricted outbound network access, so the
     // built-in image optimizer (which fetches remote images server-side)

@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('api/v1/', include([
         path('health/', health_check, name='health_check'),
+        path('seo/', include('apps.seo.urls')),
         path('', include('apps.pages.urls')),
         path('', include('apps.services.urls')),
         path('blog/', include('apps.blog.urls')),

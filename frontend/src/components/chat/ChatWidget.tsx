@@ -100,7 +100,6 @@ export function ChatWidget() {
         getQuizContext(),
         (chunk) => {
           accumulated += chunk;
-          setIsTyping(false);
           setMessages((prev) => {
             const next = [...prev];
             next[next.length - 1] = {
@@ -143,6 +142,7 @@ export function ChatWidget() {
   );
 
   const handleReset = async () => {
+    if (isTyping) return;
     try {
       await resetChat();
     } catch {

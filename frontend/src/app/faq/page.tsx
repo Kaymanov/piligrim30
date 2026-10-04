@@ -1,17 +1,20 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { Faq } from "@/components/sections/Faq";
 import { getFAQSSR } from "@/lib/server-api";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/faq", {
   title: "Часто задаваемые вопросы (ЧАВО)",
   description:
     "Ответы на популярные вопросы о банкротстве физических лиц, списании долгов, последствиях и стоимости процедуры.",
-};
+});
 
 export default async function FaqPage() {
   const faq = await getFAQSSR();
   return (
+    <>
+    <StaticSchema path="/faq" />
     <section className="py-12 md:py-16">
       <Container>
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
@@ -25,5 +28,6 @@ export default async function FaqPage() {
         <Faq initial={faq} />
       </div>
     </section>
+    </>
   );
 }

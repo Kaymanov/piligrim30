@@ -1,17 +1,20 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { Cases } from "@/components/sections/Cases";
 import { getCasesSSR } from "@/lib/server-api";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/cases", {
   title: "Кейсы — реальные результаты работы",
   description:
     "Обезличенные результаты работы юристов по банкротству физических лиц в Астрахани. Реальные суммы, сроки и результаты.",
-};
+});
 
 export default async function CasesPage() {
   const cases = await getCasesSSR();
   return (
+    <>
+    <StaticSchema path="/cases" />
     <section className="py-12 md:py-16">
       <Container>
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
@@ -25,5 +28,6 @@ export default async function CasesPage() {
         <Cases initial={cases} />
       </div>
     </section>
+    </>
   );
 }

@@ -24,8 +24,13 @@ class BlogPostViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['category__slug', 'is_news', 'is_featured', 'is_expert_article']
 
-    @method_decorator(cache_page(60))
     def dispatch(self, *args, **kwargs):
+        if kwargs.get('slug'):
+            return super().dispatch(*args, **kwargs)
+        return self.cached_list_dispatch(*args, **kwargs)
+
+    @method_decorator(cache_page(60))
+    def cached_list_dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
     def get_serializer_class(self):

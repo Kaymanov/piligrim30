@@ -1,12 +1,15 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/privacy-policy", {
   title: "Политика конфиденциальности",
-};
+});
 
 export default function PrivacyPolicyPage() {
   return (
+    <>
+    <StaticSchema path="/privacy-policy" />
     <section className="py-12 md:py-16">
       <Container>
         <div className="prose prose-slate mx-auto max-w-3xl dark:prose-invert">
@@ -458,5 +461,6 @@ export default function PrivacyPolicyPage() {
         </div>
       </Container>
     </section>
+    </>
   );
 }

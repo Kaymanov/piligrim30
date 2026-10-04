@@ -1,26 +1,15 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
+import { PRODUCTION_ORIGIN, productionIndexingAllowed } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 export default function robots(): MetadataRoute.Robots {
-  const isProduction =
-    process.env.NEXT_PUBLIC_SITE_URL === "https://piligrim30.ru";
-
-  // Block indexing on test/staging domains
-  if (!isProduction) {
-    return {
-      rules: {
-        userAgent: "*",
-        disallow: "/",
-      },
-    };
+  if (!productionIndexingAllowed()) {
+    return { rules: { userAgent: "*", disallow: "/" } };
   }
-
-  // Production — allow indexing
+  // Keep noindex pages crawlable so robots can read the directive.
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/api/", "/admin/"],
-    },
-    sitemap: "https://piligrim30.ru/sitemap.xml",
+    rules: { userAgent: "*", allow: "/", disallow: ["/api/", "/admin/", "/ckeditor5/"] },
+    sitemap: `${PRODUCTION_ORIGIN}/sitemap.xml`,
   };
 }

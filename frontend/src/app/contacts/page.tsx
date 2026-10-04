@@ -1,15 +1,18 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { LeadForm } from "@/components/forms/LeadForm";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/contacts", {
   title: "Контакты",
   description:
     "Контакты юридического кабинета Правовой Пилигрим в Астрахани. Адрес, телефон, режим работы.",
-};
+});
 
 export default function ContactsPage() {
   return (
+    <>
+    <StaticSchema path="/contacts" />
     <section className="py-12 md:py-16">
       <Container>
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
@@ -86,5 +89,6 @@ export default function ContactsPage() {
         </div>
       </Container>
     </section>
+    </>
   );
 }

@@ -1,14 +1,17 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { ServicePage } from "@/components/templates/ServicePage";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/kollektory", {
   title: "Защита от коллекторов в Астрахани — прекратим звонки",
   description:
     "Защищаем права должников от незаконных действий коллекторов. Прекращаем звонки, угрозы и давление по ФЗ №230. Жалобы в ФССП и прокуратуру. Бесплатная консультация.",
-};
+});
 
 export default function KollektoryPage() {
   return (
+    <>
+    <StaticSchema path="/kollektory" />
     <ServicePage
       title="Защита от коллекторов"
       h1="Защита от коллекторов в Астрахани"
@@ -100,5 +103,6 @@ export default function KollektoryPage() {
         </div>
       </section>
     </ServicePage>
+    </>
   );
 }

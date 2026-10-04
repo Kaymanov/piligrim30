@@ -1,32 +1,14 @@
 from django.middleware.csrf import get_token
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import api_view, action
-from rest_framework.exceptions import Throttled
 from rest_framework.response import Response
-from rest_framework.throttling import SimpleRateThrottle
 import logging
 
 from .models import Lead
-from .protection import register_violation
 from .serializers import LeadSerializer
 from .tasks import send_lead_notification_task
 
 logger = logging.getLogger(__name__)
-
-
-class LeadSubmitThrottle(SimpleRateThrottle):
-    """
-    Stricter rate limit for lead form submissions: 3 per minute per IP.
-    Separate from the global AnonRateThrottle (5/min) to protect the
-    lead creation endpoint specifically.
-    """
-    scope = "lead_submit"
-
-    def get_cache_key(self, request, view):
-        return self.cache_format % {
-            "scope": self.scope,
-            "ident": self.get_ident(request),
-        }
 
 
 class LeadViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -36,18 +18,6 @@ class LeadViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
-    throttle_classes = [LeadSubmitThrottle]
-
-    def throttled(self, request, wait):
-        """Register IP violation on throttle hit for progressive banning."""
-        ip = self._get_client_ip(request)
-        register_violation(ip)
-        raise Throttled(wait)
-
-    def _get_client_ip(self, request):
-        xff = request.META.get('HTTP_X_FORWARDED_FOR')
-        return xff.split(',')[0].strip() if xff else request.META.get('REMOTE_ADDR', '')
-
     def perform_create(self, serializer):
         """Save lead and dispatch async email notification via Celery.
         Spam-flagged leads are saved but notification is suppressed."""
@@ -100,4 +70,6 @@ def get_csrf_token(request):
     Токен устанавливается в cookie и возвращается в теле ответа.
     """
     token = get_token(request)
-    return Response({'csrfToken': token})
+    response = Response({'csrfToken': token})
+    response['Cache-Control'] = 'no-store'
+    return response

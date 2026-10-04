@@ -3,6 +3,7 @@
 Использует OpenAI-совместимый API через openai SDK.
 """
 import logging
+import time
 
 from django.conf import settings
 from openai import OpenAI
@@ -75,47 +76,48 @@ class AIChatService:
             raise AIServiceUnavailableError("API key not configured")
 
         try:
-            client = OpenAI(
+            with OpenAI(
                 base_url=self.base_url,
                 api_key=self.api_key,
                 timeout=API_TIMEOUT_SECONDS,
-            )
+                max_retries=0,
+            ) as client:
 
-            # Build system instruction with optional quiz context + RAG
-            system_content = SYSTEM_PROMPT
-            if quiz_context:
-                context_str = QUIZ_CONTEXT_TEMPLATE.format(
-                    debt_amount=quiz_context.get('debt_amount', 'не указана'),
-                    has_overdue=quiz_context.get('has_overdue', 'не указано'),
-                    has_enforcement=quiz_context.get('has_enforcement', 'не указано'),
-                    has_property=quiz_context.get('has_property', 'не указано'),
-                    has_mortgage=quiz_context.get('has_mortgage', 'не указано'),
-                    income_type=quiz_context.get('income_type', 'не указан'),
+                # Build system instruction with optional quiz context + RAG
+                system_content = SYSTEM_PROMPT
+                if quiz_context:
+                    context_str = QUIZ_CONTEXT_TEMPLATE.format(
+                        debt_amount=quiz_context.get('debt_amount', 'не указана'),
+                        has_overdue=quiz_context.get('has_overdue', 'не указано'),
+                        has_enforcement=quiz_context.get('has_enforcement', 'не указано'),
+                        has_property=quiz_context.get('has_property', 'не указано'),
+                        has_mortgage=quiz_context.get('has_mortgage', 'не указано'),
+                        income_type=quiz_context.get('income_type', 'не указан'),
+                    )
+                    system_content += context_str
+                if rag_context:
+                    system_content += rag_context
+
+                # Build messages array
+                messages = [{"role": "system", "content": system_content}]
+                for msg in history:
+                    messages.append({
+                        "role": msg['role'] if msg['role'] == 'user' else 'assistant',
+                        "content": msg['content'],
+                    })
+                messages.append({"role": "user", "content": message})
+
+                response = client.chat.completions.create(
+                    model=self.model,
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=1024,
                 )
-                system_content += context_str
-            if rag_context:
-                system_content += rag_context
 
-            # Build messages array
-            messages = [{"role": "system", "content": system_content}]
-            for msg in history:
-                messages.append({
-                    "role": msg['role'] if msg['role'] == 'user' else 'assistant',
-                    "content": msg['content'],
-                })
-            messages.append({"role": "user", "content": message})
+                if not response.choices or not response.choices[0].message.content:
+                    raise AIServiceUnavailableError("Empty response from API")
 
-            response = client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                temperature=0.7,
-                max_tokens=1024,
-            )
-
-            if not response.choices or not response.choices[0].message.content:
-                raise AIServiceUnavailableError("Empty response from API")
-
-            return response.choices[0].message.content.strip()
+                return response.choices[0].message.content.strip()
 
         except AIServiceUnavailableError:
             raise
@@ -133,46 +135,51 @@ class AIChatService:
         if not self.is_available():
             raise AIServiceUnavailableError("API key not configured")
 
+        deadline = time.monotonic() + 60
         try:
-            client = OpenAI(
+            with OpenAI(
                 base_url=self.base_url,
                 api_key=self.api_key,
                 timeout=API_TIMEOUT_SECONDS,
-            )
+                max_retries=0,
+            ) as client:
 
-            system_content = SYSTEM_PROMPT
-            if quiz_context:
-                context_str = QUIZ_CONTEXT_TEMPLATE.format(
-                    debt_amount=quiz_context.get('debt_amount', 'не указана'),
-                    has_overdue=quiz_context.get('has_overdue', 'не указано'),
-                    has_enforcement=quiz_context.get('has_enforcement', 'не указано'),
-                    has_property=quiz_context.get('has_property', 'не указано'),
-                    has_mortgage=quiz_context.get('has_mortgage', 'не указано'),
-                    income_type=quiz_context.get('income_type', 'не указан'),
+                system_content = SYSTEM_PROMPT
+                if quiz_context:
+                    context_str = QUIZ_CONTEXT_TEMPLATE.format(
+                        debt_amount=quiz_context.get('debt_amount', 'не указана'),
+                        has_overdue=quiz_context.get('has_overdue', 'не указано'),
+                        has_enforcement=quiz_context.get('has_enforcement', 'не указано'),
+                        has_property=quiz_context.get('has_property', 'не указано'),
+                        has_mortgage=quiz_context.get('has_mortgage', 'не указано'),
+                        income_type=quiz_context.get('income_type', 'не указан'),
+                    )
+                    system_content += context_str
+                if rag_context:
+                    system_content += rag_context
+
+                messages = [{"role": "system", "content": system_content}]
+                for msg in history:
+                    messages.append({
+                        "role": msg['role'] if msg['role'] == 'user' else 'assistant',
+                        "content": msg['content'],
+                    })
+                messages.append({"role": "user", "content": message})
+
+                stream = client.chat.completions.create(
+                    model=self.model,
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=1024,
+                    stream=True,
                 )
-                system_content += context_str
-            if rag_context:
-                system_content += rag_context
 
-            messages = [{"role": "system", "content": system_content}]
-            for msg in history:
-                messages.append({
-                    "role": msg['role'] if msg['role'] == 'user' else 'assistant',
-                    "content": msg['content'],
-                })
-            messages.append({"role": "user", "content": message})
-
-            stream = client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                temperature=0.7,
-                max_tokens=1024,
-                stream=True,
-            )
-
-            for chunk in stream:
-                if chunk.choices and chunk.choices[0].delta.content:
-                    yield chunk.choices[0].delta.content
+                with stream:
+                    for chunk in stream:
+                        if time.monotonic() > deadline:
+                            raise AIServiceUnavailableError("Streaming deadline exceeded")
+                        if chunk.choices and chunk.choices[0].delta.content:
+                            yield chunk.choices[0].delta.content
 
         except Exception as e:
             logger.error(f"Polza.ai streaming error: {e}")

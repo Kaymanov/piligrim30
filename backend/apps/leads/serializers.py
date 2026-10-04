@@ -2,6 +2,7 @@ import re
 import logging
 
 from rest_framework import serializers
+from core.security import client_ip, reserve_phone
 
 from .models import Lead
 from .protection import SCORE_REJECT, SCORE_SPAM_MARK, calculate_bot_score
@@ -17,9 +18,13 @@ RU_PHONE_REGEX = re.compile(r'^(\+?7|8)[\d\s\-\(\)]{9,15}$')
 
 
 class LeadSerializer(serializers.ModelSerializer):
+    phone = serializers.CharField(max_length=50, required=True, allow_blank=False)
+    consent_accepted = serializers.BooleanField(required=True)
+    message = serializers.CharField(max_length=4000, required=False, allow_blank=True)
+
     # Honeypot field — bots fill this, humans don't see it
     website = serializers.CharField(
-        write_only=True, required=False, allow_blank=True, default=''
+        write_only=True, required=False, allow_blank=True, default='', max_length=256
     )
     # Timestamp trap — form load time in unix ms
     _ts = serializers.IntegerField(
@@ -27,7 +32,7 @@ class LeadSerializer(serializers.ModelSerializer):
     )
     # Behavioral trap — any non-empty value means JS interaction happened
     _hid = serializers.CharField(
-        write_only=True, required=False, allow_blank=True, default=''
+        write_only=True, required=False, allow_blank=True, default='', max_length=256
     )
 
     class Meta:
@@ -67,7 +72,7 @@ class LeadSerializer(serializers.ModelSerializer):
         website = attrs.pop('website', '')
 
         request = self.context.get('request')
-        ip = self._get_client_ip(request) if request else "unknown"
+        ip = client_ip(request) if request else "unknown"
         ua = request.META.get('HTTP_USER_AGENT', '') if request else ''
 
         # ── Score-based bot detection ─────────────────────────────────────────
@@ -104,47 +109,15 @@ class LeadSerializer(serializers.ModelSerializer):
             )
             attrs['status'] = Lead.Status.SPAM
 
-        # ── Deduplication by phone (Redis) ────────────────────────────────────
-        from django.core.cache import cache
-        phone = attrs.get('phone', '')
-        if phone:
-            normalized = normalize_phone(phone)
-            dedup_key = f"lead_dedup:{normalized}"
-            try:
-                if cache.get(dedup_key):
-                    raise serializers.ValidationError(
-                        {"phone": "Заявка уже отправлена. Попробуйте позже."}
-                    )
-            except serializers.ValidationError:
-                raise
-            except Exception as e:
-                logger.warning(f"Redis dedup check failed: {e}")
-
         return attrs
 
     def create(self, validated_data):
         request = self.context.get('request')
         if request:
-            validated_data['ip_address'] = self._get_client_ip(request)
-            validated_data['user_agent'] = request.META.get('HTTP_USER_AGENT', '')
+            validated_data['ip_address'] = client_ip(request)
+            validated_data['user_agent'] = request.META.get('HTTP_USER_AGENT', '')[:512]
 
-        lead = super().create(validated_data)
-
-        # Set dedup key after successful creation
-        phone = validated_data.get('phone', '')
-        if phone:
-            from django.core.cache import cache
-            normalized = normalize_phone(phone)
-            dedup_key = f"lead_dedup:{normalized}"
-            try:
-                cache.set(dedup_key, True, timeout=300)
-            except Exception as e:
-                logger.warning(f"Redis dedup set failed: {e}")
-
-        return lead
-
-    def _get_client_ip(self, request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            return x_forwarded_for.split(',')[0].strip()
-        return request.META.get('REMOTE_ADDR', '')
+        # Reserve before saving: concurrent submissions cannot both create a lead.
+        # On an ambiguous DB failure retain the five-minute reservation.
+        reserve_phone(normalize_phone(validated_data['phone']))
+        return super().create(validated_data)

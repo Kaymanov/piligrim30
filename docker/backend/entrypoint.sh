@@ -1,9 +1,10 @@
 #!/bin/bash
+set -euo pipefail
 
 # Wait for PostgreSQL to be ready
 echo "Waiting for postgres..."
 
-while ! pg_isready -h postgres -p 5432 -U $POSTGRES_USER; do
+while ! pg_isready -h postgres -p 5432 -U "${POSTGRES_USER:-piligrim_user}"; do
   sleep 1
 done
 
@@ -13,17 +14,7 @@ echo "PostgreSQL started"
 echo "Apply database migrations"
 uv run python manage.py migrate
 
-# Create superuser if it doesn't exist
-echo "Creating superuser if not exists"
-uv run python manage.py shell -c "
-from django.contrib.auth import get_user_model;
-User = get_user_model();
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@example.com', 'admin');
-    print('Superuser created')
-else:
-    print('Superuser already exists')
-"
+# Create administrators explicitly with manage.py createsuperuser.
 
 # Collect static files
 echo "Collect static files"

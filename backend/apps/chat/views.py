@@ -13,7 +13,7 @@ from .prompts import LEGAL_DISCLAIMER, LEAD_CTA_MESSAGE, CTA_AFTER_MESSAGES
 from .rag import get_relevant_context
 from .serializers import ChatMessageSerializer
 from .services import AIChatService, AIServiceUnavailableError, is_on_topic
-from .throttling import ChatRateThrottle
+from core.security import client_ip
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,6 @@ class ChatView(APIView):
     Body: {"message": "...", "quiz_context": {...}}
     Response: {"reply": "...", "disclaimer": "...", "is_fallback": bool, "show_cta": bool}
     """
-    throttle_classes = [ChatRateThrottle]
 
     def post(self, request):
         serializer = ChatMessageSerializer(data=request.data)
@@ -106,7 +105,7 @@ class ChatView(APIView):
                 ai_response=reply,
                 is_fallback=is_fallback,
                 quiz_context=quiz_context,
-                ip_address=self._get_client_ip(request),
+                ip_address=client_ip(request),
                 response_time_ms=response_time_ms,
             )
         except Exception as e:
@@ -119,11 +118,6 @@ class ChatView(APIView):
             'show_cta': show_cta,
         })
 
-    def _get_client_ip(self, request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            return x_forwarded_for.split(',')[0].strip()
-        return request.META.get('REMOTE_ADDR')
 
 
 class ChatStreamView(APIView):
@@ -133,7 +127,6 @@ class ChatStreamView(APIView):
     POST /api/v1/chat/stream/
     Returns: text/event-stream with chunks
     """
-    throttle_classes = [ChatRateThrottle]
 
     def post(self, request):
         serializer = ChatMessageSerializer(data=request.data)
@@ -167,9 +160,18 @@ class ChatStreamView(APIView):
 
             def event_stream():
                 full_reply = ""
-                for chunk in stream:
+                is_fallback = False
+                try:
+                    for chunk in stream:
+                        full_reply += chunk
+                        yield f"data: {json.dumps(chunk)}\n\n"
+                except AIServiceUnavailableError:
+                    is_fallback = True
+                    chunk = "\n" + get_fallback_response(message)
                     full_reply += chunk
                     yield f"data: {json.dumps(chunk)}\n\n"
+                finally:
+                    stream.close()
 
                 # Save to history after streaming completes
                 new_history = list(history_snapshot)
@@ -188,9 +190,9 @@ class ChatStreamView(APIView):
                         session_key=request.session.session_key or "unknown",
                         user_message=message,
                         ai_response=full_reply,
-                        is_fallback=False,
+                        is_fallback=is_fallback,
                         quiz_context=quiz_context,
-                        ip_address=self._get_client_ip(request),
+                        ip_address=client_ip(request),
                     )
                 except Exception:
                     pass
@@ -218,11 +220,6 @@ class ChatStreamView(APIView):
         response['Cache-Control'] = 'no-cache'
         return response
 
-    def _get_client_ip(self, request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            return x_forwarded_for.split(',')[0].strip()
-        return request.META.get('REMOTE_ADDR')
 
 
 class ChatResetView(APIView):

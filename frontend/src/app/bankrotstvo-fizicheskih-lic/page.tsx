@@ -1,14 +1,17 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { ServicePage } from "@/components/templates/ServicePage";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/bankrotstvo-fizicheskih-lic", {
   title: "Банкротство физических лиц в Астрахани под ключ",
   description:
     "Помощь юриста по банкротству физических лиц в Астрахани. Консультация, подготовка документов, сопровождение процедуры, реальные кейсы.",
-};
+});
 
 export default function BankrotstvoPage() {
   return (
+    <>
+    <StaticSchema path="/bankrotstvo-fizicheskih-lic" />
     <ServicePage
       title="Банкротство физических лиц"
       h1="Банкротство физических лиц в Астрахани"
@@ -49,5 +52,6 @@ export default function BankrotstvoPage() {
         },
       ]}
     />
+    </>
   );
 }

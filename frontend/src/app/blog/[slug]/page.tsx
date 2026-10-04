@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { notFound } from "next/navigation";
+import { buildMetadata } from "@/lib/seo";
+import { ArticleSchema, Breadcrumbs } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { LeadForm } from "@/components/forms/LeadForm";
@@ -15,11 +17,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPostBySlugSSR(slug);
-  if (!post) return { title: "Статья не найдена" };
-  return {
-    title: post.seo_title || post.title,
-    description: post.seo_description || post.excerpt,
-  };
+  if (!post) notFound();
+  return buildMetadata(`/blog/${slug}`, { title: post.title, description: post.excerpt }, post);
 }
 
 export default async function BlogPostPage({
@@ -30,26 +29,7 @@ export default async function BlogPostPage({
   const { slug } = await params;
   const post = await getBlogPostBySlugSSR(slug);
 
-  if (!post) {
-    return (
-      <article className="py-20 text-center">
-        <Container>
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
-            Статья не найдена
-          </h1>
-          <p className="mt-3 text-slate-500 dark:text-slate-400">
-            Возможно, она была перемещена или удалена.
-          </p>
-          <Link
-            href="/blog"
-            className="mt-6 inline-block rounded-full bg-blue-900 px-6 py-3 text-sm font-medium text-white dark:bg-blue-600"
-          >
-            Ко всем статьям
-          </Link>
-        </Container>
-      </article>
-    );
-  }
+  if (!post) notFound();
 
   const dateStr = post.published_at
     ? new Date(post.published_at).toLocaleDateString("ru-RU", {
@@ -62,6 +42,8 @@ export default async function BlogPostPage({
   return (
     <article className="py-12 md:py-16">
       <Container>
+        <ArticleSchema post={post} />
+        <Breadcrumbs section="Статьи" href="/blog" title={post.title} path={`/blog/${post.slug}`} />
         <div className="mx-auto max-w-3xl">
           {post.category_data && (
             <span className="rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700 dark:bg-sky-900/30 dark:text-sky-400">

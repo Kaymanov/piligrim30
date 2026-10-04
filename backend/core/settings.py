@@ -21,6 +21,10 @@ DEBUG = env('DJANGO_DEBUG')
 
 ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS')
 
+# Search notifications are only sent from the main production deployment.
+SITE_URL = env('SITE_URL', default='https://test.piligrim30.ru')
+INDEXNOW_KEY = env('INDEXNOW_KEY', default='')
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -57,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'core.abuse_middleware.AbuseProtectionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -136,6 +141,7 @@ CELERY_BROKER_URL = env("REDIS_URL", default="redis://redis:6379/0")
 CELERY_RESULT_BACKEND = env("REDIS_URL", default="redis://redis:6379/0")
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.SessionAuthentication'],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
@@ -181,3 +187,28 @@ CSRF_TRUSTED_ORIGINS = env.list(
         "http://127.0.0.1:3000",
     ],
 )
+
+# Only explicitly verified reverse proxies may supply client IP addresses.
+TRUSTED_PROXY_CIDRS = env.list('TRUSTED_PROXY_CIDRS', default=[])
+CACHES['security'] = {
+    'BACKEND': 'django_redis.cache.RedisCache',
+    'LOCATION': env('SECURITY_REDIS_URL', default=env('REDIS_URL', default='redis://redis:6379/0')),
+    'KEY_PREFIX': 'piligrim-security',
+    'OPTIONS': {
+        'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        'IGNORE_EXCEPTIONS': False,
+        'SOCKET_CONNECT_TIMEOUT': 2,
+        'SOCKET_TIMEOUT': 2,
+    },
+}
+PUBLIC_WRITE_MAX_BYTES = 16384
+CHAT_IP_DAILY_LIMIT = env.int('CHAT_IP_DAILY_LIMIT', default=150)
+CHAT_GLOBAL_DAILY_LIMIT = env.int('CHAT_GLOBAL_DAILY_LIMIT', default=1000)
+CHAT_MAX_CONCURRENT = env.int('CHAT_MAX_CONCURRENT', default=6)
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = env.bool('SECURE_COOKIES', default=not DEBUG)
+CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
+# Enable only when the direct backend port is private and Nginx overwrites this header.
+if env.bool('TRUST_PROXY_HTTPS', default=False):
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

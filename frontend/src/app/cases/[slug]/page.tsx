@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { notFound } from "next/navigation";
+import { buildMetadata } from "@/lib/seo";
+import { CaseSchema, Breadcrumbs } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { LeadForm } from "@/components/forms/LeadForm";
@@ -14,11 +16,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const item = await getCaseBySlugSSR(slug);
-  if (!item) return { title: "Кейс не найден" };
-  return {
-    title: item.seo_title || item.title,
-    description: item.seo_description || "",
-  };
+  if (!item) notFound();
+  return buildMetadata(`/cases/${slug}`, { title: item.title, description: "" }, item);
 }
 
 export default async function CaseDetailPage({
@@ -29,27 +28,13 @@ export default async function CaseDetailPage({
   const { slug } = await params;
   const item = await getCaseBySlugSSR(slug);
 
-  if (!item) {
-    return (
-      <article className="py-20 text-center">
-        <Container>
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
-            Кейс не найден
-          </h1>
-          <Link
-            href="/cases"
-            className="mt-6 inline-block rounded-full bg-blue-900 px-6 py-3 text-sm font-medium text-white dark:bg-blue-600"
-          >
-            Ко всем кейсам
-          </Link>
-        </Container>
-      </article>
-    );
-  }
+  if (!item) notFound();
 
   return (
     <article className="py-12 md:py-16">
       <Container>
+        <CaseSchema item={item} />
+        <Breadcrumbs section="Кейсы" href="/cases" title={item.title} path={`/cases/${item.slug}`} />
         <div className="mx-auto max-w-3xl">
           <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
             {item.title}

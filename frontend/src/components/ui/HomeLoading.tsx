@@ -8,7 +8,8 @@ import {
 import { TopProgressBar } from "@/components/ui/TopProgressBar";
 
 /**
- * Root loading state — shown during page transitions.
+ * Homepage loading state. Keep it out of the root route boundary so article
+ * and case existence checks can return a real HTTP 404 before streaming.
  * Wrapped in a solid themed background so the skeleton never floats on
  * bare white (dark is the default theme).
  */

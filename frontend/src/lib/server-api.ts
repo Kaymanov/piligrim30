@@ -19,26 +19,31 @@ const INTERNAL_API_BASE =
 const REVALIDATE = 60;
 const TIMEOUT_MS = 4000;
 
-async function serverFetch<T>(endpoint: string, fallback: T): Promise<T> {
+async function serverFetch<T>(endpoint: string, fallback: T, strict = false): Promise<T> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
     const res = await fetch(`${INTERNAL_API_BASE}${endpoint}`, {
       signal: controller.signal,
-      next: { revalidate: REVALIDATE },
+      ...(strict ? { cache: "no-store" as const } : { next: { revalidate: REVALIDATE } }),
       headers: { Accept: "application/json" },
     });
-    if (!res.ok) return fallback;
+    if (res.status === 404) return fallback;
+    if (!res.ok) {
+      if (strict) throw new Error(`Content API returned ${res.status}`);
+      return fallback;
+    }
     return (await res.json()) as T;
-  } catch {
+  } catch (error) {
+    if (strict) throw error;
     return fallback;
   } finally {
     clearTimeout(timer);
   }
 }
 
-export function getBlogPostsSSR(): Promise<BlogPost[]> {
-  return serverFetch<BlogPost[]>("/blog/posts/", []);
+export function getBlogPostsSSR(strict = false): Promise<BlogPost[]> {
+  return serverFetch<BlogPost[]>("/blog/posts/", [], strict);
 }
 
 export function getCasesSSR(): Promise<Case[]> {
@@ -54,9 +59,9 @@ export function getFAQSSR(): Promise<FAQ[]> {
 }
 
 export function getBlogPostBySlugSSR(slug: string): Promise<BlogPost | null> {
-  return serverFetch<BlogPost | null>(`/blog/posts/${slug}/`, null);
+  return serverFetch<BlogPost | null>(`/blog/posts/${encodeURIComponent(slug)}/`, null, true);
 }
 
 export function getCaseBySlugSSR(slug: string): Promise<Case | null> {
-  return serverFetch<Case | null>(`/cases/${slug}/`, null);
+  return serverFetch<Case | null>(`/cases/${encodeURIComponent(slug)}/`, null, true);
 }

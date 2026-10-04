@@ -6,6 +6,10 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { DeferredWidgets } from "@/components/layout/DeferredWidgets";
 import { TopProgressBar } from "@/components/ui/TopProgressBar";
+import { getSEOConfiguration, productionIndexingAllowed, PRODUCTION_ORIGIN } from "@/lib/seo";
+import { OrganizationSchema } from "@/components/seo/JsonLd";
+
+export const dynamic = "force-dynamic";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,26 +17,22 @@ const inter = Inter({
   display: "swap",
 });
 
-const isProduction =
-  process.env.NEXT_PUBLIC_SITE_URL === "https://piligrim30.ru";
-
-export const metadata: Metadata = {
-  title: {
-    default: "Правовой Пилигрим | Банкротство в Астрахани",
-    template: "%s | Правовой Пилигрим",
-  },
-  description: "Правовой Пилигрим | Банкротство в Астрахани",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://piligrim30.ru",
-  ),
-  // Block indexing on test/staging domains
-  ...(!isProduction && { robots: { index: false, follow: false } }),
-  openGraph: {
-    type: "website",
-    locale: "ru_RU",
-    siteName: "Правовой Пилигрим",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await getSEOConfiguration();
+  return {
+    metadataBase: new URL(PRODUCTION_ORIGIN),
+    title: config.site_name,
+    description: config.default_description,
+    robots: {
+      index: productionIndexingAllowed() && config.indexing_enabled,
+      follow: productionIndexingAllowed(),
+    },
+    verification: {
+      ...(config.google_verification && { google: config.google_verification }),
+      ...(config.yandex_verification && { yandex: config.yandex_verification }),
+    },
+  };
+}
 
 export default function RootLayout({
   children,
@@ -61,6 +61,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <DeferredWidgets />
+          <OrganizationSchema />
         </ThemeProvider>
       </body>
     </html>

@@ -71,6 +71,9 @@ User-Agent: {lead.user_agent[:100] if lead.user_agent else '—'}
 
 
 def normalize_phone(phone: str) -> str:
-    """Нормализует телефон для дедупликации: убирает всё кроме цифр и +."""
+    """Canonical digits for duplicate detection, including Russian 8/+7 prefixes."""
     import re
-    return re.sub(r'[^\d+]', '', phone)
+    digits = re.sub(r'\D', '', phone)
+    if len(digits) == 11 and digits.startswith('8'):
+        digits = '7' + digits[1:]
+    return digits

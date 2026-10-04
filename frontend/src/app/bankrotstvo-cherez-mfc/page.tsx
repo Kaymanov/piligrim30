@@ -1,15 +1,18 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { ServicePage } from "@/components/templates/ServicePage";
 import { Container } from "@/components/ui/Container";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/bankrotstvo-cherez-mfc", {
   title: "Банкротство через МФЦ — внесудебное банкротство в Астрахани",
   description:
     "Бесплатная процедура внесудебного банкротства через МФЦ. Узнайте, подходит ли вам этот вариант и какие условия нужно соблюсти.",
-};
+});
 
 export default function BankrotstvoMFCPage() {
   return (
+    <>
+    <StaticSchema path="/bankrotstvo-cherez-mfc" />
     <ServicePage
       title="Банкротство через МФЦ"
       h1="Банкротство через МФЦ в Астрахани"
@@ -57,5 +60,6 @@ export default function BankrotstvoMFCPage() {
         </Container>
       </section>
     </ServicePage>
+    </>
   );
 }

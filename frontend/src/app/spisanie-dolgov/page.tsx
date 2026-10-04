@@ -1,14 +1,17 @@
-import { Metadata } from "next";
+import { StaticSchema } from "@/components/seo/JsonLd";
+import { staticMetadata } from "@/lib/seo";
 import { ServicePage } from "@/components/templates/ServicePage";
 
-export const metadata: Metadata = {
+export const generateMetadata = staticMetadata("/spisanie-dolgov", {
   title: "Списание долгов в Астрахани законно",
   description:
     "Поможем разобраться с кредитами, микрозаймами, просрочками и исполнительными производствами. Консультация юриста по списанию долгов.",
-};
+});
 
 export default function SpisanieDolgovPage() {
   return (
+    <>
+    <StaticSchema path="/spisanie-dolgov" />
     <ServicePage
       title="Списание долгов"
       h1="Списание долгов в Астрахани"
@@ -38,5 +41,6 @@ export default function SpisanieDolgovPage() {
         },
       ]}
     />
+    </>
   );
 }
