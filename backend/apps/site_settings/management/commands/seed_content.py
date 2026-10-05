@@ -3,11 +3,11 @@ Idempotent content seeding command for «Правовой Пилигрим».
 
 Populates the database with production-ready demo content:
   - Site settings (singleton)
-  - Services (6, slugs aligned with frontend routes)
+  - Services (5, slugs aligned with frontend routes)
   - Blog categories + 6 SEO articles
   - Cases (5)
-  - FAQ (10)
-  - Reviews (8)
+  - FAQ (9)
+  - Reviews (7)
 
 All entries fill every meaningful field, including SEO/OG metadata.
 Safe to run multiple times: uses get_or_create / update_or_create keyed on
@@ -258,40 +258,6 @@ class Command(BaseCommand):
                 ),
                 "schema_type": "LegalService",
                 "sitemap_priority": "0.8",
-            },
-            {
-                "slug": "bankrotstvo-cherez-mfc",
-                "title": "Банкротство через МФЦ",
-                "h1": "Внесудебное банкротство через МФЦ",
-                "short_description": (
-                    "Упрощённое бесплатное банкротство через МФЦ для долгов от 25 000 "
-                    "до 1 000 000 ₽. Поможем проверить условия и подготовить заявление."
-                ),
-                "content": (
-                    "<h2>Что такое банкротство через МФЦ</h2>"
-                    "<p>Внесудебное банкротство — это упрощённая и бесплатная процедура "
-                    "освобождения от долгов через многофункциональный центр, без обращения в "
-                    "суд и без финансового управляющего.</p>"
-                    "<h2>Условия для внесудебного банкротства</h2>"
-                    "<ul>"
-                    "<li>сумма долгов от 25 000 до 1 000 000 ₽;</li>"
-                    "<li>окончено исполнительное производство по причине отсутствия "
-                    "имущества;</li>"
-                    "<li>нет открытых исполнительных производств после этого.</li>"
-                    "</ul>"
-                    "<h2>Как мы помогаем</h2>"
-                    "<p>Мы проверим, подходите ли вы под условия, корректно заполним "
-                    "заявление и список кредиторов, чтобы МФЦ не вернул документы.</p>"
-                ),
-                "is_featured": False,
-                "asset": "services/zhkh.png",
-                "seo_title": "Банкротство через МФЦ — освобождение от долгов",
-                "seo_description": (
-                    "Внесудебное банкротство через МФЦ в Астрахани: бесплатное освобождение "
-                    "от долгов от 25 000 до 1 млн ₽. Проверим условия и подготовим документы."
-                ),
-                "schema_type": "LegalService",
-                "sitemap_priority": "0.7",
             },
             {
                 "slug": "kollektory",
@@ -967,15 +933,6 @@ class Command(BaseCommand):
                 ),
                 "category": "Имущество",
             },
-            {
-                "question": "Можно ли оформить банкротство через МФЦ бесплатно?",
-                "answer": (
-                    "<p>Да, при долге от 25 000 до 1 000 000 ₽ и оконченном "
-                    "исполнительном производстве из-за отсутствия имущества. Мы поможем "
-                    "проверить условия и правильно заполнить заявление.</p>"
-                ),
-                "category": "Процедура",
-            },
         ]
         for i, data in enumerate(faqs):
             data["sort_order"] = i
@@ -1058,16 +1015,6 @@ class Command(BaseCommand):
                     "лишних слов и обещаний. Всё сделали в срок, долги списаны."
                 ),
                 "source": "2ГИС",
-            },
-            {
-                "author_name": "Марина П.",
-                "rating": 5,
-                "text": (
-                    "Обращалась по банкротству через МФЦ. Проверили мои условия, "
-                    "помогли с заявлением — всё прошло бесплатно и без отказа. "
-                    "Внимательное отношение, рекомендую."
-                ),
-                "source": "Яндекс Карты",
             },
         ]
         for data in reviews:

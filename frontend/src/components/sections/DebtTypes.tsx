@@ -33,7 +33,7 @@ export function DebtTypes() {
         {/* Header */}
         <div className="mb-12 text-center md:mb-16">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl dark:text-white">
-            Какие долги можно списать
+            От каких долгов можно освободиться
           </h2>
           <p className="mt-4 text-lg text-slate-500 dark:text-slate-400">
             Через процедуру банкротства физического лица
@@ -74,8 +74,6 @@ export function DebtTypes() {
                   />
                 </svg>
               </div>
-
-
 
               {/* Title */}
               <span className="text-sm font-medium text-slate-700 group-hover:text-slate-900 dark:text-slate-200 dark:group-hover:text-white sm:text-base">

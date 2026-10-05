@@ -5,7 +5,6 @@ STATIC_ROUTES = {
     '/bankrotstvo-fizicheskih-lic': 'Банкротство физических лиц',
     '/spisanie-dolgov': 'Освобождение от долгов',
     '/bankrotstvo-pod-klyuch': 'Банкротство под ключ',
-    '/bankrotstvo-cherez-mfc': 'Банкротство через МФЦ',
     '/kollektory': 'Защита от коллекторов',
     '/services': 'Юридические услуги',
     '/blog': 'Новости и статьи',
@@ -19,6 +18,6 @@ STATIC_ROUTES = {
 
 SERVICE_ROUTES = {
     '/bankrotstvo-fizicheskih-lic', '/spisanie-dolgov',
-    '/bankrotstvo-pod-klyuch', '/bankrotstvo-cherez-mfc',
+    '/bankrotstvo-pod-klyuch',
     '/kollektory', '/services',
 }

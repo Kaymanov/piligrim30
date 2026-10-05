@@ -32,8 +32,7 @@ const STEPS = [
   {
     number: "05",
     title: "Сбор документов",
-    description:
-      "Поможем собрать все необходимые справки и документы для суда.",
+    description: "Соберем за вас все необходимые справки и документы для суда.",
   },
   {
     number: "06",
@@ -49,7 +48,7 @@ const STEPS = [
   },
   {
     number: "08",
-    title: "Завершение дела",
+    title: "Завершение дела об освобождении от долгов",
     description:
       "Получение определения суда об освобождении от долгов. Новая финансовая жизнь.",
   },
@@ -257,7 +256,7 @@ function Finale() {
         className="mt-8 text-center"
       >
         <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-white">
-          Долги списаны
+          Ваш долг равен нулю
         </h3>
         <p className="mt-2 text-base text-slate-500 dark:text-slate-400">
           Новая финансовая жизнь начинается здесь

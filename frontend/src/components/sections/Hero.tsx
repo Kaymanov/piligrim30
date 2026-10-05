@@ -7,13 +7,13 @@ import { openLeadModal } from "@/lib/modal-events";
 
 // Feature cards with image icons
 const FEATURES = [
-  { title: "Освобождение от долгов навсегда", icon: "/images/new_icon/money.svg" },
+  { title: "Освобождение от долгов", icon: "/images/new_icon/money.svg" },
   {
-    title: "Полная защита от коллекторов",
+    title: "Защита от незаконных действий коллекторов",
     icon: "/images/new_icon/protect.svg",
   },
   {
-    title: "Сохранение имущества",
+    title: "Возможность сохранения имущества",
     icon: "/images/new_icon/home.svg",
   },
   {
@@ -99,7 +99,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl"
+              className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-[2.5rem] xl:text-5xl"
             >
               Банкротство граждан и иные юридические услуги в Астрахани
             </motion.h1>
@@ -114,10 +114,20 @@ export function Hero() {
               пройти процедуру с юридическим сопровождением.
             </motion.p>
 
-            <motion.div
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-4 rounded-xl border border-sky-300/30 bg-sky-400/10 px-4 py-3 text-sm leading-relaxed text-slate-100 sm:text-base"
+            >
+              Гражданин может быть признан банкротом по решению арбитражного
+              суда.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
               className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start"
             >
               <button
