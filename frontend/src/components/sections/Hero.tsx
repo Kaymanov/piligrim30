@@ -121,7 +121,7 @@ export function Hero() {
               className="mt-4 rounded-xl border border-sky-300/30 bg-sky-400/10 px-4 py-3 text-sm leading-relaxed text-slate-100 sm:text-base"
             >
               Гражданин может быть признан банкротом по решению арбитражного
-              суда.
+              суда или во внесудебном порядке бесплатно через МФЦ.
             </motion.p>
 
             <motion.div
