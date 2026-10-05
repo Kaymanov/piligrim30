@@ -7,7 +7,7 @@ import { openLeadModal } from "@/lib/modal-events";
 
 // Feature cards with image icons
 const FEATURES = [
-  { title: "Списание долгов навсегда", icon: "/images/new_icon/money.svg" },
+  { title: "Освобождение от долгов навсегда", icon: "/images/new_icon/money.svg" },
   {
     title: "Полная защита от коллекторов",
     icon: "/images/new_icon/protect.svg",

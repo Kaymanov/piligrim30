@@ -3,7 +3,7 @@
 STATIC_ROUTES = {
     '/': 'Главная',
     '/bankrotstvo-fizicheskih-lic': 'Банкротство физических лиц',
-    '/spisanie-dolgov': 'Списание долгов',
+    '/spisanie-dolgov': 'Освобождение от долгов',
     '/bankrotstvo-pod-klyuch': 'Банкротство под ключ',
     '/bankrotstvo-cherez-mfc': 'Банкротство через МФЦ',
     '/kollektory': 'Защита от коллекторов',

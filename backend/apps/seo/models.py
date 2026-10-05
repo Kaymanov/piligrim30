@@ -53,7 +53,7 @@ class SEOConfiguration(TimestampMixin):
         help_text='Тестовый домен дополнительно закрыт настройками окружения.')
     site_name = models.CharField('Название сайта', max_length=100, default='Правовой Пилигрим')
     default_description = models.CharField('Описание по умолчанию', max_length=300,
-        default='Банкротство физических лиц и списание долгов в Астрахани и Астраханской области. Юридическая консультация и сопровождение процедуры.')
+        default='Банкротство физических лиц и освобождение от долгов в Астрахани и Астраханской области. Юридическая консультация и сопровождение процедуры.')
     default_og_image = models.ImageField('Изображение для соцсетей', upload_to='seo/', blank=True)
     google_verification = models.CharField('Код подтверждения Google Search Console', max_length=255, blank=True,
         help_text='Только значение content из метатега, без HTML.')

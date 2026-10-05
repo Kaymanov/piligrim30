@@ -8,7 +8,7 @@ import { Container } from "@/components/ui/Container";
 
 const SERVICE_LINKS = [
   { label: "Банкротство физлиц", href: "/bankrotstvo-fizicheskih-lic" },
-  { label: "Списание долгов", href: "/spisanie-dolgov" },
+  { label: "Освобождение от долгов", href: "/spisanie-dolgov" },
   { label: "Банкротство под ключ", href: "/bankrotstvo-pod-klyuch" },
   { label: "Банкротство через МФЦ", href: "/bankrotstvo-cherez-mfc" },
   { label: "Защита от коллекторов", href: "/kollektory" },

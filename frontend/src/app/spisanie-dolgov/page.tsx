@@ -3,9 +3,9 @@ import { staticMetadata } from "@/lib/seo";
 import { ServicePage } from "@/components/templates/ServicePage";
 
 export const generateMetadata = staticMetadata("/spisanie-dolgov", {
-  title: "Списание долгов в Астрахани законно",
+  title: "Законное освобождение от долгов в Астрахани",
   description:
-    "Поможем разобраться с кредитами, микрозаймами, просрочками и исполнительными производствами. Консультация юриста по списанию долгов.",
+    "Поможем разобраться с кредитами, микрозаймами, просрочками и исполнительными производствами. Консультация юриста по освобождению от долгов.",
 });
 
 export default function SpisanieDolgovPage() {
@@ -13,8 +13,8 @@ export default function SpisanieDolgovPage() {
     <>
     <StaticSchema path="/spisanie-dolgov" />
     <ServicePage
-      title="Списание долгов"
-      h1="Списание долгов в Астрахани"
+      title="Освобождение от долгов"
+      h1="Освобождение от долгов в Астрахани"
       description="Законные способы избавиться от непосильной долговой нагрузки. Разберём вашу ситуацию и предложим оптимальный путь решения."
       whenNeeded={[
         "Кредиты и микрозаймы стали непосильными",
@@ -29,14 +29,14 @@ export default function SpisanieDolgovPage() {
         },
         {
           title: "Выбор стратегии",
-          description: "Определим оптимальный способ списания",
+          description: "Определим оптимальный способ освобождения от долгов",
         },
         {
           title: "Подготовка",
           description: "Соберём документы и подготовим заявление",
         },
         {
-          title: "Списание",
+          title: "Освобождение от долгов",
           description: "Проведём процедуру до полного освобождения от долгов",
         },
       ]}

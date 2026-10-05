@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import HomeLoading from "@/components/ui/HomeLoading";
 import { staticMetadata } from "@/lib/seo";
 
-export const generateMetadata = staticMetadata("/", { title: "Банкротство и списание долгов в Астрахани — Правовой Пилигрим" });
+export const generateMetadata = staticMetadata("/", { title: "Банкротство и освобождение от долгов в Астрахани — Правовой Пилигрим" });
 
 import { PageTransition } from "@/components/ui/PageTransition";
 import { Hero } from "@/components/sections/Hero";

@@ -46,7 +46,7 @@ function mapCase(c: Case): CaseCard {
 const MOCK_CASES: CaseCard[] = [
   {
     id: 1,
-    title: "Списание долга 780 000 ₽",
+    title: "Освобождение от долга 780 000 ₽",
     slug: "spisanie-dolga-780000",
     debt_amount: "780 000 ₽",
     case_duration: "8 месяцев",
@@ -61,7 +61,7 @@ const MOCK_CASES: CaseCard[] = [
   },
   {
     id: 2,
-    title: "Списание долга 1 200 000 ₽",
+    title: "Освобождение от долга 1 200 000 ₽",
     slug: "spisanie-dolga-1200000",
     debt_amount: "1 200 000 ₽",
     case_duration: "10 месяцев",
@@ -76,7 +76,7 @@ const MOCK_CASES: CaseCard[] = [
   },
   {
     id: 3,
-    title: "Списание долга 450 000 ₽",
+    title: "Освобождение от долга 450 000 ₽",
     slug: "spisanie-dolga-450000",
     debt_amount: "450 000 ₽",
     case_duration: "6 месяцев",
@@ -91,7 +91,7 @@ const MOCK_CASES: CaseCard[] = [
   },
   {
     id: 4,
-    title: "Списание долга 2 100 000 ₽",
+    title: "Освобождение от долга 2 100 000 ₽",
     slug: "spisanie-dolga-2100000",
     debt_amount: "2 100 000 ₽",
     case_duration: "12 месяцев",

@@ -7,7 +7,7 @@ import { getFAQSSR } from "@/lib/server-api";
 export const generateMetadata = staticMetadata("/faq", {
   title: "Часто задаваемые вопросы (ЧАВО)",
   description:
-    "Ответы на популярные вопросы о банкротстве физических лиц, списании долгов, последствиях и стоимости процедуры.",
+    "Ответы на популярные вопросы о банкротстве физических лиц, освобождении от долгов, последствиях и стоимости процедуры.",
 });
 
 export default async function FaqPage() {

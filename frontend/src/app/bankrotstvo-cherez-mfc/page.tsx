@@ -40,7 +40,7 @@ export default function BankrotstvoMFCPage() {
           title: "Ожидание (6 мес)",
           description: "Процедура длится 6 месяцев",
         },
-        { title: "Списание", description: "Долги списываются автоматически" },
+        { title: "Освобождение от долгов", description: "Долги прекращаются после завершения процедуры" },
       ]}
     >
       {/* Additional info block */}

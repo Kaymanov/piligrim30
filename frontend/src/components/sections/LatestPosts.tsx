@@ -50,7 +50,7 @@ const MOCK_POSTS: PostCard[] = [
     slug: "kakie-dolgi-mozhno-spisat",
     excerpt:
       "Полный список долгов, которые подлежат списанию, и исключения, о которых важно знать.",
-    category: "Списание долгов",
+    category: "Освобождение от долгов",
     reading_time: 6,
     published_at: "2025-11-28",
     cover: "/images/blog-img/lawyer-house.webp",

@@ -5,7 +5,7 @@ import { ServicePage } from "@/components/templates/ServicePage";
 export const generateMetadata = staticMetadata("/bankrotstvo-pod-klyuch", {
   title: "Банкротство под ключ в Астрахани",
   description:
-    "Полное сопровождение процедуры банкротства от первой консультации до списания долгов. Вам не нужно разбираться самостоятельно.",
+    "Полное сопровождение процедуры банкротства от первой консультации до освобождения от долгов. Вам не нужно разбираться самостоятельно.",
 });
 
 export default function BankrotstvoPodKlyuchPage() {
@@ -41,7 +41,7 @@ export default function BankrotstvoPodKlyuchPage() {
         },
         {
           title: "Результат",
-          description: "Получаем определение суда о списании долгов",
+          description: "Получаем определение суда об освобождении от долгов",
         },
       ]}
     />
