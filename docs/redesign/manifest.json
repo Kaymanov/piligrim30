@@ -1,0 +1,112 @@
+[
+  {
+    "screen": "01-home",
+    "name": "Главная",
+    "route": "/"
+  },
+  {
+    "screen": "02-services",
+    "name": "Услуги",
+    "route": "/services"
+  },
+  {
+    "screen": "03-bankrotstvo",
+    "name": "Банкротство физических лиц",
+    "route": "/bankrotstvo-fizicheskih-lic"
+  },
+  {
+    "screen": "04-debts",
+    "name": "Освобождение от долгов",
+    "route": "/spisanie-dolgov"
+  },
+  {
+    "screen": "05-turnkey",
+    "name": "Банкротство под ключ",
+    "route": "/bankrotstvo-pod-klyuch"
+  },
+  {
+    "screen": "06-mfc",
+    "name": "Банкротство через МФЦ",
+    "route": "/bankrotstvo-cherez-mfc"
+  },
+  {
+    "screen": "07-collectors",
+    "name": "Защита от коллекторов",
+    "route": "/kollektory"
+  },
+  {
+    "screen": "08-news",
+    "name": "Новости",
+    "route": "/blog"
+  },
+  {
+    "screen": "09-article",
+    "name": "Новость / статья",
+    "route": "/blog/[slug]"
+  },
+  {
+    "screen": "10-cases",
+    "name": "Кейсы",
+    "route": "/cases"
+  },
+  {
+    "screen": "11-case",
+    "name": "Отдельный кейс",
+    "route": "/cases/[slug]"
+  },
+  {
+    "screen": "12-reviews",
+    "name": "Отзывы",
+    "route": "/reviews"
+  },
+  {
+    "screen": "13-faq",
+    "name": "Вопросы и ответы",
+    "route": "/faq"
+  },
+  {
+    "screen": "14-contacts",
+    "name": "Контакты",
+    "route": "/contacts"
+  },
+  {
+    "screen": "15-privacy",
+    "name": "Политика конфиденциальности",
+    "route": "/privacy-policy"
+  },
+  {
+    "screen": "16-consent",
+    "name": "Согласие на обработку ПД",
+    "route": "/personal-data-consent"
+  },
+  {
+    "screen": "17-ai",
+    "name": "ИИ-юрист · отдельный экран",
+    "route": "/ai-lawyer (предложение)"
+  },
+  {
+    "screen": "18-widget",
+    "name": "ИИ-юрист · окно чата",
+    "route": "Окно чата"
+  },
+  {
+    "screen": "19-quiz",
+    "name": "Анкета · вопрос",
+    "route": "Блок анкеты"
+  },
+  {
+    "screen": "20-quiz-result",
+    "name": "Анкета · результат",
+    "route": "Результат анкеты"
+  },
+  {
+    "screen": "21-consultation",
+    "name": "Форма записи",
+    "route": "Модальное окно"
+  },
+  {
+    "screen": "22-404",
+    "name": "Страница 404",
+    "route": "404"
+  }
+]
